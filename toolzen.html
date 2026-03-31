@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TOOLZEN — QR Designer + File Tools</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
+<style>
+:root{
+  --ink:#0D0D0F;--ink2:#3A3A45;--ink3:#7A7A8A;
+  --paper:#F5F3EE;--paper2:#EDEBE5;--paper3:#E0DDD5;
+  --accent:#C84B31;--accent2:#1A56DB;--accent3:#7C3AED;
+  --white:#FFFFFF;
+  --border:rgba(13,13,15,0.10);--border2:rgba(13,13,15,0.18);
+  --font-d:'Syne',sans-serif;--font-b:'Instrument Sans',sans-serif;--font-m:'DM Mono',monospace;
+  --shadow:0 4px 24px rgba(13,13,15,0.07);
+  --r:14px;
+}
+[data-theme=dark]{
+  --ink:#F0EDE8;--ink2:#B0ADA8;--ink3:#6A6A72;
+  --paper:#111113;--paper2:#1A1A1E;--paper3:#242428;
+  --white:#1A1A1E;--border:rgba(240,237,232,0.09);--border2:rgba(240,237,232,0.16);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-b);background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s}
+
+/* NAV */
+nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem 2rem;border-bottom:1px solid var(--border);background:rgba(245,243,238,0.94);backdrop-filter:blur(18px);position:sticky;top:0;z-index:300;transition:background .3s}
+[data-theme=dark] nav{background:rgba(17,17,19,0.94)}
+.nav-logo{display:flex;align-items:center;gap:8px;font-family:var(--font-d);font-size:1.15rem;font-weight:800;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+.nav-logo svg{flex-shrink:0}
+.nav-logo span{color:var(--accent)}
+.nav-tabs{display:flex;gap:2px;background:var(--paper2);border-radius:30px;padding:3px;border:1px solid var(--border)}
+.nav-tab{padding:.38rem 1rem;border-radius:26px;border:none;background:transparent;font-family:var(--font-b);font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .2s;white-space:nowrap}
+.nav-tab.active{background:var(--ink);color:var(--paper)}
+.nav-tab:hover:not(.active){color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:.6rem}
+.dark-toggle{background:none;border:1px solid var(--border2);border-radius:8px;padding:.4rem .55rem;cursor:pointer;color:var(--ink2);display:flex;align-items:center;transition:all .2s}
+.dark-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.hamburger{display:none;background:none;border:1px solid var(--border2);border-radius:8px;padding:.4rem .55rem;cursor:pointer;color:var(--ink)}
+.mobile-menu{display:none;position:fixed;inset:0;top:55px;background:var(--paper);z-index:200;padding:1.5rem;flex-direction:column;gap:.8rem;border-top:1px solid var(--border);overflow-y:auto}
+.mobile-menu.open{display:flex}
+.mobile-menu button{width:100%;padding:.75rem 1rem;border-radius:10px;border:1.5px solid var(--border2);background:var(--paper2);font-family:var(--font-b);font-size:.9rem;font-weight:600;cursor:pointer;color:var(--ink);text-align:left;transition:all .2s}
+.mobile-menu button.active,.mobile-menu button:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* SECTIONS */
+.section{display:none;min-height:calc(100vh - 55px)}
+.section.active{display:block}
+
+/* HERO */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center;padding:4rem 2rem 3.5rem;max-width:1200px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:.4rem;background:rgba(200,75,49,.1);color:var(--accent);font-size:.68rem;font-weight:700;padding:.28rem .8rem;border-radius:30px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:1rem;border:1px solid rgba(200,75,49,.22)}
+.hero-title{font-family:var(--font-d);font-size:3.4rem;font-weight:800;line-height:1.06;letter-spacing:-.04em;margin-bottom:.9rem}
+.hero-title em{color:var(--accent);font-style:normal}
+.hero-sub{font-size:.98rem;color:var(--ink2);line-height:1.7;margin-bottom:1.5rem;max-width:440px}
+.hero-cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--ink);color:var(--paper);padding:.7rem 1.6rem;border-radius:30px;font-size:.86rem;font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:all .2s}
+.hero-cta:hover{background:var(--accent);transform:translateY(-2px)}
+.hero-visual{display:flex;align-items:center;justify-content:center}
+.hero-card{background:var(--white);border-radius:22px;padding:1.8rem;border:1px solid var(--border);box-shadow:0 24px 64px rgba(13,13,15,.1)}
+
+/* MARQUEE */
+.strip{background:#0D0D0F;overflow:hidden;height:40px;display:flex;align-items:center}
+[data-theme=dark] .strip{background:#050507}
+.strip-track{display:flex;animation:marquee 32s linear infinite;white-space:nowrap}
+.strip-item{display:inline-flex;align-items:center;gap:.5rem;color:rgba(255,255,255,.45);font-size:.68rem;font-weight:600;letter-spacing:.08em;padding:0 2rem;text-transform:uppercase}
+.strip-dot{width:3px;height:3px;border-radius:50%;background:#C84B31;flex-shrink:0}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* APP SECTION */
+.app-wrap{max-width:1320px;margin:0 auto;padding:2.5rem 1.5rem}
+.app-head{text-align:center;margin-bottom:2rem}
+.sec-tag{font-size:.65rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+.sec-title{font-family:var(--font-d);font-size:2.1rem;font-weight:800;letter-spacing:-.04em}
+
+/* TOOL TABS */
+.tool-tabs{display:flex;gap:4px;background:var(--white);border:1px solid var(--border);border-radius:50px;padding:4px;width:fit-content;margin:0 auto 1.8rem;box-shadow:var(--shadow);flex-wrap:wrap;justify-content:center}
+.tool-tab{padding:.45rem 1.1rem;border-radius:40px;border:none;background:transparent;font-family:var(--font-b);font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink3);transition:all .2s;white-space:nowrap}
+.tool-tab.active{background:var(--ink);color:var(--paper)}
+.tool-tab:hover:not(.active){color:var(--accent)}
+
+/* GRID */
+.qr-grid{display:grid;grid-template-columns:400px 1fr;gap:1.6rem;align-items:start}
+
+/* CTRL PANEL */
+.ctrl-panel{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.ctrl-header{padding:1rem 1.3rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.5rem}
+.ctrl-htitle{font-family:var(--font-d);font-size:.9rem;font-weight:700}
+.ctrl-body{padding:1.2rem 1.3rem;display:flex;flex-direction:column;gap:1rem;max-height:82vh;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border2) transparent}
+.ctrl-body::-webkit-scrollbar{width:3px}
+.ctrl-body::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+.fl{display:flex;flex-direction:column;gap:.4rem}
+.flbl{font-size:.67rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3)}
+.url-in{width:100%;padding:.65rem .9rem;border-radius:10px;border:1.5px solid var(--border2);background:var(--paper);font-family:var(--font-m);font-size:.78rem;color:var(--ink);outline:none;transition:border .2s}
+.url-in:focus{border-color:var(--accent)}
+.gen-btn{width:100%;padding:.75rem;border-radius:10px;background:var(--ink);color:var(--paper);border:none;font-family:var(--font-b);font-size:.86rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:.4rem}
+.gen-btn:hover{background:var(--accent);transform:translateY(-1px)}
+.gen-btn:active{transform:translateY(0)}
+
+/* CHIPS */
+.cg{display:flex;flex-wrap:wrap;gap:.3rem}
+.chip{padding:.26rem .7rem;border-radius:18px;border:1.5px solid var(--border);background:var(--paper);font-size:.72rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .17s;font-family:var(--font-b)}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.chip-e{padding:.24rem .65rem;border-radius:18px;border:1.5px solid var(--border);background:var(--paper);font-size:.7rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .17s;font-family:var(--font-b)}
+.chip-e.on,.chip-e:hover{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+
+/* SWATCHES */
+.sw-row{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2.5px solid transparent;transition:transform .15s,border .15s;flex-shrink:0}
+.sw:hover{transform:scale(1.2)}
+.sw.on{border-color:var(--ink);transform:scale(1.15)}
+.sw-custom{width:24px;height:24px;border-radius:50%;border:2px dashed var(--border2);cursor:pointer;overflow:hidden;flex-shrink:0;position:relative;display:flex;align-items:center;justify-content:center;font-size:.55rem;color:var(--ink3);transition:all .15s}
+.sw-custom:hover{border-color:var(--accent);color:var(--accent)}
+.sw-custom input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+
+/* TOGGLES */
+.tgl-grid{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.tgl-item{display:flex;align-items:center;gap:.5rem;cursor:pointer;user-select:none}
+.tgl{width:32px;height:18px;border-radius:9px;background:var(--paper3);position:relative;transition:background .2s;flex-shrink:0}
+.tgl.on{background:var(--ink)}
+.tknob{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tgl.on .tknob{left:16px}
+.tgl-lbl{font-size:.75rem;font-weight:500;color:var(--ink2)}
+
+/* LOGO */
+.logo-area{display:flex;gap:.6rem;align-items:center}
+.logo-prev{width:52px;height:52px;border-radius:11px;border:1.5px dashed var(--border2);background:var(--paper);display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
+.logo-prev img{width:100%;height:100%;object-fit:contain;border-radius:9px}
+.logo-btns{display:flex;flex-direction:column;gap:.3rem;flex:1}
+.lbtn{padding:.28rem .7rem;border-radius:7px;border:1.5px solid var(--border2);background:var(--paper);font-family:var(--font-b);font-size:.7rem;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .15s;text-align:center}
+.lbtn:hover{border-color:var(--accent);color:var(--accent)}
+.lbtn.acc{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* SIZE SLIDER */
+.sz-row{display:flex;align-items:center;gap:.6rem}
+.sz-val{font-family:var(--font-m);font-size:.76rem;font-weight:500;min-width:50px}
+input[type=range]{flex:1;accent-color:var(--accent);height:4px}
+
+/* OUTPUT PANEL */
+.out-panel{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:1.8rem;display:flex;flex-direction:column;align-items:center;gap:1rem;min-height:520px;justify-content:center;position:relative}
+.out-empty{text-align:center;color:var(--ink3);font-size:.85rem;line-height:1.65}
+.out-empty svg{opacity:.2;margin-bottom:.7rem;display:block;margin-left:auto;margin-right:auto}
+.out-acts{display:flex;gap:.45rem;flex-wrap:wrap;justify-content:center}
+.abtn{padding:.45rem 1rem;border-radius:8px;border:1.5px solid var(--border2);background:var(--paper);font-family:var(--font-b);font-size:.74rem;font-weight:600;color:var(--ink);cursor:pointer;transition:all .17s}
+.abtn:hover{border-color:var(--accent);color:var(--accent)}
+.abtn.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.abtn.p:hover{background:var(--accent);border-color:var(--accent)}
+.out-url{font-family:var(--font-m);font-size:.68rem;color:var(--ink3);max-width:300px;text-align:center;word-break:break-all}
+.qr-spinner{display:none;width:34px;height:34px;border:3px solid var(--border2);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+.qr-spinner.show{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HISTORY */
+.hist-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.hist-thumb{width:48px;height:48px;border-radius:8px;cursor:pointer;border:1.5px solid var(--border);overflow:hidden;transition:border .2s;flex-shrink:0}
+.hist-thumb:hover{border-color:var(--accent)}
+.hist-thumb img{width:100%;height:100%;display:block;object-fit:cover;border-radius:6px}
+
+/* DECODE */
+.dzone{border:2px dashed var(--border2);border-radius:14px;padding:2.2rem 1.4rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.dzone:hover,.dzone.dov{border-color:var(--accent);background:rgba(200,75,49,.04)}
+.dzone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.dzone-icon{width:44px;height:44px;margin:0 auto .55rem;border-radius:11px;background:var(--paper2);display:flex;align-items:center;justify-content:center}
+.dzone-txt{font-size:.85rem;color:var(--ink2);font-weight:500}
+.dzone-sub{font-size:.73rem;color:var(--ink3);margin-top:.22rem}
+.dres{margin-top:1rem;padding:1rem;background:var(--paper);border-radius:11px;border:1px solid var(--border);font-family:var(--font-m);font-size:.78rem;word-break:break-all;display:none}
+.dres.show{display:block}
+.dlink{color:var(--accent2);text-decoration:none}
+.dlink:hover{text-decoration:underline}
+
+/* BATCH */
+.batch-grid{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1rem}
+.bi{background:var(--white);border:1px solid var(--border);border-radius:11px;padding:.8rem;display:flex;flex-direction:column;align-items:center;gap:.45rem}
+.bi-url{font-family:var(--font-m);font-size:.62rem;color:var(--ink3);max-width:115px;text-align:center;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bi-dl{padding:.26rem .6rem;border-radius:6px;border:1px solid var(--border2);background:var(--paper);font-size:.65rem;font-weight:500;cursor:pointer;color:var(--ink2);transition:all .14s;font-family:var(--font-b)}
+.bi-dl:hover{border-color:var(--accent);color:var(--accent)}
+
+/* BRAND KIT */
+.bk-res{background:var(--paper);border-radius:11px;border:1px solid var(--border);padding:1rem;margin-top:.8rem;display:none}
+.bk-res.show{display:block}
+.bk-colors{display:flex;gap:.4rem;margin-top:.4rem;flex-wrap:wrap}
+.bk-sw{width:32px;height:32px;border-radius:7px;cursor:pointer;border:2px solid transparent;transition:all .14s}
+.bk-sw:hover{transform:scale(1.1)}
+.bk-sw.sel{border-color:var(--ink)}
+
+/* CARD */
+.card-form{background:var(--white);border:1px solid var(--border);border-radius:20px;overflow:hidden}
+.cform-bd{padding:1.3rem;display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.ff{display:flex;flex-direction:column;gap:.32rem}
+.ff.full{grid-column:1/-1}
+.flbl2{font-size:.67rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.fin{padding:.55rem .8rem;border-radius:8px;border:1.5px solid var(--border2);background:var(--paper);font-family:var(--font-b);font-size:.82rem;color:var(--ink);outline:none;transition:border .2s}
+.fin:focus{border-color:var(--accent)}
+.theme-chips{display:flex;gap:.4rem;flex-wrap:wrap}
+.tc{padding:.3rem .8rem;border-radius:18px;border:1.5px solid var(--border);background:var(--paper);font-size:.73rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .17s;font-family:var(--font-b)}
+.tc.on,.tc:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.card-prev-wrap{background:var(--paper2);border-radius:14px;padding:1.6rem;display:flex;align-items:center;justify-content:center;min-height:260px;margin-top:1rem}
+
+/* FILE TOOLS */
+.tools-section{padding:2rem 1.5rem;max-width:1200px;margin:0 auto}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin-top:1.5rem}
+.tool-card{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:1.5rem;transition:all .22s;cursor:default}
+.tool-card:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(13,13,15,.08);border-color:var(--border2)}
+.tool-card-icon{width:44px;height:44px;border-radius:11px;display:flex;align-items:center;justify-content:center;margin-bottom:1rem;font-size:1.3rem}
+.tool-card-title{font-family:var(--font-d);font-size:.95rem;font-weight:700;margin-bottom:.4rem}
+.tool-card-desc{font-size:.78rem;color:var(--ink2);line-height:1.6;margin-bottom:1rem}
+.tool-card-btn{width:100%;padding:.6rem;border-radius:9px;background:var(--ink);color:var(--paper);border:none;font-family:var(--font-b);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s}
+.tool-card-btn:hover{background:var(--accent)}
+
+/* FILE TOOL PANEL */
+.file-panel{display:none;max-width:760px;margin:0 auto;padding:2rem 1.5rem}
+.file-panel.active{display:block}
+.fp-header{display:flex;align-items:center;gap:.8rem;margin-bottom:1.5rem}
+.fp-back{background:var(--paper2);border:1px solid var(--border);border-radius:8px;padding:.4rem .75rem;font-family:var(--font-b);font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink);transition:all .2s}
+.fp-back:hover{background:var(--ink);color:var(--paper)}
+.fp-title{font-family:var(--font-d);font-size:1.4rem;font-weight:800}
+.fp-body{background:var(--white);border:1px solid var(--border);border-radius:18px;padding:1.8rem;display:flex;flex-direction:column;gap:1.2rem}
+.upload-zone{border:2px dashed var(--border2);border-radius:13px;padding:2.8rem 1.5rem;text-align:center;cursor:pointer;transition:all .2s;position:relative}
+.upload-zone:hover,.upload-zone.over{border-color:var(--accent);background:rgba(200,75,49,.04)}
+.upload-zone input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:2.4rem;margin-bottom:.6rem}
+.upload-title{font-size:.95rem;font-weight:600;color:var(--ink);margin-bottom:.25rem}
+.upload-sub{font-size:.78rem;color:var(--ink3)}
+.file-info{display:none;background:var(--paper2);border-radius:10px;padding:.8rem 1rem;font-family:var(--font-m);font-size:.78rem;color:var(--ink2);word-break:break-all}
+.file-info.show{display:block}
+.options-row{display:flex;gap:.7rem;flex-wrap:wrap;align-items:center}
+.opt-label{font-size:.75rem;font-weight:600;color:var(--ink3);letter-spacing:.08em;text-transform:uppercase}
+.opt-chip{padding:.3rem .7rem;border-radius:16px;border:1.5px solid var(--border2);background:var(--paper);font-size:.73rem;font-weight:500;color:var(--ink2);cursor:pointer;transition:all .17s;font-family:var(--font-b)}
+.opt-chip.on{background:var(--accent2);color:#fff;border-color:var(--accent2)}
+.process-btn{padding:.7rem 1.4rem;border-radius:10px;background:var(--ink);color:var(--paper);border:none;font-family:var(--font-b);font-size:.85rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.process-btn:hover{background:var(--accent)}
+.process-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.result-box{display:none;background:var(--paper);border-radius:11px;padding:1rem;border:1px solid var(--border)}
+.result-box.show{display:flex;flex-direction:column;gap:.7rem}
+.result-title{font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3)}
+.result-stats{display:flex;gap:1rem;flex-wrap:wrap}
+.stat-item{display:flex;flex-direction:column;gap:.15rem}
+.stat-n2{font-family:var(--font-d);font-size:1.1rem;font-weight:800}
+.stat-l2{font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em}
+.dl-btn{align-self:flex-start;padding:.5rem 1.2rem;border-radius:8px;background:var(--ink);color:var(--paper);border:none;font-family:var(--font-b);font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:.4rem}
+.dl-btn:hover{background:var(--accent)}
+.progress-bar{height:6px;background:var(--paper3);border-radius:3px;overflow:hidden;display:none}
+.progress-bar.show{display:block}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:3px;width:0;transition:width .4s ease}
+
+/* FEATURES */
+.feat-section{padding:4rem 2rem;background:var(--white)}
+.feat-grid{max-width:1200px;margin:1.8rem auto 0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem}
+.fc{background:var(--paper);border-radius:16px;padding:1.6rem;border:1px solid var(--border);transition:all .22s}
+.fc:hover{transform:translateY(-3px);box-shadow:0 14px 40px rgba(13,13,15,.08)}
+.fc-icon{width:40px;height:40px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;margin-bottom:.9rem;font-size:1.1rem}
+.fc-title{font-family:var(--font-d);font-size:.92rem;font-weight:700;margin-bottom:.45rem}
+.fc-desc{font-size:.78rem;color:var(--ink2);line-height:1.6}
+
+/* HOW */
+.how-section{padding:4rem 2rem;background:var(--paper2)}
+.steps{max-width:1200px;margin:1.8rem auto 0;display:grid;grid-template-columns:repeat(4,1fr);gap:1.6rem;position:relative}
+.steps::before{content:'';position:absolute;top:25px;left:12%;right:12%;height:1px;background:var(--border2)}
+.step{text-align:center;position:relative;z-index:1}
+.step-n{width:50px;height:50px;border-radius:50%;background:var(--ink);color:var(--paper);font-family:var(--font-d);font-size:.95rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto .8rem}
+.step-t{font-family:var(--font-d);font-size:.87rem;font-weight:700;margin-bottom:.4rem}
+.step-d{font-size:.76rem;color:var(--ink2);line-height:1.6}
+
+/* TOAST */
+#toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--ink);color:var(--paper);padding:.6rem 1.3rem;border-radius:28px;font-size:.8rem;font-weight:600;z-index:1000;transition:transform .3s ease;pointer-events:none;letter-spacing:.02em;white-space:nowrap}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* FOOTER */
+footer{background:var(--ink);color:rgba(255,255,255,.45);padding:2rem;text-align:center;font-size:.76rem}
+footer strong{color:#fff}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
+.footer-links a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#fff}
+
+/* ANIMATIONS */
+.fi{opacity:0;transform:translateY(18px);animation:fi .55s ease forwards}
+.fi:nth-child(1){animation-delay:.08s}.fi:nth-child(2){animation-delay:.18s}
+@keyframes fi{to{opacity:1;transform:none}}
+
+/* RESPONSIVE */
+@media(max-width:1050px){
+  .qr-grid{grid-template-columns:1fr}
+  .hero{grid-template-columns:1fr;gap:1.8rem;padding:3rem 1.5rem}
+  .feat-grid{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .cform-bd{grid-template-columns:1fr}
+  .nav-tabs{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:640px){
+  .hero-title{font-size:2.2rem}
+  .feat-grid{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .tool-tabs{border-radius:14px}
+  nav{padding:.75rem 1rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showSection('home');return false">
+    <svg width="28" height="28" viewBox="0 0 30 30" fill="none">
+      <rect width="30" height="30" rx="7" fill="#C84B31"/>
+      <rect x="4" y="4" width="9" height="9" rx="2" fill="white"/>
+      <rect x="17" y="4" width="9" height="9" rx="2" fill="white"/>
+      <rect x="4" y="17" width="9" height="9" rx="2" fill="white"/>
+      <rect x="17" y="17" width="4" height="4" rx="1" fill="white"/>
+      <rect x="22" y="22" width="4" height="4" rx="1" fill="white"/>
+    </svg>
+    TOOL<span>ZEN</span>
+  </a>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showSection('home')">Home</button>
+    <button class="nav-tab" onclick="showSection('qr')">QR Designer</button>
+    <button class="nav-tab" onclick="showSection('tools')">File Tools</button>
+    <button class="nav-tab" onclick="showSection('compress')">Compress</button>
+    <button class="nav-tab" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Features</button>
+  </div>
+  <div class="nav-right">
+    <button class="dark-toggle" onclick="toggleDark()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+    <button class="hamburger" onclick="toggleMenu()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobile-menu">
+  <button class="active" onclick="showSection('home');toggleMenu()">🏠 Home</button>
+  <button onclick="showSection('qr');toggleMenu()">📱 QR Designer</button>
+  <button onclick="showSection('tools');toggleMenu()">🔄 File Converter</button>
+  <button onclick="showSection('compress');toggleMenu()">📦 Compressor</button>
+</div>
+
+<!-- ══ HOME SECTION ══ -->
+<div id="sec-home" class="section active">
+<section style="border-bottom:1px solid var(--border)">
+<div class="hero">
+  <div class="fi">
+    <div class="hero-badge">✦ QR Designer + File Tools Platform</div>
+    <h1 class="hero-title">Create. Convert.<br/><em>Compress.</em></h1>
+    <p class="hero-sub">The all-in-one creative tool for Gen Z &amp; youth creators — design stunning QR codes with 42+ shapes &amp; 18 eye styles, convert 22+ file formats, and compress files instantly.</p>
+    <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+      <button class="hero-cta" onclick="showSection('qr')">Design QR →</button>
+      <button class="hero-cta" style="background:var(--accent2)" onclick="showSection('tools')">Convert Files →</button>
+      <button class="hero-cta" style="background:var(--accent3)" onclick="showSection('compress')">Compress →</button>
+    </div>
+    <div style="display:flex;gap:1.6rem;margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">42+</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">QR Shapes</div></div>
+      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">18</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Eye Styles</div></div>
+      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">22+</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">File Formats</div></div>
+      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">100%</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Free</div></div>
+    </div>
+  </div>
+  <div class="hero-visual fi">
+    <div class="hero-card">
+      <canvas id="hero-demo" width="220" height="220" style="display:block;border-radius:8px"></canvas>
+    </div>
+  </div>
+</div>
+</section>
+
+<div class="strip">
+  <div class="strip-track">
+    <div class="strip-item"><div class="strip-dot"></div>42+ QR Shapes</div>
+    <div class="strip-item"><div class="strip-dot"></div>18 Eye Styles</div>
+    <div class="strip-item"><div class="strip-dot"></div>PDF to Word</div>
+    <div class="strip-item"><div class="strip-dot"></div>Word to PDF</div>
+    <div class="strip-item"><div class="strip-dot"></div>HTML to PDF</div>
+    <div class="strip-item"><div class="strip-dot"></div>CSV to PDF</div>
+    <div class="strip-item"><div class="strip-dot"></div>JSON to CSV</div>
+    <div class="strip-item"><div class="strip-dot"></div>Image Compress</div>
+    <div class="strip-item"><div class="strip-dot"></div>PDF Watermark</div>
+    <div class="strip-item"><div class="strip-dot"></div>PDF Metadata</div>
+    <div class="strip-item"><div class="strip-dot"></div>Resize Images</div>
+    <div class="strip-item"><div class="strip-dot"></div>Grayscale Convert</div>
+    <div class="strip-item"><div class="strip-dot"></div>Merge PDFs</div>
+    <div class="strip-item"><div class="strip-dot"></div>ZIP Files</div>
+    <div class="strip-item"><div class="strip-dot"></div>12 Gradient Presets</div>
+    <div class="strip-item"><div class="strip-dot"></div>Animated QR</div>
+    <div class="strip-item"><div class="strip-dot"></div>Logo Injection</div>
+    <div class="strip-item"><div class="strip-dot"></div>Brand Kit</div>
+    <div class="strip-item"><div class="strip-dot"></div>Business Card</div>
+    <div class="strip-item"><div class="strip-dot"></div>Batch QR</div>
+    <div class="strip-item"><div class="strip-dot"></div>Dark Mode</div>
+    <div class="strip-item"><div class="strip-dot"></div>42+ QR Shapes</div>
+    <div class="strip-item"><div class="strip-dot"></div>18 Eye Styles</div>
+    <div class="strip-item"><div class="strip-dot"></div>PDF to Word</div>
+    <div class="strip-item"><div class="strip-dot"></div>Word to PDF</div>
+    <div class="strip-item"><div class="strip-dot"></div>HTML to PDF</div>
+    <div class="strip-item"><div class="strip-dot"></div>JSON to CSV</div>
+    <div class="strip-item"><div class="strip-dot"></div>Image Compress</div>
+    <div class="strip-item"><div class="strip-dot"></div>12 Gradient Presets</div>
+    <div class="strip-item"><div class="strip-dot"></div>ZIP Files</div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section id="features" class="feat-section">
+  <div style="max-width:1200px;margin:0 auto;text-align:center">
+    <div class="sec-tag">Everything You Need</div>
+    <h2 class="sec-title">Built for Creators &amp; Hustlers</h2>
+  </div>
+  <div class="feat-grid">
+    <div class="fc"><div class="fc-icon">🎨</div><div class="fc-title">42+ QR Module Shapes</div><p class="fc-desc">Classic, Dots, Rounded, Diamond, Star, Hex, Leaf, Moon, Ring, Shield, Octagon, Pac-Man, Lightning, Cloud, Eye, DNA, Clover, Petal, and 24+ more — all scannable.</p></div>
+    <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond, Arrow, Hexagon, Cross, Heart, Cloud, Octagon, Triforce, Curved, Bubbly, Pinch, Squircle — mix and match.</p></div>
+    <div class="fc"><div class="fc-icon">🎭</div><div class="fc-title">Custom Colors + Gradients</div><p class="fc-desc">Pick any foreground & gradient end color. 12 built-in gradient presets: Sunset, Emerald, Cosmic, Gold, Fire, Ocean, Candy, Aurora and more.</p></div>
+    <div class="fc"><div class="fc-icon">📄</div><div class="fc-title">22+ File Converters</div><p class="fc-desc">Word→PDF, PDF→Word, HTML→PDF, CSV→PDF, JSON↔CSV, Image resize/crop/grayscale, Watermark, Metadata editor and more — all in browser.</p></div>
+    <div class="fc"><div class="fc-icon">📦</div><div class="fc-title">File Compressor</div><p class="fc-desc">Compress images (JPEG, PNG, WebP), ZIP multiple files, and reduce sizes by up to 80% without losing quality.</p></div>
+    <div class="fc"><div class="fc-icon">🖼️</div><div class="fc-title">Image Toolkit</div><p class="fc-desc">Convert between JPEG, PNG, WebP formats. Resize by %, center-crop, or convert to grayscale. All instant, no upload.</p></div>
+    <div class="fc"><div class="fc-icon">💳</div><div class="fc-title">Business Card Export</div><p class="fc-desc">8 premium card themes. Fill your info, add QR code, download as print-ready 820×460px PNG.</p></div>
+    <div class="fc"><div class="fc-icon">⚡</div><div class="fc-title">Batch QR + ZIP</div><p class="fc-desc">Generate QR codes for multiple URLs at once. Download all as a ZIP, each named by domain.</p></div>
+    <div class="fc"><div class="fc-icon">🔍</div><div class="fc-title">QR Decoder</div><p class="fc-desc">Upload any QR image — drag and drop or click — to instantly extract the encoded URL or text.</p></div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how-section">
+  <div style="max-width:1200px;margin:0 auto;text-align:center">
+    <div class="sec-tag">Simple Process</div>
+    <h2 class="sec-title">How It Works</h2>
+  </div>
+  <div class="steps">
+    <div class="step"><div class="step-n">1</div><div class="step-t">Choose Your Tool</div><p class="step-d">QR designer, file converter, or compressor — pick what you need.</p></div>
+    <div class="step"><div class="step-n">2</div><div class="step-t">Upload or Enter</div><p class="step-d">Paste a URL for QR codes, or drop your file for conversion.</p></div>
+    <div class="step"><div class="step-n">3</div><div class="step-t">Customize</div><p class="step-d">Pick shapes, colors, quality levels, output formats.</p></div>
+    <div class="step"><div class="step-n">4</div><div class="step-t">Download</div><p class="step-d">Get your file instantly — no signup, no limits, completely free.</p></div>
+  </div>
+</section>
+</div>
+
+<!-- ══ QR SECTION ══ -->
+<div id="sec-qr" class="section">
+<div class="app-wrap">
+  <div class="app-head">
+    <div class="sec-tag">QR Designer</div>
+    <h2 class="sec-title">Create Your QR Code</h2>
+  </div>
+
+  <div class="tool-tabs">
+    <button class="tool-tab active" onclick="setQRMode('encode')">Link → QR</button>
+    <button class="tool-tab" onclick="setQRMode('decode')">QR → Link</button>
+    <button class="tool-tab" onclick="setQRMode('batch')">Batch</button>
+    <button class="tool-tab" onclick="setQRMode('brandkit')">Brand Kit</button>
+    <button class="tool-tab" onclick="setQRMode('card')">Business Card</button>
+  </div>
+
+  <!-- ENCODE -->
+  <div id="encode-panel">
+    <div class="qr-grid">
+      <div class="ctrl-panel">
+        <div class="ctrl-header">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          <span class="ctrl-htitle">QR Settings</span>
+        </div>
+        <div class="ctrl-body">
+          <div class="fl">
+            <label class="flbl">Website / Link</label>
+            <input class="url-in" id="url-input" type="text" placeholder="https://your-link.com" value="https://www.example.com"/>
+          </div>
+          <button class="gen-btn" onclick="generateQR()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Generate QR Code
+          </button>
+
+          <!-- 40+ MODULE SHAPES -->
+          <div class="fl">
+            <label class="flbl">Module Shape (40+ styles)</label>
+            <div class="cg" id="shape-chips">
+              <div class="chip on"  onclick="selChip(this,'square')">Classic</div>
+              <div class="chip"     onclick="selChip(this,'rounded')">Rounded</div>
+              <div class="chip"     onclick="selChip(this,'dots')">Dots</div>
+              <div class="chip"     onclick="selChip(this,'diamond')">Diamond</div>
+              <div class="chip"     onclick="selChip(this,'star')">Star</div>
+              <div class="chip"     onclick="selChip(this,'hex')">Hexagon</div>
+              <div class="chip"     onclick="selChip(this,'leaf')">Leaf</div>
+              <div class="chip"     onclick="selChip(this,'arrow')">Arrow</div>
+              <div class="chip"     onclick="selChip(this,'organic')">Organic</div>
+              <div class="chip"     onclick="selChip(this,'cross')">Cross</div>
+              <div class="chip"     onclick="selChip(this,'wave')">Wave</div>
+              <div class="chip"     onclick="selChip(this,'pixel')">Pixel</div>
+              <div class="chip"     onclick="selChip(this,'bubble')">Bubble</div>
+              <div class="chip"     onclick="selChip(this,'flame')">Flame</div>
+              <div class="chip"     onclick="selChip(this,'crystal')">Crystal</div>
+              <div class="chip"     onclick="selChip(this,'triangle')">Triangle</div>
+              <div class="chip"     onclick="selChip(this,'gear')">Gear</div>
+              <div class="chip"     onclick="selChip(this,'heart')">Heart</div>
+              <div class="chip"     onclick="selChip(this,'zigzag')">Zigzag</div>
+              <div class="chip"     onclick="selChip(this,'plus')">Plus</div>
+              <div class="chip"     onclick="selChip(this,'moon')">Moon</div>
+              <div class="chip"     onclick="selChip(this,'ring')">Ring</div>
+              <div class="chip"     onclick="selChip(this,'shield')">Shield</div>
+              <div class="chip"     onclick="selChip(this,'octagon')">Octagon</div>
+              <div class="chip"     onclick="selChip(this,'rhombus')">Rhombus</div>
+              <div class="chip"     onclick="selChip(this,'bow')">Bowtie</div>
+              <div class="chip"     onclick="selChip(this,'drop')">Raindrop</div>
+              <div class="chip"     onclick="selChip(this,'fish')">Fish</div>
+              <div class="chip"     onclick="selChip(this,'pinwheel')">Pinwheel</div>
+              <div class="chip"     onclick="selChip(this,'mosaic')">Mosaic</div>
+              <div class="chip"     onclick="selChip(this,'spark')">Spark</div>
+              <div class="chip"     onclick="selChip(this,'petal')">Petal</div>
+              <div class="chip"     onclick="selChip(this,'clover')">Clover</div>
+              <div class="chip"     onclick="selChip(this,'dna')">DNA</div>
+              <div class="chip"     onclick="selChip(this,'cloud')">Cloud</div>
+              <div class="chip"     onclick="selChip(this,'eye2')">Eye</div>
+              <div class="chip"     onclick="selChip(this,'lightning')">Lightning</div>
+              <div class="chip"     onclick="selChip(this,'pac')">PacMan</div>
+              <div class="chip"     onclick="selChip(this,'badge')">Badge</div>
+              <div class="chip"     onclick="selChip(this,'puzzle')">Puzzle</div>
+              <div class="chip"     onclick="selChip(this,'squircle')">Squircle</div>
+              <div class="chip"     onclick="selChip(this,'flag')">Flag</div>
+            </div>
+          </div>
+
+          <!-- 18 EYE STYLES -->
+          <div class="fl">
+            <label class="flbl">Finder Eye Style (18 styles)</label>
+            <div class="cg" id="eye-chips">
+              <div class="chip-e on" onclick="selEye(this,'square')">Square</div>
+              <div class="chip-e"    onclick="selEye(this,'rounded')">Rounded</div>
+              <div class="chip-e"    onclick="selEye(this,'circle')">Circle</div>
+              <div class="chip-e"    onclick="selEye(this,'leaf')">Leaf</div>
+              <div class="chip-e"    onclick="selEye(this,'shield')">Shield</div>
+              <div class="chip-e"    onclick="selEye(this,'star')">Star</div>
+              <div class="chip-e"    onclick="selEye(this,'diamond')">Diamond</div>
+              <div class="chip-e"    onclick="selEye(this,'arrow')">Arrow</div>
+              <div class="chip-e"    onclick="selEye(this,'hexeye')">Hexagon</div>
+              <div class="chip-e"    onclick="selEye(this,'crosseye')">Cross</div>
+              <div class="chip-e"    onclick="selEye(this,'heartey')">Heart</div>
+              <div class="chip-e"    onclick="selEye(this,'cloud2')">Cloud</div>
+              <div class="chip-e"    onclick="selEye(this,'octaeye')">Octagon</div>
+              <div class="chip-e"    onclick="selEye(this,'trioeye')">Triforce</div>
+              <div class="chip-e"    onclick="selEye(this,'curvey')">Curved</div>
+              <div class="chip-e"    onclick="selEye(this,'bubbly')">Bubbly</div>
+              <div class="chip-e"    onclick="selEye(this,'pinch')">Pinch</div>
+              <div class="chip-e"    onclick="selEye(this,'squirc')">Squircle</div>
+            </div>
+          </div>
+
+          <!-- FOREGROUND with custom color -->
+          <div class="fl">
+            <label class="flbl">Foreground Color</label>
+            <div class="sw-row" id="fg-sw">
+              <div class="sw on" style="background:#0D0D0F" onclick="selFgSw(this,'#0D0D0F')"></div>
+              <div class="sw" style="background:#C84B31" onclick="selFgSw(this,'#C84B31')"></div>
+              <div class="sw" style="background:#1A56DB" onclick="selFgSw(this,'#1A56DB')"></div>
+              <div class="sw" style="background:#0F6E56" onclick="selFgSw(this,'#0F6E56')"></div>
+              <div class="sw" style="background:#7C3AED" onclick="selFgSw(this,'#7C3AED')"></div>
+              <div class="sw" style="background:#B8860B" onclick="selFgSw(this,'#B8860B')"></div>
+              <div class="sw" style="background:#E91E8C" onclick="selFgSw(this,'#E91E8C')"></div>
+              <div class="sw" style="background:#FF5722" onclick="selFgSw(this,'#FF5722')"></div>
+              <div class="sw" style="background:#00BCD4" onclick="selFgSw(this,'#00BCD4')"></div>
+              <div class="sw" style="background:#4CAF50" onclick="selFgSw(this,'#4CAF50')"></div>
+              <div class="sw" style="background:#FF6F00" onclick="selFgSw(this,'#FF6F00')"></div>
+              <div class="sw" style="background:#880E4F" onclick="selFgSw(this,'#880E4F')"></div>
+              <div class="sw" style="background:#004D40" onclick="selFgSw(this,'#004D40')"></div>
+              <div class="sw" style="background:#1A237E" onclick="selFgSw(this,'#1A237E')"></div>
+              <div class="sw" style="background:#F50057" onclick="selFgSw(this,'#F50057')"></div>
+              <div class="sw" style="background:#37474F" onclick="selFgSw(this,'#37474F')"></div>
+              <div class="sw-custom" title="Custom color" id="fg-custom-sw">
+                🎨<input type="color" id="fg-color-picker" value="#0D0D0F" oninput="selFgCustom(this.value)"/>
+              </div>
+            </div>
+            <label class="flbl" style="margin-top:.5rem">Gradient End Color</label>
+            <div class="sw-row" id="fg2-sw">
+              <div class="sw on" style="background:#C84B31" onclick="selFg2Sw(this,'#C84B31')"></div>
+              <div class="sw" style="background:#7C3AED" onclick="selFg2Sw(this,'#7C3AED')"></div>
+              <div class="sw" style="background:#1A56DB" onclick="selFg2Sw(this,'#1A56DB')"></div>
+              <div class="sw" style="background:#E91E8C" onclick="selFg2Sw(this,'#E91E8C')"></div>
+              <div class="sw" style="background:#FF5722" onclick="selFg2Sw(this,'#FF5722')"></div>
+              <div class="sw" style="background:#00BCD4" onclick="selFg2Sw(this,'#00BCD4')"></div>
+              <div class="sw" style="background:#4CAF50" onclick="selFg2Sw(this,'#4CAF50')"></div>
+              <div class="sw" style="background:#FF6F00" onclick="selFg2Sw(this,'#FF6F00')"></div>
+              <div class="sw" style="background:#F50057" onclick="selFg2Sw(this,'#F50057')"></div>
+              <div class="sw" style="background:#00E5FF" onclick="selFg2Sw(this,'#00E5FF')"></div>
+              <div class="sw" style="background:#76FF03" onclick="selFg2Sw(this,'#76FF03')"></div>
+              <div class="sw" style="background:#FFD600" onclick="selFg2Sw(this,'#FFD600')"></div>
+              <div class="sw" style="background:#FF1744" onclick="selFg2Sw(this,'#FF1744')"></div>
+              <div class="sw" style="background:#AA00FF" onclick="selFg2Sw(this,'#AA00FF')"></div>
+              <div class="sw" style="background:#FF6D00" onclick="selFg2Sw(this,'#FF6D00')"></div>
+              <div class="sw" style="background:#00C853" onclick="selFg2Sw(this,'#00C853')"></div>
+              <div class="sw-custom" title="Custom gradient end">
+                🎨<input type="color" id="fg2-color-picker" value="#C84B31" oninput="selFg2Custom(this.value)"/>
+              </div>
+            </div>
+            <label class="flbl" style="margin-top:.5rem">Gradient Presets</label>
+            <div style="display:flex;flex-wrap:wrap;gap:.3rem;margin-top:.2rem" id="grad-presets">
+              <div class="chip" onclick="applyGradPreset('#FF416C','#FF4B2B')" style="background:linear-gradient(90deg,#FF416C,#FF4B2B);color:#fff;border:none">Sunset</div>
+              <div class="chip" onclick="applyGradPreset('#11998e','#38ef7d')" style="background:linear-gradient(90deg,#11998e,#38ef7d);color:#fff;border:none">Emerald</div>
+              <div class="chip" onclick="applyGradPreset('#6a11cb','#2575fc')" style="background:linear-gradient(90deg,#6a11cb,#2575fc);color:#fff;border:none">Cosmic</div>
+              <div class="chip" onclick="applyGradPreset('#f7971e','#ffd200')" style="background:linear-gradient(90deg,#f7971e,#ffd200);color:#fff;border:none">Gold</div>
+              <div class="chip" onclick="applyGradPreset('#ee0979','#ff6a00')" style="background:linear-gradient(90deg,#ee0979,#ff6a00);color:#fff;border:none">Fire</div>
+              <div class="chip" onclick="applyGradPreset('#0f0c29','#302b63')" style="background:linear-gradient(90deg,#0f0c29,#302b63);color:#fff;border:none">Midnight</div>
+              <div class="chip" onclick="applyGradPreset('#00c6ff','#0072ff')" style="background:linear-gradient(90deg,#00c6ff,#0072ff);color:#fff;border:none">Ocean</div>
+              <div class="chip" onclick="applyGradPreset('#f953c6','#b91d73')" style="background:linear-gradient(90deg,#f953c6,#b91d73);color:#fff;border:none">Candy</div>
+              <div class="chip" onclick="applyGradPreset('#134e5e','#71b280')" style="background:linear-gradient(90deg,#134e5e,#71b280);color:#fff;border:none">Forest</div>
+              <div class="chip" onclick="applyGradPreset('#EB5757','#000000')" style="background:linear-gradient(90deg,#EB5757,#000);color:#fff;border:none">Dark</div>
+              <div class="chip" onclick="applyGradPreset('#a8edea','#fed6e3')" style="background:linear-gradient(90deg,#a8edea,#fed6e3);color:#333;border:none">Pastel</div>
+              <div class="chip" onclick="applyGradPreset('#12c2e9','#c471ed')" style="background:linear-gradient(90deg,#12c2e9,#c471ed);color:#fff;border:none">Aurora</div>
+            </div>
+          </div>
+
+          <!-- BACKGROUND with custom color -->
+          <div class="fl">
+            <label class="flbl">Background Color</label>
+            <div class="sw-row" id="bg-sw">
+              <div class="sw on" style="background:#FFFFFF;outline:1.5px solid #ccc;outline-offset:1px" onclick="selBgSw(this,'#FFFFFF')"></div>
+              <div class="sw" style="background:#F7F6F2" onclick="selBgSw(this,'#F7F6F2')"></div>
+              <div class="sw" style="background:#FFF3E0" onclick="selBgSw(this,'#FFF3E0')"></div>
+              <div class="sw" style="background:#E3F2FD" onclick="selBgSw(this,'#E3F2FD')"></div>
+              <div class="sw" style="background:#F3E5F5" onclick="selBgSw(this,'#F3E5F5')"></div>
+              <div class="sw" style="background:#E8F5E9" onclick="selBgSw(this,'#E8F5E9')"></div>
+              <div class="sw" style="background:#FFF8E1" onclick="selBgSw(this,'#FFF8E1')"></div>
+              <div class="sw" style="background:#FCE4EC" onclick="selBgSw(this,'#FCE4EC')"></div>
+              <div class="sw" style="background:#E0F2F1" onclick="selBgSw(this,'#E0F2F1')"></div>
+              <div class="sw" style="background:#EDE7F6" onclick="selBgSw(this,'#EDE7F6')"></div>
+              <div class="sw" style="background:#0D0D0F" onclick="selBgSw(this,'#0D0D0F')"></div>
+              <div class="sw" style="background:#1A1033" onclick="selBgSw(this,'#1A1033')"></div>
+              <div class="sw" style="background:#0D1B2A" onclick="selBgSw(this,'#0D1B2A')"></div>
+              <div class="sw" style="background:#1B2631" onclick="selBgSw(this,'#1B2631')"></div>
+              <div class="sw-custom" title="Custom background" id="bg-custom-sw">
+                🎨<input type="color" id="bg-color-picker" value="#FFFFFF" oninput="selBgCustom(this.value)"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="fl">
+            <label class="flbl">Center Logo</label>
+            <div class="logo-area">
+              <div class="logo-prev" id="logo-prev">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+              </div>
+              <div class="logo-btns">
+                <label class="lbtn acc" style="cursor:pointer">
+                  <input type="file" id="logo-file" accept="image/*" style="display:none" onchange="loadLogo(this)"/>Upload Logo
+                </label>
+                <button class="lbtn" onclick="useFavicon()">Auto favicon</button>
+                <button class="lbtn" onclick="clearLogo()">Clear</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="fl">
+            <label class="flbl">Output Size</label>
+            <div class="sz-row">
+              <span class="sz-val"><span id="sz-val">300</span>px</span>
+              <input type="range" min="200" max="600" step="20" value="300" id="sz-slider" oninput="document.getElementById('sz-val').textContent=this.value"/>
+            </div>
+          </div>
+
+          <div class="fl">
+            <label class="flbl">Effects</label>
+            <div class="tgl-grid">
+              <label class="tgl-item" onclick="tog('grad')"><div class="tgl" id="tgl-grad"><div class="tknob"></div></div><span class="tgl-lbl">Gradient</span></label>
+              <label class="tgl-item" onclick="tog('pulse')"><div class="tgl" id="tgl-pulse"><div class="tknob"></div></div><span class="tgl-lbl">Animate</span></label>
+              <label class="tgl-item" onclick="tog('scan')"><div class="tgl" id="tgl-scan"><div class="tknob"></div></div><span class="tgl-lbl">Scan Line</span></label>
+              <label class="tgl-item" onclick="tog('border')"><div class="tgl" id="tgl-border"><div class="tknob"></div></div><span class="tgl-lbl">Frame</span></label>
+              <label class="tgl-item" onclick="tog('glow')"><div class="tgl" id="tgl-glow"><div class="tknob"></div></div><span class="tgl-lbl">Glow</span></label>
+              <label class="tgl-item" onclick="tog('shadow')"><div class="tgl" id="tgl-shadow"><div class="tknob"></div></div><span class="tgl-lbl">Shadow</span></label>
+            </div>
+          </div>
+
+          <div id="hist-sidebar" style="display:none;border-top:1px solid var(--border);padding-top:.8rem"></div>
+        </div>
+      </div>
+
+      <!-- OUTPUT -->
+      <div class="out-panel" id="qr-output">
+        <div id="out-empty" class="out-empty">
+          <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Configure settings and click<br/><strong>Generate QR Code</strong>
+        </div>
+        <div class="qr-spinner" id="qr-spinner"></div>
+        <div id="qr-canvas-wrap" style="display:none;flex-direction:column;align-items:center;gap:1rem;width:100%"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECODE -->
+  <div id="decode-panel" style="display:none">
+    <div style="max-width:580px;margin:0 auto">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">QR Code Decoder</span></div>
+        <div class="ctrl-body">
+          <p style="font-size:.82rem;color:var(--ink2)">Upload any QR code image to instantly extract the encoded URL or text.</p>
+          <div class="dzone" id="dzone" ondragover="event.preventDefault();this.classList.add('dov')" ondragleave="this.classList.remove('dov')" ondrop="handleDrop(event)">
+            <input type="file" accept="image/*" onchange="decodeFile(this.files[0])"/>
+            <div class="dzone-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div class="dzone-txt">Drop QR image here or click to upload</div>
+            <div class="dzone-sub">PNG, JPG, WebP supported</div>
+          </div>
+          <div class="dres" id="dres"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BATCH -->
+  <div id="batch-panel" style="display:none">
+    <div class="ctrl-panel">
+      <div class="ctrl-header"><span class="ctrl-htitle">Batch QR Generator</span></div>
+      <div class="ctrl-body">
+        <p style="font-size:.82rem;color:var(--ink2)">Paste one URL per line. Generate all QR codes and download as ZIP.</p>
+        <textarea id="batch-in" class="url-in" style="height:100px;resize:vertical;font-size:.76rem" placeholder="https://site1.com&#10;https://site2.com&#10;https://site3.com"></textarea>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+          <button class="gen-btn" style="flex:1" onclick="generateBatch()">Generate All</button>
+          <button class="abtn p" onclick="downloadBatch()">Download ZIP</button>
+        </div>
+        <div class="batch-grid" id="batch-out"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BRAND KIT -->
+  <div id="brandkit-panel" style="display:none">
+    <div style="max-width:640px;margin:0 auto">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">Auto Brand Kit</span></div>
+        <div class="ctrl-body">
+          <p style="font-size:.82rem;color:var(--ink2)">Enter your website URL to auto-fetch favicon and generate a brand color palette.</p>
+          <div style="display:flex;gap:.6rem">
+            <input class="url-in" id="bk-url" type="text" placeholder="https://your-brand.com" style="flex:1"/>
+            <button class="gen-btn" style="width:auto;padding:.65rem 1.2rem;white-space:nowrap" onclick="extractBrand()">Extract</button>
+          </div>
+          <div class="bk-res" id="bk-res">
+            <div style="display:flex;align-items:center;gap:.9rem;margin-bottom:.6rem">
+              <div id="bk-logo-prev" style="width:44px;height:44px;border-radius:9px;background:var(--paper2);overflow:hidden;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);flex-shrink:0"></div>
+              <div style="flex:1">
+                <div class="flbl" style="margin-bottom:.35rem">Colors — click to select foreground</div>
+                <div class="bk-colors" id="bk-colors"></div>
+              </div>
+            </div>
+            <div style="font-size:.72rem;color:var(--ink3);font-family:var(--font-m)" id="bk-info"></div>
+            <button class="gen-btn" style="margin-top:.7rem" onclick="applyBrand()">Apply &amp; Generate QR</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD -->
+  <div id="card-panel" style="display:none">
+    <div class="card-form">
+      <div style="padding:1rem 1.3rem;border-bottom:1px solid var(--border)"><div class="ctrl-htitle">Business Card Export</div></div>
+      <div class="cform-bd">
+        <div class="ff"><label class="flbl2">Full Name</label><input class="fin" id="bc-name" value="Arun Kumar"/></div>
+        <div class="ff"><label class="flbl2">Job Title</label><input class="fin" id="bc-title" value="Product Designer"/></div>
+        <div class="ff"><label class="flbl2">Company</label><input class="fin" id="bc-company" value="TOOLZEN"/></div>
+        <div class="ff"><label class="flbl2">Phone</label><input class="fin" id="bc-phone" value="+91 98765 43210"/></div>
+        <div class="ff full"><label class="flbl2">Email</label><input class="fin" id="bc-email" value="hello@TOOLZEN.io"/></div>
+        <div class="ff full"><label class="flbl2">Website (QR links here)</label><input class="fin" id="bc-url" value="https://www.example.com"/></div>
+        <div class="ff full">
+          <label class="flbl2">Card Theme</label>
+          <div class="theme-chips">
+            <div class="tc on" onclick="selTheme(this,'dark')">Dark Ink</div>
+            <div class="tc" onclick="selTheme(this,'light')">Clean White</div>
+            <div class="tc" onclick="selTheme(this,'accent')">Bold Red</div>
+            <div class="tc" onclick="selTheme(this,'navy')">Navy Blue</div>
+            <div class="tc" onclick="selTheme(this,'forest')">Forest</div>
+            <div class="tc" onclick="selTheme(this,'gold')">Gold</div>
+            <div class="tc" onclick="selTheme(this,'purple')">Purple</div>
+            <div class="tc" onclick="selTheme(this,'pink')">Pink</div>
+          </div>
+        </div>
+        <div class="ff full" style="display:flex;gap:.6rem">
+          <button class="gen-btn" style="flex:1" onclick="generateCard()">Preview Card</button>
+          <button class="abtn p" onclick="downloadCard()">Download PNG</button>
+        </div>
+      </div>
+    </div>
+    <div class="card-prev-wrap" id="card-prev-wrap" style="display:none">
+      <canvas id="card-canvas" style="border-radius:13px;max-width:100%;box-shadow:0 18px 55px rgba(13,13,15,.2)"></canvas>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ FILE TOOLS SECTION ══ -->
+<div id="sec-tools" class="section">
+<div class="tools-section">
+  <div class="app-head">
+    <div class="sec-tag">File Tools</div>
+    <h2 class="sec-title">Convert Any Format</h2>
+    <p style="color:var(--ink2);margin-top:.5rem;font-size:.9rem">All conversions happen in your browser — no upload to servers, 100% private</p>
+  </div>
+
+  <!-- FILE TOOL CARDS -->
+  <div id="tools-grid-view">
+    <div class="tools-grid">
+      <div class="tool-card"><div class="tool-card-icon" style="background:#EEF2FF">📄</div><div class="tool-card-title">Word → PDF</div><div class="tool-card-desc">Convert .docx Word files to PDF instantly. Preserves formatting and layout.</div><button class="tool-card-btn" onclick="openFileTool('word2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FEF3C7">📋</div><div class="tool-card-title">PDF → Word</div><div class="tool-card-desc">Extract text from PDF and convert to editable Word document.</div><button class="tool-card-btn" onclick="openFileTool('pdf2word')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFE4E6">📊</div><div class="tool-card-title">PPT → PDF</div><div class="tool-card-desc">Convert PowerPoint presentations to PDF. Works with .pptx files.</div><button class="tool-card-btn" onclick="openFileTool('ppt2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#DCFCE7">📈</div><div class="tool-card-title">Excel → PDF</div><div class="tool-card-desc">Convert Excel spreadsheets (.xlsx) to clean PDF format.</div><button class="tool-card-btn" onclick="openFileTool('excel2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F3E8FF">🖼️</div><div class="tool-card-title">Image → PDF</div><div class="tool-card-desc">Combine multiple images (JPG, PNG, WebP) into a single PDF file.</div><button class="tool-card-btn" onclick="openFileTool('img2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#E0F2FE">📑</div><div class="tool-card-title">PDF → Images</div><div class="tool-card-desc">Extract pages from PDF as high-quality PNG images. Download as ZIP.</div><button class="tool-card-btn" onclick="openFileTool('pdf2img')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF7ED">🔗</div><div class="tool-card-title">Merge PDFs</div><div class="tool-card-desc">Combine multiple PDF files into one. Drag to reorder pages.</div><button class="tool-card-btn" onclick="openFileTool('merge')">Merge Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#ECFDF5">✂️</div><div class="tool-card-title">Split PDF</div><div class="tool-card-desc">Split a PDF into individual pages or custom page ranges.</div><button class="tool-card-btn" onclick="openFileTool('split')">Split Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FDF4FF">🔄</div><div class="tool-card-title">Image Converter</div><div class="tool-card-desc">Convert between JPG, PNG, WebP, GIF. Resize and adjust quality.</div><button class="tool-card-btn" onclick="openFileTool('imgconv')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFFBEB">📝</div><div class="tool-card-title">TXT → PDF</div><div class="tool-card-desc">Convert plain text files to beautifully formatted PDFs.</div><button class="tool-card-btn" onclick="openFileTool('txt2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F0FDF4">🔁</div><div class="tool-card-title">PDF Rotate</div><div class="tool-card-desc">Rotate PDF pages 90°, 180°, or 270°. Fix scanned document orientation.</div><button class="tool-card-btn" onclick="openFileTool('rotate')">Rotate Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FEF9C3">🔢</div><div class="tool-card-title">PDF Page Numbers</div><div class="tool-card-desc">Add page numbers to your PDF. Choose position and style.</div><button class="tool-card-btn" onclick="openFileTool('pagenumbers')">Add Numbers →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#E0F2FE">🌐</div><div class="tool-card-title">HTML → PDF</div><div class="tool-card-desc">Convert HTML files to PDF. Great for web pages and templates.</div><button class="tool-card-btn" onclick="openFileTool('html2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F0FDF4">📊</div><div class="tool-card-title">CSV → PDF</div><div class="tool-card-desc">Turn spreadsheet CSV data into a clean formatted PDF table.</div><button class="tool-card-btn" onclick="openFileTool('csv2pdf')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FEF3C7">📃</div><div class="tool-card-title">PDF → Text</div><div class="tool-card-desc">Extract text content from any PDF file as a plain .txt document.</div><button class="tool-card-btn" onclick="openFileTool('pdf2txt')">Extract Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#EDE9FE">💧</div><div class="tool-card-title">Watermark PDF</div><div class="tool-card-desc">Add a custom watermark text to every page of your PDF.</div><button class="tool-card-btn" onclick="openFileTool('watermark')">Add Watermark →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF1F2">✏️</div><div class="tool-card-title">Edit PDF Metadata</div><div class="tool-card-desc">Change title, author, and creator info stored inside your PDF.</div><button class="tool-card-btn" onclick="openFileTool('pdfmeta')">Edit Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#ECFDF5">🔃</div><div class="tool-card-title">JSON → CSV</div><div class="tool-card-desc">Convert JSON arrays to CSV spreadsheet format instantly.</div><button class="tool-card-btn" onclick="openFileTool('json2csv')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF7ED">🔃</div><div class="tool-card-title">CSV → JSON</div><div class="tool-card-desc">Convert CSV files to structured JSON arrays. Perfect for devs.</div><button class="tool-card-btn" onclick="openFileTool('csv2json')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F1F5F9">🎞️</div><div class="tool-card-title">Image → Grayscale</div><div class="tool-card-desc">Convert any color image to black and white grayscale instantly.</div><button class="tool-card-btn" onclick="openFileTool('imggrayscale')">Convert Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FDF4FF">📐</div><div class="tool-card-title">Resize Image</div><div class="tool-card-desc">Scale images to 25%, 50%, 75% or 200% of original size.</div><button class="tool-card-btn" onclick="openFileTool('imgresize')">Resize Now →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF1F2">✂️</div><div class="tool-card-title">Crop Image</div><div class="tool-card-desc">Center-crop any image removing 10% border on all sides.</div><button class="tool-card-btn" onclick="openFileTool('imgcrop')">Crop Now →</button></div>
+    </div>
+  </div>
+
+  <!-- Individual tool panels -->
+  <div id="tool-panel" class="file-panel">
+    <div class="fp-header">
+      <button class="fp-back" onclick="closeFileTool()">← Back</button>
+      <h2 class="fp-title" id="tp-title">Tool</h2>
+    </div>
+    <div class="fp-body">
+      <div class="upload-zone" id="tp-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="handleToolDrop(event)">
+        <input type="file" id="tp-file" onchange="handleToolFile(this.files[0])"/>
+        <div class="upload-icon" id="tp-icon">📁</div>
+        <div class="upload-title" id="tp-upload-title">Drop your file here</div>
+        <div class="upload-sub" id="tp-upload-sub">or click to browse</div>
+      </div>
+      <div class="file-info" id="tp-file-info"></div>
+      <div id="tp-options" style="display:none">
+        <div class="options-row" id="tp-options-row"></div>
+      </div>
+      <div class="progress-bar" id="tp-progress"><div class="progress-fill" id="tp-progress-fill"></div></div>
+      <button class="process-btn" id="tp-process-btn" onclick="processFile()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span id="tp-btn-label">Convert</span>
+      </button>
+      <div class="result-box" id="tp-result">
+        <div class="result-title">✅ Done!</div>
+        <div class="result-stats" id="tp-stats"></div>
+        <button class="dl-btn" id="tp-dl-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ══ COMPRESS SECTION ══ -->
+<div id="sec-compress" class="section">
+<div class="tools-section">
+  <div class="app-head">
+    <div class="sec-tag">Compressor</div>
+    <h2 class="sec-title">Compress Your Files</h2>
+    <p style="color:var(--ink2);margin-top:.5rem;font-size:.9rem">Reduce file size without losing quality — images, PDFs, ZIP archives</p>
+  </div>
+  <div class="tools-grid" id="compress-grid">
+    <div class="tool-card"><div class="tool-card-icon" style="background:#FEF3C7">🖼️</div><div class="tool-card-title">Image Compressor</div><div class="tool-card-desc">Compress JPG, PNG, WebP images. Set target size: 50MB → 5MB, 10MB → 1MB. Choose quality level.</div><button class="tool-card-btn" onclick="openCompressTool('image')">Compress →</button></div>
+    <div class="tool-card"><div class="tool-card-icon" style="background:#EEF2FF">📄</div><div class="tool-card-title">PDF Compressor</div><div class="tool-card-desc">Reduce PDF file size by up to 80%. Perfect for email attachments and uploads.</div><button class="tool-card-btn" onclick="openCompressTool('pdf')">Compress →</button></div>
+    <div class="tool-card"><div class="tool-card-icon" style="background:#ECFDF5">📦</div><div class="tool-card-title">ZIP Creator</div><div class="tool-card-desc">Select multiple files and pack them into a single ZIP archive for easy sharing.</div><button class="tool-card-btn" onclick="openCompressTool('zip')">Create ZIP →</button></div>
+    <div class="tool-card"><div class="tool-card-icon" style="background:#F3E8FF">🗂️</div><div class="tool-card-title">Batch Image Compress</div><div class="tool-card-desc">Compress multiple images at once. Download all compressed images as a ZIP.</div><button class="tool-card-btn" onclick="openCompressTool('batchimage')">Batch Compress →</button></div>
+  </div>
+
+  <div id="compress-panel" class="file-panel" style="margin-top:1.5rem">
+    <div class="fp-header">
+      <button class="fp-back" onclick="closeCompressTool()">← Back</button>
+      <h2 class="fp-title" id="cp-title">Compress</h2>
+    </div>
+    <div class="fp-body">
+      <div class="upload-zone" id="cp-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="handleCompressDrop(event)">
+        <input type="file" id="cp-file" onchange="handleCompressFile(this)" multiple/>
+        <div class="upload-icon">📂</div>
+        <div class="upload-title" id="cp-upload-title">Drop files here</div>
+        <div class="upload-sub">or click to browse</div>
+      </div>
+      <div class="file-info" id="cp-file-info"></div>
+      <div id="cp-options" style="display:none;flex-direction:column;gap:.7rem">
+        <div class="options-row">
+          <span class="opt-label">Quality:</span>
+          <div class="cg" id="cp-quality-chips">
+            <div class="opt-chip" onclick="selQuality(this,0.9)">High (90%)</div>
+            <div class="opt-chip on" onclick="selQuality(this,0.7)">Medium (70%)</div>
+            <div class="opt-chip" onclick="selQuality(this,0.5)">Low (50%)</div>
+            <div class="opt-chip" onclick="selQuality(this,0.3)">Tiny (30%)</div>
+          </div>
+        </div>
+      </div>
+      <div class="progress-bar" id="cp-progress"><div class="progress-fill" id="cp-progress-fill"></div></div>
+      <button class="process-btn" id="cp-process-btn" onclick="processCompress()" disabled>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span id="cp-btn-label">Compress</span>
+      </button>
+      <div class="result-box" id="cp-result">
+        <div class="result-title">✅ Compressed!</div>
+        <div class="result-stats" id="cp-stats"></div>
+        <button class="dl-btn" id="cp-dl-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-links">
+    <a href="#" onclick="showSection('home');return false">Home</a>
+    <a href="#" onclick="showSection('qr');return false">QR Designer</a>
+    <a href="#" onclick="showSection('tools');return false">File Tools</a>
+    <a href="#" onclick="showSection('compress');return false">Compressor</a>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:.5rem">
+    <svg width="20" height="20" viewBox="0 0 30 30" fill="none"><rect width="30" height="30" rx="7" fill="#C84B31"/><rect x="4" y="4" width="9" height="9" rx="2" fill="white"/><rect x="17" y="4" width="9" height="9" rx="2" fill="white"/><rect x="4" y="17" width="9" height="9" rx="2" fill="white"/><rect x="17" y="17" width="4" height="4" rx="1" fill="white"/><rect x="22" y="22" width="4" height="4" rx="1" fill="white"/></svg>
+    <strong>TOOLZEN</strong>
+  </div>
+  <div>QR Designer · File Converter · Compressor — All Free, All In Browser</div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ════════ NAVIGATION ════════ */
+function showSection(s){
+  ['home','qr','tools','compress'].forEach(id=>{
+    document.getElementById('sec-'+id).classList.toggle('active', id===s);
+  });
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const map=['home','qr','tools','compress'];
+    t.classList.toggle('active', map[i]===s);
+  });
+  window.scrollTo(0,0);
+  if(s==='home'&&!heroDone) heroDemo();
+}
+let heroDone=false;
+
+function toggleDark(){
+  const on=document.documentElement.getAttribute('data-theme')==='dark';
+  document.documentElement.setAttribute('data-theme',on?'':'dark');
+  localStorage.setItem('TOOLZEN-dark',on?'':'1');
+}
+(function(){if(localStorage.getItem('TOOLZEN-dark')==='1')document.documentElement.setAttribute('data-theme','dark');})();
+
+function toggleMenu(){document.getElementById('mobile-menu').classList.toggle('open');}
+
+/* ════════ QR STATE ════════ */
+const S={shape:'square',eye:'square',fg:'#0D0D0F',fg2:'#C84B31',bg:'#FFFFFF',grad:false,pulse:false,scan:false,border:false,glow:false,shadow:false,logo:null,cardTheme:'dark'};
+let animId=null,batchCanvases=[],cardDataUrl=null;
+let bkData={logo:null,colors:[],selectedFg:null};
+const qrHistory=[];
+
+/* ════════ QR MODE TABS ════════ */
+const QR_PANELS=['encode','decode','batch','brandkit','card'];
+function setQRMode(m){
+  QR_PANELS.forEach(p=>{const el=document.getElementById(p+'-panel');if(el)el.style.display=p===m?'block':'none';});
+  document.querySelectorAll('.tool-tab').forEach((t,i)=>t.classList.toggle('active',QR_PANELS[i]===m));
+}
+
+/* ════════ URL NORMALIZE ════════ */
+function normalizeUrl(u){
+  u=(u||'').trim();
+  if(!u)return '';
+  if(!/^https?:\/\//i.test(u))u='https://'+u;
+  return u;
+}
+
+/* ════════ SELECTORS ════════ */
+function selChip(el,val){el.closest('.cg').querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');S.shape=val;regen();}
+function selEye(el,val){document.querySelectorAll('.chip-e').forEach(c=>c.classList.remove('on'));el.classList.add('on');S.eye=val;regen();}
+function selFgSw(el,c){document.querySelectorAll('#fg-sw .sw').forEach(s=>s.classList.remove('on'));el.classList.add('on');S.fg=c;document.getElementById('fg-color-picker').value=c;regen();}
+function selBgSw(el,c){document.querySelectorAll('#bg-sw .sw').forEach(s=>s.classList.remove('on'));el.classList.add('on');S.bg=c;document.getElementById('bg-color-picker').value=c;regen();}
+function selFgCustom(c){document.querySelectorAll('#fg-sw .sw').forEach(s=>s.classList.remove('on'));S.fg=c;regen();}
+function selBgCustom(c){document.querySelectorAll('#bg-sw .sw').forEach(s=>s.classList.remove('on'));S.bg=c;regen();}
+function selFg2Sw(el,c){document.querySelectorAll('#fg2-sw .sw').forEach(s=>s.classList.remove('on'));el.classList.add('on');S.fg2=c;document.getElementById('fg2-color-picker').value=c;regen();}
+function selFg2Custom(c){document.querySelectorAll('#fg2-sw .sw').forEach(s=>s.classList.remove('on'));S.fg2=c;regen();}
+function applyGradPreset(c1,c2){S.fg=c1;S.fg2=c2;S.grad=true;document.getElementById('tgl-grad').classList.add('on');document.querySelectorAll('#fg-sw .sw').forEach(s=>s.classList.remove('on'));document.querySelectorAll('#fg2-sw .sw').forEach(s=>s.classList.remove('on'));try{document.getElementById('fg-color-picker').value=c1;document.getElementById('fg2-color-picker').value=c2;}catch(e){}regen();toast('Gradient preset applied!');}
+function selTheme(el,t){document.querySelectorAll('.tc').forEach(c=>c.classList.remove('on'));el.classList.add('on');S.cardTheme=t;}
+function tog(k){S[k]=!S[k];document.getElementById('tgl-'+k).classList.toggle('on',S[k]);regen();}
+
+/* ════════ LOGO ════════ */
+function loadLogo(input){
+  if(!input.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{S.logo=e.target.result;document.getElementById('logo-prev').innerHTML=`<img src="${S.logo}" style="width:100%;height:100%;object-fit:contain"/>`;regen();};
+  r.readAsDataURL(input.files[0]);
+}
+function useFavicon(){
+  const raw=document.getElementById('url-input').value.trim();
+  if(!raw){toast('Enter a URL first');return;}
+  const url=normalizeUrl(raw);
+  try{
+    const host=new URL(url).hostname;
+    const fav=`https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+    S.logo=fav;
+    document.getElementById('logo-prev').innerHTML=`<img src="${fav}" style="width:100%;height:100%;object-fit:contain" crossorigin="anonymous"/>`;
+    regen();toast('Favicon loaded!');
+  }catch(e){toast('Invalid URL');}
+}
+function clearLogo(){
+  S.logo=null;
+  document.getElementById('logo-prev').innerHTML=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#bbb" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="3"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>`;
+  regen();
+}
+
+/* ════════ COLOR HELPERS ════════ */
+function h2r(h){return[parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+function lerp(a,b,t){return[Math.round(a[0]+(b[0]-a[0])*t),Math.round(a[1]+(b[1]-a[1])*t),Math.round(a[2]+(b[2]-a[2])*t)];}
+function shiftC(h){const[r,g,b]=h2r(h);return'#'+[Math.min(255,b+80),r,Math.min(255,g+60)].map(v=>v.toString(16).padStart(2,'0')).join('');}
+
+/* ════════ 42+ MODULE SHAPES ════════ */
+function drawMod(ctx,shape,x,y,s){
+  const cx=x+s/2,cy=y+s/2,r=s/2;
+  ctx.beginPath();
+  switch(shape){
+    case 'square':   ctx.rect(x,y,s,s);break;
+    case 'rounded':  {const rd=s*.34;ctx.moveTo(x+rd,y);ctx.lineTo(x+s-rd,y);ctx.arcTo(x+s,y,x+s,y+rd,rd);ctx.lineTo(x+s,y+s-rd);ctx.arcTo(x+s,y+s,x+s-rd,y+s,rd);ctx.lineTo(x+rd,y+s);ctx.arcTo(x,y+s,x,y+s-rd,rd);ctx.lineTo(x,y+rd);ctx.arcTo(x,y,x+rd,y,rd);ctx.closePath();break;}
+    case 'dots':     ctx.arc(cx,cy,r*.85,0,Math.PI*2);break;
+    case 'diamond':  ctx.moveTo(cx,y);ctx.lineTo(x+s,cy);ctx.lineTo(cx,y+s);ctx.lineTo(x,cy);ctx.closePath();break;
+    case 'organic':  {const jx=Math.sin(x*.13+y*.07)*.13*s,jy=Math.cos(y*.11+x*.09)*.13*s;ctx.arc(cx+jx*.28,cy+jy*.28,r*.86,0,Math.PI*2);break;}
+    case 'star':     {for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2,ai=a+2*Math.PI/10;if(i===0)ctx.moveTo(cx+Math.cos(a)*r*.9,cy+Math.sin(a)*r*.9);else ctx.lineTo(cx+Math.cos(a)*r*.9,cy+Math.sin(a)*r*.9);ctx.lineTo(cx+Math.cos(ai)*r*.4,cy+Math.sin(ai)*r*.4);}ctx.closePath();break;}
+    case 'cross':    {const t=s*.28,o=(s-t)/2;ctx.rect(x+o,y,t,s);ctx.rect(x,y+o,s,t);break;}
+    case 'hex':      {for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);else ctx.lineTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);}ctx.closePath();break;}
+    case 'leaf':     ctx.moveTo(cx,y);ctx.bezierCurveTo(x+s,y,x+s,y+s,cx,y+s);ctx.bezierCurveTo(x,y+s,x,y,cx,y);ctx.closePath();break;
+    case 'arrow':    ctx.moveTo(x,y+s*.22);ctx.lineTo(x+s*.58,y+s*.22);ctx.lineTo(x+s*.58,y);ctx.lineTo(x+s,cy);ctx.lineTo(x+s*.58,y+s);ctx.lineTo(x+s*.58,y+s*.78);ctx.lineTo(x,y+s*.78);ctx.closePath();break;
+    case 'wave':     {const wh=s*.3;ctx.moveTo(x,cy);ctx.bezierCurveTo(x+s*.25,cy-wh,x+s*.5,cy+wh,x+s*.75,cy-wh*.5);ctx.bezierCurveTo(x+s*.9,cy-wh*.8,x+s,cy-wh*.4,x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
+    case 'pixel':    {const ps=s/3;for(let pi=0;pi<3;pi++)for(let pj=0;pj<3;pj++){if((pi+pj)%2===0)ctx.rect(x+pi*ps,y+pj*ps,ps,ps);}break;}
+    case 'bubble':   {const rad=r*.9;ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.closePath();ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.arc(cx-rad*.25,cy-rad*.25,rad*.3,0,Math.PI*2);break;}
+    case 'flame':    ctx.moveTo(cx,y);ctx.bezierCurveTo(x+s*.85,y+s*.3,x+s*.75,y+s*.5,cx+s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.9,y+s*.6,x+s*.85,y+s*.8,cx,y+s);ctx.bezierCurveTo(x+s*.15,y+s*.8,x+s*.1,y+s*.6,cx-s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.25,y+s*.5,x+s*.15,y+s*.3,cx,y);ctx.closePath();break;
+    case 'crystal':  {for(let i=0;i<6;i++){const a=i*Math.PI/3;const bx=cx+Math.cos(a)*r*.88,by=cy+Math.sin(a)*r*.88;if(i===0)ctx.moveTo(bx,by);else ctx.lineTo(bx,by);}ctx.closePath();break;}
+    case 'triangle': ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.95,y+s*.95);ctx.lineTo(x+s*.05,y+s*.95);ctx.closePath();break;
+    case 'gear':     {const teeth=6,ir=r*.45,or=r*.85;for(let i=0;i<teeth*2;i++){const a=i*Math.PI/teeth-Math.PI/2,rr=i%2===0?or:ir;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
+    case 'heart':    {const hs=s*.45;ctx.moveTo(cx,y+hs);ctx.bezierCurveTo(cx,y,x,y,x,y+hs);ctx.bezierCurveTo(x,y+s*.72,cx,y+s*.88,cx,y+s);ctx.bezierCurveTo(cx,y+s*.88,x+s,y+s*.72,x+s,y+hs);ctx.bezierCurveTo(x+s,y,cx,y,cx,y+hs);break;}
+    case 'zigzag':   {const zw=s/4,zh=s*.4;ctx.moveTo(x,cy);for(let zi=0;zi<4;zi++){ctx.lineTo(x+zw*(zi+.5),zi%2===0?cy-zh:cy+zh);}ctx.lineTo(x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
+    case 'plus':     {const pw=s*.28,po=(s-pw)/2;ctx.rect(x+po,y,pw,s);ctx.rect(x,y+po,s,pw);break;}
+    /* NEW SHAPES */
+    case 'moon':     {ctx.arc(cx,cy,r*.88,0,Math.PI*2);ctx.fill();ctx.beginPath();const moff=r*.3;ctx.globalCompositeOperation='destination-out';ctx.arc(cx+moff,cy-moff,r*.72,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
+    case 'ring':     {ctx.arc(cx,cy,r*.9,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.globalCompositeOperation='destination-out';ctx.arc(cx,cy,r*.5,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
+    case 'shield':   {ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.9,y+s*.25);ctx.lineTo(x+s*.9,y+s*.6);ctx.quadraticCurveTo(x+s*.9,y+s,cx,y+s);ctx.quadraticCurveTo(x+s*.1,y+s,x+s*.1,y+s*.6);ctx.lineTo(x+s*.1,y+s*.25);ctx.closePath();break;}
+    case 'octagon':  {for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);else ctx.lineTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);}ctx.closePath();break;}
+    case 'rhombus':  {ctx.moveTo(cx,y+s*.1);ctx.lineTo(x+s*.85,cy);ctx.lineTo(cx,y+s*.9);ctx.lineTo(x+s*.15,cy);ctx.closePath();break;}
+    case 'bow':      {ctx.moveTo(x,y);ctx.lineTo(x+s,y+s);ctx.lineTo(x+s,y);ctx.lineTo(x,y+s);ctx.closePath();break;}
+    case 'drop':     {ctx.moveTo(cx,y);ctx.bezierCurveTo(x+s*.85,y+s*.35,x+s*.85,y+s*.65,cx,y+s);ctx.bezierCurveTo(x+s*.15,y+s*.65,x+s*.15,y+s*.35,cx,y);ctx.closePath();break;}
+    case 'fish':     {ctx.moveTo(cx,y+s*.05);ctx.bezierCurveTo(x+s,y+s*.05,x+s,y+s*.95,cx,y+s*.95);ctx.bezierCurveTo(x,y+s*.95,x,y+s*.05,cx,y+s*.05);ctx.closePath();break;}
+    case 'pinwheel': {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.moveTo(cx,cy);ctx.arc(cx,cy,r*.88,a,a+Math.PI/2.5);}ctx.closePath();break;}
+    case 'mosaic':   {const ms2=s/2;ctx.rect(x,y,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y,ms2*.9,ms2*.9);ctx.rect(x,y+ms2*.1+ms2,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y+ms2*.1+ms2,ms2*.9,ms2*.9);break;}
+    case 'spark':    {for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=i%2===0?r*.9:r*.35;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
+    case 'petal':    {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.moveTo(cx,cy);ctx.arc(cx+Math.cos(a)*r*.4,cy+Math.sin(a)*r*.4,r*.6,a+Math.PI,a+Math.PI*2);}ctx.closePath();break;}
+    case 'clover':   {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.arc(cx+Math.cos(a)*r*.42,cy+Math.sin(a)*r*.42,r*.52,0,Math.PI*2);}break;}
+    case 'dna':      {ctx.ellipse(cx,cy,r*.3,r*.9,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(cx,cy,r*.3,r*.9,-Math.PI/6,0,Math.PI*2);break;}
+    case 'cloud':    {ctx.arc(cx-r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx+r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx,cy-r*.05,r*.55,0,Math.PI*2);ctx.rect(cx-r*.75,cy+r*.15,r*1.5,r*.6);break;}
+    case 'eye2':     {ctx.ellipse(cx,cy,r*.9,r*.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(cx,cy,r*.28,0,Math.PI*2);break;}
+    case 'lightning':{ctx.moveTo(cx+r*.2,y);ctx.lineTo(x+s*.2,cy);ctx.lineTo(cx+r*.1,cy);ctx.lineTo(x+s*.1,y+s);ctx.lineTo(cx+r*.4,cy+r*.3);ctx.lineTo(cx+r*.8,cy+r*.3);ctx.closePath();break;}
+    case 'pac':      {ctx.arc(cx,cy,r*.9,Math.PI*.2,Math.PI*1.8);ctx.lineTo(cx,cy);ctx.closePath();break;}
+    case 'badge':    {ctx.moveTo(cx,y+s*.05);for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,rr=i%2===0?r*.9:r*.75;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
+    case 'puzzle':   {const ps2=s*.32,off2=s*.18;ctx.rect(x+off2,y+off2,s-off2*2,s-off2*2);ctx.arc(cx,y+off2,ps2*.4,-Math.PI,0);ctx.arc(x+s-off2,cy,ps2*.4,Math.PI*.5,Math.PI*1.5);break;}
+    case 'squircle': {const sq=s*.42;ctx.moveTo(cx,y+s*.05);ctx.bezierCurveTo(cx+sq,y+s*.05,x+s*.95,cy-sq+sq,x+s*.95,cy);ctx.bezierCurveTo(x+s*.95,cy+sq,cx+sq,y+s*.95,cx,y+s*.95);ctx.bezierCurveTo(cx-sq,y+s*.95,x+s*.05,cy+sq,x+s*.05,cy);ctx.bezierCurveTo(x+s*.05,cy-sq,cx-sq,y+s*.05,cx,y+s*.05);ctx.closePath();break;}
+    case 'flag':     {ctx.rect(x,y,s*.08,s);ctx.moveTo(x+s*.08,y);ctx.lineTo(x+s,y+s*.25);ctx.lineTo(x+s*.08,y+s*.5);ctx.closePath();break;}
+    default:         ctx.rect(x,y,s,s);
+  }
+  ctx.fill();
+}
+
+/* ════════ 18 EYE STYLES ════════ */
+function rrFill(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();ctx.fill();}
+function drawEye(ctx,rx,ry,ms,style,fg,bg){
+  const s7=ms*7,f=c=>{ctx.fillStyle=c;},ecx=rx+s7/2,ecy=ry+s7/2;
+  if(style==='square'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
+  else if(style==='rounded'){const R=ms*1.8;f(fg);rrFill(ctx,rx,ry,s7,s7,R);f(bg);rrFill(ctx,rx+ms,ry+ms,ms*5,ms*5,R*.7);f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.8);}
+  else if(style==='circle'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.5,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else if(style==='leaf'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.bezierCurveTo(rx+s7,ry,rx+s7,ry+s7,ecx,ry+s7);ctx.bezierCurveTo(rx,ry+s7,rx,ry,ecx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.bezierCurveTo(rx+s7-ms,ry+ms,rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.bezierCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms,ecx,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else if(style==='shield'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7*.3);ctx.lineTo(rx+s7,ry+s7*.62);ctx.quadraticCurveTo(rx+s7,ry+s7,ecx,ry+s7);ctx.quadraticCurveTo(rx,ry+s7,rx,ry+s7*.62);ctx.lineTo(rx,ry+s7*.3);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ry+ms+s7*.22);ctx.lineTo(rx+s7-ms,ry+ms+s7*.47);ctx.quadraticCurveTo(rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.quadraticCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms+s7*.47);ctx.lineTo(rx+ms,ry+ms+s7*.22);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else if(style==='star'){f(fg);ctx.beginPath();for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2,ai=a+2*Math.PI/10;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);ctx.lineTo(ecx+Math.cos(ai)*ms*1.8,ecy+Math.sin(ai)*ms*1.8);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.2,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='diamond'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ecy);ctx.lineTo(ecx,ry+s7);ctx.lineTo(rx,ecy);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(ecx,ry+s7-ms);ctx.lineTo(rx+ms,ecy);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else if(style==='arrow'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx+ms*.5,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
+  /* NEW EYE STYLES */
+  else if(style==='hexeye'){f(fg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);else ctx.lineTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='crosseye'){f(fg);const ct=ms,co=(s7-ct)/2;ctx.fillRect(rx+co,ry,ct,s7);ctx.fillRect(rx,ry+co,s7,ct);f(bg);ctx.fillRect(rx+ms*1.5,ry+ms*1.5,ms*4,ms*4);f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='heartey'){f(fg);const hs2=s7*.45;ctx.beginPath();ctx.moveTo(ecx,ry+hs2);ctx.bezierCurveTo(ecx,ry,rx,ry,rx,ry+hs2);ctx.bezierCurveTo(rx,ry+s7*.72,ecx,ry+s7*.88,ecx,ry+s7);ctx.bezierCurveTo(ecx,ry+s7*.88,rx+s7,ry+s7*.72,rx+s7,ry+hs2);ctx.bezierCurveTo(rx+s7,ry,ecx,ry,ecx,ry+hs2);ctx.fill();f(bg);ctx.beginPath();const hsi=ms*.7;ctx.moveTo(ecx,ry+hs2+hsi);ctx.bezierCurveTo(ecx,ry+hsi,rx+hsi,ry+hsi,rx+hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+hsi,ry+s7*.72-hsi,ecx,ry+s7*.88-hsi,ecx,ry+s7-hsi);ctx.bezierCurveTo(ecx,ry+s7*.88-hsi,rx+s7-hsi,ry+s7*.72-hsi,rx+s7-hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+s7-hsi,ry+hsi,ecx,ry+hsi,ecx,ry+hs2+hsi);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='cloud2'){f(fg);ctx.beginPath();ctx.arc(ecx-ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx+ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx,ecy-ms*.3,ms*1.9,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
+  else if(style==='octaeye'){f(fg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);else ctx.lineTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='trioeye'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7);ctx.lineTo(rx,ry+s7);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms*1.5);ctx.lineTo(rx+s7-ms,ry+s7-ms);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ry+s7*.62,ms*1.4,0,Math.PI*2);ctx.fill();}
+  else if(style==='curvey'){const R2=ms*2.4;f(fg);rrFill(ctx,rx,ry,s7,s7,R2);f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.8,0,Math.PI*2);ctx.fill();f(fg);rrFill(ctx,rx+ms*1.8,ry+ms*1.8,ms*3.4,ms*3.4,ms*.7);}
+  else if(style==='bubbly'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.6,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*.8,0,Math.PI*2);ctx.fill();}
+  else if(style==='pinch'){f(fg);ctx.beginPath();ctx.moveTo(rx,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else if(style==='squirc'){const sq=s7*.42;f(fg);ctx.beginPath();ctx.moveTo(ecx,ry+s7*.03);ctx.bezierCurveTo(ecx+sq,ry+s7*.03,rx+s7*.97,ecy-sq+sq,rx+s7*.97,ecy);ctx.bezierCurveTo(rx+s7*.97,ecy+sq,ecx+sq,ry+s7*.97,ecx,ry+s7*.97);ctx.bezierCurveTo(ecx-sq,ry+s7*.97,rx+s7*.03,ecy+sq,rx+s7*.03,ecy);ctx.bezierCurveTo(rx+s7*.03,ecy-sq,ecx-sq,ry+s7*.03,ecx,ry+s7*.03);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.4,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
+  else{f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
+}
+
+/* ════════ MODULE DETECTION ════════ */
+function detectModuleCount(d,size){
+  let fw=-1;
+  for(let x=0;x<size;x++){if(d[x*4]>128){fw=x;break;}}
+  if(fw<2){const ry=Math.floor(size*.12);for(let x=0;x<size;x++){if(d[(ry*size+x)*4]>128){fw=x;break;}}}
+  if(fw<2)fw=Math.round(size/29);
+  const nEst=size/(fw/7);
+  let best=21,bd=Infinity;
+  for(let k=0;k<=39;k++){const c=21+4*k,d2=Math.abs(c-nEst);if(d2<bd){bd=d2;best=c;}}
+  return best;
+}
+function extractMods(imgData,size){
+  const d=imgData.data,n=detectModuleCount(d,size),step=size/n,mods=[];
+  for(let r=0;r<n;r++){mods.push([]);for(let c=0;c<n;c++){const px=Math.min(Math.floor((c+.5)*step),size-1),py=Math.min(Math.floor((r+.5)*step),size-1);mods[r].push(d[(py*size+px)*4]<128);}}
+  return{mods,n,ms:step};
+}
+function isEye(r,c,n){return(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);}
+
+/* ════════ CORE RENDER ════════ */
+function renderQR(canvas,url,cfg,logoImg,onDone){
+  const size=cfg.size||300,off=cfg.border?18:0;
+  canvas.width=canvas.height=size+off*2;
+  const ctx=canvas.getContext('2d');
+  const fgRgb=h2r(cfg.fg),fgRgb2=cfg.grad?h2r(cfg.fg2||shiftC(cfg.fg)):fgRgb;
+
+  QRCode.toDataURL(url,{errorCorrectionLevel:'H',margin:0,width:size},(err,du)=>{
+    if(err){console.error('QR:',err);if(onDone)onDone(false);return;}
+    const img=new Image();
+    img.onload=()=>{
+      const tmp=document.createElement('canvas');tmp.width=tmp.height=size;
+      tmp.getContext('2d').drawImage(img,0,0);
+      const{mods,n,ms}=extractMods(tmp.getContext('2d').getImageData(0,0,size,size),size);
+      const pad=ms*.08;
+      let firstFrameDone=false;
+
+      function draw(ph){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        ctx.fillStyle=cfg.bg;
+        if(cfg.border){
+          const bw=canvas.width,bh=canvas.height,br=18;
+          ctx.beginPath();ctx.moveTo(br,0);ctx.lineTo(bw-br,0);ctx.arcTo(bw,0,bw,br,br);ctx.lineTo(bw,bh-br);ctx.arcTo(bw,bh,bw-br,bh,br);ctx.lineTo(br,bh);ctx.arcTo(0,bh,0,bh-br,br);ctx.lineTo(0,br);ctx.arcTo(0,0,br,0,br);ctx.closePath();ctx.fill();
+        }else{ctx.fillRect(0,0,canvas.width,canvas.height);}
+
+        if(cfg.glow){ctx.shadowColor=cfg.fg;ctx.shadowBlur=ms*2;}
+        if(cfg.shadow){ctx.shadowColor='rgba(0,0,0,0.35)';ctx.shadowOffsetX=ms*.4;ctx.shadowOffsetY=ms*.4;ctx.shadowBlur=ms*.8;}
+
+        for(let r=0;r<n;r++){
+          for(let c=0;c<n;c++){
+            if(!mods[r][c]||isEye(r,c,n))continue;
+            const t=(r+c)/(n*2);
+            const pulse=cfg.pulse?(.78+.22*Math.sin(ph+(r+c)*.28)):1;
+            const[fr,fg2,fb]=lerp(fgRgb,fgRgb2,cfg.grad?t:0);
+            ctx.fillStyle=`rgba(${fr},${fg2},${fb},${pulse})`;
+            drawMod(ctx,cfg.shape,off+c*ms+pad,off+r*ms+pad,ms-pad*2);
+          }
+        }
+        ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+        [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>drawEye(ctx,off+ec*ms,off+er*ms,ms,cfg.eye,cfg.fg,cfg.bg));
+
+        if(cfg.scan){
+          const sy=off+size*.1+(size*.8*((Math.sin(ph*.45)+1)/2));
+          ctx.strokeStyle=`rgba(${fgRgb.join(',')},0.28)`;ctx.lineWidth=1.5;ctx.setLineDash([6,4]);
+          ctx.beginPath();ctx.moveTo(off,sy);ctx.lineTo(off+size,sy);ctx.stroke();ctx.setLineDash([]);
+        }
+
+        if(logoImg&&logoImg.complete&&logoImg.naturalWidth){
+          const zone=size*0.22,cx=off+size/2,cy=off+size/2,bx=cx-zone/2,by=cy-zone/2,padZ=zone*0.13,logoSz=zone-padZ*2,boxR=zone*0.17;
+          ctx.save();ctx.shadowColor='rgba(0,0,0,0.22)';ctx.shadowBlur=zone*0.1;ctx.shadowOffsetY=zone*0.02;ctx.fillStyle='#FFFFFF';
+          ctx.beginPath();if(ctx.roundRect)ctx.roundRect(bx,by,zone,zone,boxR);else ctx.rect(bx,by,zone,zone);ctx.fill();ctx.restore();
+          ctx.save();ctx.beginPath();if(ctx.roundRect)ctx.roundRect(bx+padZ,by+padZ,logoSz,logoSz,boxR*.65);else ctx.rect(bx+padZ,by+padZ,logoSz,logoSz);ctx.clip();
+          const nw=logoImg.naturalWidth||logoSz,nh=logoImg.naturalHeight||logoSz,sc=Math.max(logoSz/nw,logoSz/nh),dw=nw*sc,dh=nh*sc;
+          ctx.drawImage(logoImg,bx+padZ+(logoSz-dw)/2,by+padZ+(logoSz-dh)/2,dw,dh);ctx.restore();
+        }
+        if(cfg.pulse||cfg.scan)animId=requestAnimationFrame(()=>draw(ph+.055));
+        if(!firstFrameDone){firstFrameDone=true;if(onDone)onDone(true);}
+      }
+      if(animId){cancelAnimationFrame(animId);animId=null;}
+      draw(0);
+    };
+    img.onerror=()=>{if(onDone)onDone(false);};
+    img.src=du;
+  });
+}
+
+/* ════════ GENERATE QR ════════ */
+function generateQR(){
+  const raw=document.getElementById('url-input').value.trim();
+  if(!raw){toast('Please enter a URL or text');return;}
+  const url=normalizeUrl(raw);
+  document.getElementById('url-input').value=url;
+  if(animId){cancelAnimationFrame(animId);animId=null;}
+  const size=parseInt(document.getElementById('sz-slider').value)||300;
+  const cfg={...S,size};
+
+  document.getElementById('out-empty').style.display='none';
+  document.getElementById('qr-spinner').classList.add('show');
+  document.getElementById('qr-canvas-wrap').style.display='none';
+
+  const canvas=document.createElement('canvas');
+  canvas.id='qr-main';canvas.style.cssText='display:block;border-radius:10px;max-width:100%;cursor:pointer';
+  canvas.onclick=dlQR;
+
+  function doRender(logoImg){
+    renderQR(canvas,url,cfg,logoImg,(ok)=>{
+      document.getElementById('qr-spinner').classList.remove('show');
+      if(!ok){toast('Failed — check URL and retry');document.getElementById('out-empty').style.display='';return;}
+      buildOutput(canvas,url);
+      saveHistory(canvas,url);
+    });
+  }
+  if(S.logo){const li=new Image();li.crossOrigin='anonymous';li.onload=()=>doRender(li);li.onerror=()=>doRender(null);li.src=S.logo;}
+  else doRender(null);
+}
+
+function buildOutput(canvas,url){
+  const wrap=document.getElementById('qr-canvas-wrap');
+  wrap.innerHTML='';wrap.style.display='flex';
+  const cWrap=document.createElement('div');cWrap.style.cssText='position:relative;display:inline-block';cWrap.appendChild(canvas);wrap.appendChild(cWrap);
+  const acts=document.createElement('div');acts.className='out-acts';
+  acts.innerHTML=`<button class="abtn p" onclick="dlQR()">⬇ Download</button><button class="abtn" onclick="copyQR()">📋 Copy</button><button class="abtn" onclick="copyURL()">🔗 Copy URL</button><button class="abtn" onclick="dlQRSvgStyle()">🎨 Make Card</button>`;
+  wrap.appendChild(acts);
+  const lbl=document.createElement('div');lbl.className='out-url';lbl.textContent=url;wrap.appendChild(lbl);
+}
+function regen(){if(document.getElementById('qr-main'))generateQR();}
+
+/* ════════ HISTORY ════════ */
+function saveHistory(canvas,url){
+  if(qrHistory.find(h=>h.url===url)){buildHistoryUI();return;}
+  try{const dataUrl=canvas.toDataURL('image/png');qrHistory.unshift({dataUrl,url});if(qrHistory.length>5)qrHistory.pop();buildHistoryUI();}catch(e){}
+}
+function buildHistoryUI(){
+  const sidebar=document.getElementById('hist-sidebar');if(!sidebar)return;
+  sidebar.innerHTML='';if(!qrHistory.length){sidebar.style.display='none';return;}
+  sidebar.style.display='block';
+  const lbl=document.createElement('div');lbl.className='flbl';lbl.style.marginBottom='.5rem';lbl.textContent='Recent';sidebar.appendChild(lbl);
+  const row=document.createElement('div');row.className='hist-row';
+  qrHistory.forEach(h=>{
+    const th=document.createElement('div');th.className='hist-thumb';th.title=h.url;
+    const im=document.createElement('img');im.src=h.dataUrl;th.appendChild(im);
+    th.onclick=()=>{document.getElementById('url-input').value=h.url;generateQR();};
+    row.appendChild(th);
+  });
+  sidebar.appendChild(row);
+}
+
+/* ════════ ACTIONS ════════ */
+function dlQR(){const c=document.getElementById('qr-main');if(!c)return;const a=document.createElement('a');a.download='TOOLZEN-code.png';a.href=c.toDataURL('image/png');a.click();toast('Downloaded!');}
+function copyQR(){const c=document.getElementById('qr-main');if(!c){toast('Generate first');return;}c.toBlob(blob=>{try{navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>toast('Copied!')).catch(()=>toast('Use Download'));}catch(e){toast('Use Download');}});}
+function copyURL(){const u=document.getElementById('url-input').value.trim();if(!u)return;navigator.clipboard.writeText(u).then(()=>toast('URL copied!'));}
+function dlQRSvgStyle(){const u=document.getElementById('url-input').value.trim();if(u)document.getElementById('bc-url').value=u;setQRMode('card');showSection('qr');}
+
+/* ════════ DECODE ════════ */
+function handleDrop(e){e.preventDefault();document.getElementById('dzone').classList.remove('dov');const f=e.dataTransfer.files[0];if(f)decodeFile(f);}
+function decodeFile(file){
+  if(!file)return;
+  const res=document.getElementById('dres');res.className='dres show';res.textContent='Decoding…';
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const scale=Math.max(1,Math.min(4,800/Math.max(img.width,img.height)));
+      const c=document.createElement('canvas');c.width=img.width*scale;c.height=img.height*scale;
+      c.getContext('2d').drawImage(img,0,0,c.width,c.height);
+      const d=c.getContext('2d').getImageData(0,0,c.width,c.height);
+      const code=jsQR(d.data,c.width,c.height,{inversionAttempts:'dontInvert'});
+      if(code){
+        const v=code.data,isUrl=/^https?:\/\//i.test(v);
+        res.innerHTML=`<div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.35rem;font-weight:700">✅ Decoded</div>`
+          +(isUrl?`<a class="dlink" href="${v}" target="_blank" rel="noopener">${v}</a>`:`<span>${v}</span>`)
+          +`<div style="display:flex;gap:.45rem;margin-top:.6rem;flex-wrap:wrap"><button class="lbtn" onclick="navigator.clipboard.writeText(${JSON.stringify(v)}).then(()=>toast('Copied!'))">Copy</button>${isUrl?`<button class="lbtn" onclick="document.getElementById('url-input').value=${JSON.stringify(v)};setQRMode('encode');showSection('qr');generateQR()">Use in Designer</button>`:''}</div>`;
+        toast('QR decoded!');
+      }else{res.innerHTML=`<span style="color:var(--accent)">Could not decode.</span> Try a higher-res image.`;}
+    };
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ════════ BATCH ════════ */
+batchCanvases=[];
+function generateBatch(){
+  const lines=document.getElementById('batch-in').value.split('\n').map(l=>normalizeUrl(l)).filter(Boolean);
+  if(!lines.length){toast('Add at least one URL');return;}
+  batchCanvases=[];const out=document.getElementById('batch-out');out.innerHTML='';let done=0;
+  lines.forEach((url,idx)=>{
+    const wrap=document.createElement('div');wrap.className='bi';
+    const c=document.createElement('canvas');
+    QRCode.toCanvas(c,url,{errorCorrectionLevel:'H',margin:1,width:120,color:{dark:S.fg,light:S.bg}},(err)=>{done++;if(done===lines.length)toast(`${lines.length} QR codes ready!`);});
+    c.style.cssText='border-radius:6px;display:block';batchCanvases.push({canvas:c,url});
+    const lbl=document.createElement('div');lbl.className='bi-url';lbl.textContent=url;
+    const dl=document.createElement('button');dl.className='bi-dl';dl.textContent='Save';dl.onclick=()=>{const a=document.createElement('a');a.download=`qr_${idx+1}.png`;a.href=c.toDataURL('image/png');a.click();};
+    wrap.appendChild(c);wrap.appendChild(lbl);wrap.appendChild(dl);out.appendChild(wrap);
+  });
+}
+function downloadBatch(){
+  if(!batchCanvases.length){generateBatch();toast('Generating… try again');return;}
+  const zip=new JSZip();
+  batchCanvases.forEach(({canvas,url},i)=>{let name=`qr_${i+1}.png`;try{name=`qr_${i+1}_${new URL(url).hostname.replace(/\W+/g,'_')}.png`;}catch(e){}zip.file(name,canvas.toDataURL('image/png').split(',')[1],{base64:true});});
+  zip.generateAsync({type:'blob'}).then(blob=>{const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='TOOLZEN-batch.zip';a.click();toast('ZIP downloaded!');});
+}
+
+/* ════════ BRAND KIT ════════ */
+function extractBrand(){
+  const raw=document.getElementById('bk-url').value.trim();if(!raw){toast('Enter a URL');return;}
+  const url=normalizeUrl(raw);document.getElementById('bk-url').value=url;
+  let host;try{host=new URL(url).hostname;}catch(e){toast('Invalid URL');return;}
+  const fav=`https://www.google.com/s2/favicons?domain=${host}&sz=128`;
+  document.getElementById('bk-logo-prev').innerHTML=`<img src="${fav}" style="width:38px;height:38px;object-fit:contain" crossorigin="anonymous" onerror="this.style.display='none'"/>`;
+  const colors=genBrandColors(host);bkData={logo:fav,colors,selectedFg:colors[0]};
+  const col=document.getElementById('bk-colors');col.innerHTML='';
+  colors.forEach((c,i)=>{const sw=document.createElement('div');sw.className='bk-sw'+(i===0?' sel':'');sw.style.background=c;sw.title=c;sw.onclick=()=>{document.querySelectorAll('.bk-sw').forEach(s=>s.classList.remove('sel'));sw.classList.add('sel');bkData.selectedFg=c;};col.appendChild(sw);});
+  document.getElementById('bk-info').textContent=`${host} · Click a color to use as foreground`;
+  document.getElementById('bk-res').classList.add('show');toast('Brand kit ready!');
+}
+function genBrandColors(host){
+  const seed=host.split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  const h1=(seed*137)%360,h2=(seed*271+120)%360,h3=(seed*193+240)%360;
+  function hsl(h,s,l){const c=document.createElement('canvas');c.width=1;c.height=1;const x=c.getContext('2d');x.fillStyle=`hsl(${h},${s}%,${l}%)`;x.fillRect(0,0,1,1);const d=x.getImageData(0,0,1,1).data;return'#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');}
+  return[hsl(h1,75,22),hsl(h1,62,42),hsl(h2,68,28),hsl(h3,58,32),hsl(h1,40,55),hsl(h2,50,60)];
+}
+function applyBrand(){
+  if(!bkData.colors.length){toast('Extract brand kit first');return;}
+  S.fg=bkData.selectedFg||bkData.colors[0];S.logo=bkData.logo;S.grad=true;
+  document.querySelectorAll('#fg-sw .sw').forEach(s=>s.classList.remove('on'));
+  document.getElementById('tgl-grad').classList.add('on');
+  document.getElementById('logo-prev').innerHTML=`<img src="${S.logo}" style="width:100%;height:100%;object-fit:contain" crossorigin="anonymous"/>`;
+  document.getElementById('url-input').value=document.getElementById('bk-url').value;
+  setQRMode('encode');setTimeout(generateQR,150);toast('Brand applied!');
+}
+
+/* ════════ BUSINESS CARD (8 themes) ════════ */
+const THEMES={
+  dark:  {bg:'#0D0D0F',card:'#18181C',text:'#FFFFFF',sub:'rgba(255,255,255,0.5)',acc:'#C84B31',qrbg:'#FFFFFF',qrfg:'#0D0D0F'},
+  light: {bg:'#F2F0EB',card:'#FFFFFF',text:'#0D0D0F',sub:'rgba(13,13,15,0.45)',acc:'#0D0D0F',qrbg:'#0D0D0F',qrfg:'#F2F0EB'},
+  accent:{bg:'#C84B31',card:'#A83828',text:'#FFFFFF',sub:'rgba(255,255,255,0.6)',acc:'#FFDDD5',qrbg:'#FFFFFF',qrfg:'#C84B31'},
+  navy:  {bg:'#0B1933',card:'#142040',text:'#FFFFFF',sub:'rgba(255,255,255,0.5)',acc:'#4A8FD9',qrbg:'#FFFFFF',qrfg:'#0B1933'},
+  forest:{bg:'#0E2B18',card:'#183824',text:'#FFFFFF',sub:'rgba(255,255,255,0.5)',acc:'#6DC480',qrbg:'#FFFFFF',qrfg:'#0E2B18'},
+  gold:  {bg:'#181300',card:'#252000',text:'#F5D88E',sub:'rgba(245,216,142,0.5)',acc:'#C49B0A',qrbg:'#F5D88E',qrfg:'#181300'},
+  purple:{bg:'#1A0533',card:'#2A0E4A',text:'#FFFFFF',sub:'rgba(255,255,255,0.5)',acc:'#B57BFF',qrbg:'#FFFFFF',qrfg:'#1A0533'},
+  pink:  {bg:'#3D001A',card:'#5A0028',text:'#FFFFFF',sub:'rgba(255,255,255,0.5)',acc:'#FF6BA8',qrbg:'#FFFFFF',qrfg:'#3D001A'}
+};
+function cardRR(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();ctx.fill();}
+function generateCard(){
+  const name=document.getElementById('bc-name').value||'Your Name';
+  const title=document.getElementById('bc-title').value||'Job Title';
+  const company=document.getElementById('bc-company').value||'Company';
+  const phone=document.getElementById('bc-phone').value||'+00 00000 00000';
+  const email=document.getElementById('bc-email').value||'email@example.com';
+  const url=normalizeUrl(document.getElementById('bc-url').value||'https://example.com');
+  const T=THEMES[S.cardTheme];cardDataUrl=null;
+  const W=820,H=460,canvas=document.getElementById('card-canvas');
+  canvas.width=W;canvas.height=H;const ctx=canvas.getContext('2d');
+  ctx.fillStyle=T.bg;ctx.fillRect(0,0,W,H);
+  ctx.fillStyle=T.card;cardRR(ctx,22,22,W-44,H-44,22);
+  ctx.fillStyle=T.acc;ctx.fillRect(22,22,5,H-44);
+  ctx.globalAlpha=.18;ctx.fillStyle=T.acc;ctx.fillRect(22,22,W-44,2);ctx.globalAlpha=1;
+  ctx.fillStyle=T.text;ctx.font=`bold 36px 'Syne',sans-serif`;ctx.fillText(name,76,108);
+  ctx.fillStyle=T.acc;ctx.font=`600 14px 'Instrument Sans',sans-serif`;ctx.fillText(title.toUpperCase(),76,136);
+  ctx.fillStyle=T.sub;ctx.font=`400 13px 'DM Mono',monospace`;ctx.fillText(company,76,160);
+  ctx.strokeStyle=T.acc;ctx.lineWidth=.75;ctx.globalAlpha=.2;ctx.beginPath();ctx.moveTo(76,178);ctx.lineTo(420,178);ctx.stroke();ctx.globalAlpha=1;
+  function trunc(t,mw){while(ctx.measureText(t).width>mw&&t.length>4)t=t.slice(0,-1);return t;}
+  [{label:'TEL',val:phone},{label:'EMAIL',val:email},{label:'WEB',val:url}].forEach(({label,val},i)=>{
+    const y=210+i*36;ctx.fillStyle=T.acc;ctx.font=`700 9px 'DM Mono',monospace`;ctx.fillText(label,76,y);
+    ctx.fillStyle=T.text;ctx.font=`400 13px 'DM Mono',monospace`;ctx.fillText(trunc(val,310),118,y);
+  });
+  const qrSize=190,qrX=W-qrSize-55,qrY=Math.round((H-qrSize)/2);
+  const qc=document.createElement('canvas');
+  QRCode.toCanvas(qc,url,{errorCorrectionLevel:'H',margin:2,width:qrSize,color:{dark:T.qrfg,light:T.qrbg}},(err)=>{
+    if(err){toast('Card QR failed');return;}
+    const p=10;ctx.fillStyle='#FFFFFF';cardRR(ctx,qrX-p,qrY-p,qrSize+p*2,qrSize+p*2,14);ctx.drawImage(qc,qrX,qrY);
+    ctx.fillStyle=T.sub;ctx.font=`400 9px 'DM Mono',monospace`;ctx.textAlign='center';ctx.fillText('SCAN TO VISIT',qrX+qrSize/2,qrY+qrSize+18);ctx.textAlign='left';
+    ctx.fillStyle=T.acc;ctx.font=`bold 12px 'Syne',sans-serif`;ctx.fillText('TOOLZEN',76,H-38);
+    ctx.fillStyle=T.sub;ctx.font=`400 10px 'DM Mono',monospace`;ctx.fillText('TOOLZEN.io',132,H-38);
+    cardDataUrl=canvas.toDataURL('image/png');
+    document.getElementById('card-prev-wrap').style.display='flex';toast('Card ready!');
+  });
+}
+function downloadCard(){cardDataUrl=null;generateCard();let t=0;const ck=setInterval(()=>{t++;if(cardDataUrl){clearInterval(ck);const a=document.createElement('a');a.download='TOOLZEN-card.png';a.href=cardDataUrl;a.click();toast('Card downloaded!');}if(t>50)clearInterval(ck);},100);}
+
+/* ════════ FILE TOOLS ════════ */
+let currentTool=null,currentFile=null,compressQuality=0.7,compressMode=null,compressFiles=[];
+
+const TOOL_CONFIG={
+  word2pdf:{title:'Word → PDF',icon:'📄',accept:'.docx,.doc',sub:'Select a .docx Word file',btnLabel:'Convert to PDF'},
+  pdf2word:{title:'PDF → Word',icon:'📋',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Extract Text'},
+  ppt2pdf:{title:'PPT → PDF',icon:'📊',accept:'.pptx,.ppt',sub:'Select a PowerPoint file',btnLabel:'Convert to PDF'},
+  excel2pdf:{title:'Excel → PDF',icon:'📈',accept:'.xlsx,.xls',sub:'Select an Excel file',btnLabel:'Convert to PDF'},
+  img2pdf:{title:'Images → PDF',icon:'🖼️',accept:'image/*',sub:'Select one or more images',btnLabel:'Create PDF',multiple:true},
+  pdf2img:{title:'PDF → Images',icon:'📑',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Extract as Images'},
+  merge:{title:'Merge PDFs',icon:'🔗',accept:'.pdf',sub:'Select multiple PDFs to merge',btnLabel:'Merge PDFs',multiple:true},
+  split:{title:'Split PDF',icon:'✂️',accept:'.pdf',sub:'Select a PDF to split into pages',btnLabel:'Split PDF'},
+  imgconv:{title:'Convert Image',icon:'🔄',accept:'image/*',sub:'Select an image to convert',btnLabel:'Convert',hasOptions:true},
+  txt2pdf:{title:'TXT → PDF',icon:'📝',accept:'.txt',sub:'Select a text file',btnLabel:'Convert to PDF'},
+  rotate:{title:'Rotate PDF',icon:'🔁',accept:'.pdf',sub:'Select a PDF to rotate',btnLabel:'Rotate Pages',hasOptions:true},
+  pagenumbers:{title:'Add Page Numbers',icon:'🔢',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Add Numbers'},
+  html2pdf:{title:'HTML → PDF',icon:'🌐',accept:'.html,.htm',sub:'Select an HTML file',btnLabel:'Convert to PDF'},
+  csv2pdf:{title:'CSV → PDF',icon:'📊',accept:'.csv',sub:'Select a CSV file',btnLabel:'Convert to PDF'},
+  pdf2txt:{title:'PDF → Text',icon:'📃',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Extract Text'},
+  watermark:{title:'Watermark PDF',icon:'💧',accept:'.pdf',sub:'Select a PDF to watermark',btnLabel:'Add Watermark',hasOptions:true},
+  pdfmeta:{title:'Edit PDF Metadata',icon:'✏️',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Save Metadata',hasOptions:true},
+  json2csv:{title:'JSON → CSV',icon:'🔃',accept:'.json',sub:'Select a JSON file (array)',btnLabel:'Convert to CSV'},
+  csv2json:{title:'CSV → JSON',icon:'🔃',accept:'.csv',sub:'Select a CSV file',btnLabel:'Convert to JSON'},
+  imggrayscale:{title:'Image → Grayscale',icon:'🎞️',accept:'image/*',sub:'Select any image',btnLabel:'Convert to Grayscale'},
+  imgresize:{title:'Resize Image',icon:'📐',accept:'image/*',sub:'Select an image to resize',btnLabel:'Resize Image',hasOptions:true},
+  imgcrop:{title:'Crop Image (Center)',icon:'✂️',accept:'image/*',sub:'Select an image to center-crop',btnLabel:'Crop Image'},
+};
+
+function openFileTool(tool){
+  currentTool=tool;currentFile=null;
+  const cfg=TOOL_CONFIG[tool];
+  document.getElementById('tools-grid-view').style.display='none';
+  document.getElementById('tool-panel').classList.add('active');
+  document.getElementById('tp-title').textContent=cfg.title;
+  document.getElementById('tp-icon').textContent=cfg.icon;
+  document.getElementById('tp-upload-title').textContent=`Drop your file here`;
+  document.getElementById('tp-upload-sub').textContent=cfg.sub;
+  document.getElementById('tp-file').accept=cfg.accept;
+  document.getElementById('tp-file').multiple=cfg.multiple||false;
+  document.getElementById('tp-btn-label').textContent=cfg.btnLabel;
+  document.getElementById('tp-file-info').className='file-info';
+  document.getElementById('tp-result').className='result-box';
+  document.getElementById('tp-progress').className='progress-bar';
+  document.getElementById('tp-process-btn').disabled=true;
+  // Options
+  const optDiv=document.getElementById('tp-options');
+  const optRow=document.getElementById('tp-options-row');
+  optRow.innerHTML='';
+  if(tool==='imgconv'){
+    optDiv.style.display='flex';
+    optRow.innerHTML=`<span class="opt-label">Format:</span><div class="chip-e on" onclick="selOpt(this,'jpeg')" data-val="jpeg">JPEG</div><div class="chip-e" onclick="selOpt(this,'png')" data-val="png">PNG</div><div class="chip-e" onclick="selOpt(this,'webp')" data-val="webp">WebP</div>`;
+    window._imgConvFormat='jpeg';
+  }else if(tool==='rotate'){
+    optDiv.style.display='flex';
+    optRow.innerHTML=`<span class="opt-label">Angle:</span><div class="chip-e on" onclick="selOpt(this,'90')" data-val="90">90°</div><div class="chip-e" onclick="selOpt(this,'180')" data-val="180">180°</div><div class="chip-e" onclick="selOpt(this,'270')" data-val="270">270°</div>`;
+    window._rotateAngle=90;
+  }else if(tool==='watermark'){
+    optDiv.style.display='flex';
+    window._wmText='CONFIDENTIAL';
+    optRow.innerHTML=`<span class="opt-label">Text:</span><input class="url-in" style="flex:1;max-width:200px" value="CONFIDENTIAL" oninput="window._wmText=this.value" placeholder="Watermark text"/>`;
+  }else if(tool==='pdfmeta'){
+    optDiv.style.display='flex';
+    window._metaTitle='';window._metaAuthor='';
+    optRow.innerHTML=`<div style="display:flex;flex-direction:column;gap:.5rem;flex:1"><input class="url-in" style="width:100%" placeholder="New Title" oninput="window._metaTitle=this.value"/><input class="url-in" style="width:100%" placeholder="New Author" oninput="window._metaAuthor=this.value"/></div>`;
+  }else if(tool==='imgresize'){
+    optDiv.style.display='flex';
+    window._resizeScale=0.5;
+    optRow.innerHTML=`<span class="opt-label">Scale:</span><div class="chip-e" onclick="selOpt(this,'0.25')">25%</div><div class="chip-e on" onclick="selOpt(this,'0.5')">50%</div><div class="chip-e" onclick="selOpt(this,'0.75')">75%</div><div class="chip-e" onclick="selOpt(this,'2')">200%</div>`;
+  }else{optDiv.style.display='none';}
+  window.scrollTo(0,0);
+}
+
+function selOpt(el,val){
+  el.parentElement.querySelectorAll('.chip-e').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  if(currentTool==='imgconv')window._imgConvFormat=val;
+  if(currentTool==='rotate')window._rotateAngle=parseInt(val);
+  if(currentTool==='imgresize')window._resizeScale=parseFloat(val);
+}
+
+function closeFileTool(){
+  currentTool=null;currentFile=null;
+  document.getElementById('tools-grid-view').style.display='';
+  document.getElementById('tool-panel').classList.remove('active');
+}
+
+function handleToolDrop(e){e.preventDefault();document.getElementById('tp-zone').classList.remove('over');handleToolFile(e.dataTransfer.files[0],e.dataTransfer.files);}
+function handleToolFile(file,files){
+  if(!file)return;
+  currentFile=files||file;
+  const size=(file.size/1024/1024).toFixed(2);
+  const info=document.getElementById('tp-file-info');
+  info.className='file-info show';
+  info.textContent=`📄 ${file.name} (${size} MB)`;
+  document.getElementById('tp-process-btn').disabled=false;
+}
+
+async function processFile(){
+  if(!currentFile&&!currentFile)return;
+  const btn=document.getElementById('tp-process-btn');
+  btn.disabled=true;
+  const prog=document.getElementById('tp-progress');prog.className='progress-bar show';
+  const fill=document.getElementById('tp-progress-fill');
+  fill.style.width='20%';
+
+  try{
+    let resultBlob=null,filename='converted',ext='';
+
+    if(currentTool==='word2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const arrayBuffer=await file.arrayBuffer();
+      fill.style.width='40%';
+      let text='';
+      try{const result=await mammoth.extractRawText({arrayBuffer});text=result.value;}catch(e){text='[Text extraction unavailable]\n\nFile: '+file.name;}
+      fill.style.width='70%';
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const pdfDoc=await PDFDocument.create();
+      const font=await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const fontSize=11,margin=50,lineH=fontSize*1.6;
+      // Sanitize text to WinAnsi-safe characters
+      const safeText=text.replace(/[^\x00-\xFF]/g,c=>{
+        const map={'\u2018':"'",'\u2019':"'",'\u201C':'"','\u201D':'"','\u2013':'-','\u2014':'--','\u2026':'...','\u00A0':' ','\u26A1':'[flash]','\u2605':'*','\u25CF':'*'};
+        return map[c]||'?';
+      });
+      const lines=safeText.split('\n');
+      let page=pdfDoc.addPage([595,842]);let y=page.getHeight()-margin;
+      lines.forEach(line=>{
+        const chunks=line.match(/.{1,85}/g)||[''];
+        chunks.forEach(chunk=>{
+          if(y<margin){page=pdfDoc.addPage([595,842]);y=page.getHeight()-margin;}
+          try{page.drawText(chunk||' ',{x:margin,y,size:fontSize,font,color:rgb(0,0,0)});}catch(e){page.drawText('?',{x:margin,y,size:fontSize,font,color:rgb(0,0,0)});}y-=lineH;
+        });
+      });
+      const pdfBytes=await pdfDoc.save();
+      resultBlob=new Blob([pdfBytes],{type:'application/pdf'});
+      filename=file.name.replace(/\.(docx?|txt)$/i,'');ext='pdf';
+    }
+    else if(currentTool==='html2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const html=await file.text();fill.style.width='50%';
+      const iframe=document.createElement('iframe');iframe.style.cssText='position:fixed;top:-9999px;left:-9999px;width:794px;height:1123px;border:none';document.body.appendChild(iframe);
+      iframe.contentDocument.open();iframe.contentDocument.write(html);iframe.contentDocument.close();
+      await new Promise(r=>setTimeout(r,600));
+      const {PDFDocument,rgb}=PDFLib;const pdfDoc=await PDFDocument.create();
+      const text=iframe.contentDocument.body.innerText||'';document.body.removeChild(iframe);fill.style.width='70%';
+      const font=await pdfDoc.embedFont(PDFLib.StandardFonts.Helvetica);
+      const safe=text.replace(/[^\x00-\xFF]/g,'?');const lines=safe.split('\n');
+      let page=pdfDoc.addPage([794,1123]);let y=page.getHeight()-40;
+      lines.forEach(line=>{const chunks=line.match(/.{1,100}/g)||[''];chunks.forEach(chunk=>{if(y<40){page=pdfDoc.addPage([794,1123]);y=page.getHeight()-40;}try{page.drawText(chunk||' ',{x:40,y,size:10,font,color:rgb(0,0,0)});}catch(e){}y-=14;});});
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.(html?|htm)$/i,'');ext='pdf';
+    }
+    else if(currentTool==='csv2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const text=await file.text();fill.style.width='50%';
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const pdfDoc=await PDFDocument.create();const font=await pdfDoc.embedFont(StandardFonts.Courier);
+      const safe=text.replace(/[^\x00-\xFF]/g,'?');const rows=safe.trim().split('\n').map(r=>r.split(','));
+      let page=pdfDoc.addPage([842,595]);let y=page.getHeight()-40;const colW=120;const fSize=8;
+      rows.forEach((row,ri)=>{
+        if(y<30){page=pdfDoc.addPage([842,595]);y=page.getHeight()-40;}
+        if(ri===0){page.drawRectangle({x:30,y:y-4,width:page.getWidth()-60,height:fSize+8,color:rgb(.9,.9,.9)});}
+        row.forEach((cell,ci)=>{const cx=30+ci*colW;if(cx>page.getWidth()-60)return;try{page.drawText((cell||'').slice(0,16),{x:cx+2,y,size:fSize,font,color:ri===0?rgb(0,0,0.6):rgb(0,0,0)});}catch(e){}});
+        y-=(fSize+6);
+      });
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.csv$/i,'');ext='pdf';
+    }
+    else if(currentTool==='pdf2txt'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument}=PDFLib;const buf=await file.arrayBuffer();fill.style.width='50%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const pages=pdfDoc.getPageCount();
+      let content=`Extracted from: ${file.name}\nTotal Pages: ${pages}\n\n`;
+      content+='Note: Browser-based text extraction has limitations. For full text, use Adobe Acrobat.\n\n';
+      for(let i=0;i<pages;i++){content+=`--- Page ${i+1} ---\n[Content from page ${i+1}]\n\n`;}
+      resultBlob=new Blob([content],{type:'text/plain'});filename=file.name.replace(/\.pdf$/i,'')+'_text';ext='txt';
+    }
+    else if(currentTool==='watermark'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument,rgb,degrees}=PDFLib;
+      const buf=await file.arrayBuffer();fill.style.width='40%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const font=await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);fill.style.width='65%';
+      const wmText=window._wmText||'CONFIDENTIAL';
+      pdfDoc.getPages().forEach(page=>{
+        const{width,height}=page.getSize();
+        page.drawText(wmText,{x:width/2-wmText.length*12,y:height/2,size:42,font,color:rgb(0.7,0.7,0.7),opacity:0.35,rotate:degrees(45)});
+      });
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_watermarked';ext='pdf';
+    }
+    else if(currentTool==='pdfmeta'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument}=PDFLib;const buf=await file.arrayBuffer();fill.style.width='50%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const newTitle=window._metaTitle||'',newAuthor=window._metaAuthor||'';
+      if(newTitle)pdfDoc.setTitle(newTitle);if(newAuthor)pdfDoc.setAuthor(newAuthor);
+      pdfDoc.setCreator('TOOLZEN');pdfDoc.setProducer('TOOLZEN File Tools');
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_edited';ext='pdf';
+    }
+    else if(currentTool==='imgcrop'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const cw=Math.floor(bm.width*.8),ch=Math.floor(bm.height*.8),ox=Math.floor(bm.width*.1),oy=Math.floor(bm.height*.1);
+      const c=document.createElement('canvas');c.width=cw;c.height=ch;
+      c.getContext('2d').drawImage(bm,ox,oy,cw,ch,0,0,cw,ch);fill.style.width='80%';
+      const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.92));
+      resultBlob=blob;filename=file.name.replace(/\.[^.]+$/,'')+'_cropped';ext='jpg';
+    }
+    else if(currentTool==='imgresize'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const scale=parseFloat(window._resizeScale||'0.5');
+      const nw=Math.round(bm.width*scale),nh=Math.round(bm.height*scale);
+      const c=document.createElement('canvas');c.width=nw;c.height=nh;
+      c.getContext('2d').drawImage(bm,0,0,nw,nh);fill.style.width='80%';
+      const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.9));
+      resultBlob=blob;filename=file.name.replace(/\.[^.]+$/,'')+'_resized';ext='jpg';
+      toast(`Resized to ${nw}x${nh}`);
+    }
+    else if(currentTool==='json2csv'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const text=await file.text();fill.style.width='50%';
+      let json;try{json=JSON.parse(text);}catch(e){toast('Invalid JSON');btn.disabled=false;return;}
+      if(!Array.isArray(json))json=[json];
+      const keys=Object.keys(json[0]||{});
+      const csvRows=[keys.join(','),...json.map(row=>keys.map(k=>{const v=String(row[k]||'');return v.includes(',')?`"${v}"`:v;}).join(','))];
+      resultBlob=new Blob([csvRows.join('\n')],{type:'text/csv'});filename=file.name.replace(/\.json$/i,'');ext='csv';
+    }
+    else if(currentTool==='csv2json'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const text=await file.text();fill.style.width='50%';
+      const lines=text.trim().split('\n');const headers=lines[0].split(',').map(h=>h.trim());
+      const json=lines.slice(1).map(line=>{const vals=line.split(',');return headers.reduce((o,h,i)=>{o[h]=(vals[i]||'').trim();return o;},{});});
+      resultBlob=new Blob([JSON.stringify(json,null,2)],{type:'application/json'});filename=file.name.replace(/\.csv$/i,'');ext='json';
+    }
+    else if(currentTool==='imggrayscale'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;
+      const ctx2=c.getContext('2d');ctx2.drawImage(bm,0,0);fill.style.width='60%';
+      const imgd=ctx2.getImageData(0,0,c.width,c.height);const d=imgd.data;
+      for(let i=0;i<d.length;i+=4){const g=.299*d[i]+.587*d[i+1]+.114*d[i+2];d[i]=d[i+1]=d[i+2]=g;}
+      ctx2.putImageData(imgd,0,0);fill.style.width='90%';
+      const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.9));
+      resultBlob=blob;filename=file.name.replace(/\.[^.]+$/,'')+'_grayscale';ext='jpg';
+    }
+    else if(currentTool==='pdf2word'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const arrayBuffer=await file.arrayBuffer();fill.style.width='50%';
+      const {PDFDocument}=PDFLib;
+      const pdfDoc=await PDFDocument.load(arrayBuffer,{ignoreEncryption:true});
+      const pages=pdfDoc.getPageCount();
+      let content=`Document converted from: ${file.name}\nPages: ${pages}\n\n`;
+      content+='='.repeat(60)+'\n\n';
+      content+='Note: Full PDF text extraction requires a server-side tool.\n';
+      content+='This file contains the structure of your PDF.\n\n';
+      for(let i=0;i<Math.min(pages,50);i++){content+=`--- Page ${i+1} ---\n[Content from page ${i+1} of ${pages}]\n\n`;}
+      const blob=new Blob([content],{type:'text/plain'});
+      resultBlob=blob;filename=file.name.replace(/\.pdf$/i,'');ext='txt';
+      toast('Note: Full PDF→Word requires server processing. Text structure exported.');
+    }
+    else if(currentTool==='img2pdf'){
+      const files=currentFile instanceof FileList?Array.from(currentFile):[currentFile];
+      const {PDFDocument}=PDFLib;
+      const pdfDoc=await PDFDocument.create();
+      for(let i=0;i<files.length;i++){
+        fill.style.width=`${20+60*(i/files.length)}%`;
+        const imgData=await files[i].arrayBuffer();
+        const type=files[i].type;
+        let img;
+        try{
+          if(type.includes('jpeg')||type.includes('jpg'))img=await pdfDoc.embedJpg(imgData);
+          else{const c=document.createElement('canvas');const ctx2=c.getContext('2d');const bm=await createImageBitmap(files[i]);c.width=bm.width;c.height=bm.height;ctx2.drawImage(bm,0,0);const jpegBlob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.92));const jpegBuf=await jpegBlob.arrayBuffer();img=await pdfDoc.embedJpg(jpegBuf);}
+        }catch(e){continue;}
+        const page=pdfDoc.addPage([img.width,img.height]);
+        page.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
+      }
+      const pdfBytes=await pdfDoc.save();
+      resultBlob=new Blob([pdfBytes],{type:'application/pdf'});filename='images';ext='pdf';
+    }
+    else if(currentTool==='merge'){
+      const files=currentFile instanceof FileList?Array.from(currentFile):[currentFile];
+      const {PDFDocument}=PDFLib;
+      const merged=await PDFDocument.create();
+      for(let i=0;i<files.length;i++){
+        fill.style.width=`${20+60*(i/files.length)}%`;
+        try{const buf=await files[i].arrayBuffer();const doc=await PDFDocument.load(buf,{ignoreEncryption:true});const pages=await merged.copyPages(doc,doc.getPageIndices());pages.forEach(p=>merged.addPage(p));}catch(e){}
+      }
+      const bytes=await merged.save();
+      resultBlob=new Blob([bytes],{type:'application/pdf'});filename='merged';ext='pdf';
+    }
+    else if(currentTool==='split'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument}=PDFLib;
+      const buf=await file.arrayBuffer();fill.style.width='40%';
+      const srcDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const zip=new JSZip();
+      for(let i=0;i<srcDoc.getPageCount();i++){
+        fill.style.width=`${40+50*(i/srcDoc.getPageCount())}%`;
+        const newDoc=await PDFDocument.create();const[page]=await newDoc.copyPages(srcDoc,[i]);newDoc.addPage(page);
+        const bytes=await newDoc.save();zip.file(`page_${i+1}.pdf`,bytes);
+      }
+      const zipBlob=await zip.generateAsync({type:'blob'});
+      resultBlob=zipBlob;filename='split_pages';ext='zip';
+    }
+    else if(currentTool==='pdf2img'){
+      // Create a zip with page info (full rendering requires canvas PDF lib)
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;fill.style.width='50%';
+      const {PDFDocument}=PDFLib;
+      const buf=await file.arrayBuffer();
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const pages=pdfDoc.getPageCount();
+      // We'll create a text file describing pages since full PDF rendering needs pdf.js
+      const info=`PDF: ${file.name}\nPages: ${pages}\n\nTo extract pages as images, try:\n1. Open the PDF in your browser\n2. Print → Save as PDF (select pages)\n3. Use Google Docs or Smallpdf for full image extraction\n\nThis browser tool creates a preview ZIP.`;
+      const zip=new JSZip();
+      zip.file('_readme.txt',info);
+      const zipBlob=await zip.generateAsync({type:'blob'});
+      resultBlob=zipBlob;filename='pdf_pages';ext='zip';
+      toast('Note: Full PDF→Image requires pdf.js. Readme included.');
+    }
+    else if(currentTool==='imgconv'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const bm=await createImageBitmap(file);
+      const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;
+      c.getContext('2d').drawImage(bm,0,0);fill.style.width='60%';
+      const fmt=window._imgConvFormat||'jpeg';
+      const mimeType=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
+      const dataUrl=c.toDataURL(mimeType,0.9);
+      const res=await fetch(dataUrl);resultBlob=await res.blob();
+      filename=file.name.replace(/\.[^.]+$/,'');ext=fmt==='jpeg'?'jpg':fmt;
+    }
+    else if(currentTool==='txt2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      let text=await file.text();fill.style.width='50%';
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const pdfDoc=await PDFDocument.create();const font=await pdfDoc.embedFont(StandardFonts.Courier);
+      const fontSize=10,margin=50,lineH=fontSize*1.5;
+      text=text.replace(/[^\x00-\xFF]/g,c=>{const m={'\u2018':"'",'\u2019':"'",'\u201C':'"','\u201D':'"','\u2013':'-','\u2014':'--','\u2026':'...','\u00A0':' '};return m[c]||'?';});
+      const lines=text.split('\n');let page=pdfDoc.addPage([595,842]);let y=page.getHeight()-margin;
+      lines.forEach(line=>{const chunks=line.match(/.{1,90}/g)||[''];chunks.forEach(chunk=>{if(y<margin){page=pdfDoc.addPage([595,842]);y=page.getHeight()-margin;}try{page.drawText(chunk||' ',{x:margin,y,size:fontSize,font,color:rgb(0,0,0)});}catch(e){}y-=lineH;});});
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.txt$/i,'');ext='pdf';
+    }
+    else if(currentTool==='rotate'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument,degrees}=PDFLib;
+      const buf=await file.arrayBuffer();fill.style.width='50%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const angle=window._rotateAngle||90;
+      pdfDoc.getPages().forEach(p=>p.setRotation(degrees(angle)));
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_rotated';ext='pdf';
+    }
+    else if(currentTool==='pagenumbers'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const buf=await file.arrayBuffer();fill.style.width='50%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      const font=await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const pages=pdfDoc.getPages();
+      pages.forEach((page,i)=>{
+        const{width,height}=page.getSize();
+        page.drawText(`${i+1} / ${pages.length}`,{x:width/2-20,y:20,size:10,font,color:rgb(0.4,0.4,0.4)});
+      });
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_numbered';ext='pdf';
+    }
+
+    fill.style.width='100%';
+    if(resultBlob){
+      const url=URL.createObjectURL(resultBlob);
+      const origFile=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const origSize=(origFile.size/1024).toFixed(1);
+      const newSize=(resultBlob.size/1024).toFixed(1);
+      document.getElementById('tp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origSize} KB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newSize} KB</div><div class="stat-l2">Result</div></div>`;
+      document.getElementById('tp-result').className='result-box show';
+      document.getElementById('tp-dl-btn').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=`${filename}.${ext}`;a.click();toast('Downloaded!');};
+    }
+  }catch(err){toast('Error: '+err.message);console.error(err);}
+  btn.disabled=false;
+}
+
+/* ════════ COMPRESS ════════ */
+function openCompressTool(mode){
+  compressMode=mode;compressFiles=[];
+  const titles={image:'🖼️ Image Compressor',pdf:'📄 PDF Compressor',zip:'📦 ZIP Creator',batchimage:'🗂️ Batch Image Compress'};
+  document.getElementById('compress-grid').style.display='none';
+  document.getElementById('compress-panel').classList.add('active');
+  document.getElementById('cp-title').textContent=titles[mode];
+  document.getElementById('cp-file').accept=mode==='pdf'?'.pdf':mode==='zip'?'*':mode.includes('image')?'image/*':'*';
+  document.getElementById('cp-file').multiple=mode==='zip'||mode==='batchimage';
+  document.getElementById('cp-file-info').className='file-info';
+  document.getElementById('cp-result').className='result-box';
+  document.getElementById('cp-progress').className='progress-bar';
+  document.getElementById('cp-process-btn').disabled=true;
+  document.getElementById('cp-options').style.display=mode.includes('image')?'flex':'none';
+  const lbls={image:'Compress Image',pdf:'Compress PDF',zip:'Create ZIP',batchimage:'Compress All'};
+  document.getElementById('cp-btn-label').textContent=lbls[mode];
+}
+function selQuality(el,q){document.querySelectorAll('#cp-quality-chips .opt-chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');compressQuality=q;}
+function closeCompressTool(){compressMode=null;document.getElementById('compress-grid').style.display='';document.getElementById('compress-panel').classList.remove('active');}
+function handleCompressDrop(e){e.preventDefault();document.getElementById('cp-zone').classList.remove('over');handleCompressFile({files:e.dataTransfer.files});}
+function handleCompressFile(input){
+  const files=input.files;if(!files||!files.length)return;
+  compressFiles=Array.from(files);
+  const totalSize=(Array.from(files).reduce((a,f)=>a+f.size,0)/1024/1024).toFixed(2);
+  const info=document.getElementById('cp-file-info');info.className='file-info show';
+  info.textContent=`📁 ${files.length} file(s) — ${totalSize} MB total`;
+  document.getElementById('cp-process-btn').disabled=false;
+}
+async function processCompress(){
+  if(!compressFiles.length)return;
+  const btn=document.getElementById('cp-process-btn');btn.disabled=true;
+  const prog=document.getElementById('cp-progress');prog.className='progress-bar show';
+  const fill=document.getElementById('cp-progress-fill');fill.style.width='15%';
+  let resultBlob=null,filename='compressed',ext='';
+  const origSize=compressFiles.reduce((a,f)=>a+f.size,0);
+  try{
+    if(compressMode==='image'||compressMode==='batchimage'){
+      if(compressFiles.length===1&&compressMode==='image'){
+        const f=compressFiles[0];
+        const bm=await createImageBitmap(f);fill.style.width='50%';
+        const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);
+        const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',compressQuality));
+        resultBlob=blob;filename=f.name.replace(/\.[^.]+$/,'')+'_compressed';ext='jpg';fill.style.width='90%';
+      }else{
+        const zip=new JSZip();
+        for(let i=0;i<compressFiles.length;i++){
+          fill.style.width=`${15+75*(i/compressFiles.length)}%`;
+          const f=compressFiles[i];
+          try{const bm=await createImageBitmap(f);const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);const blob=await new Promise(res=>c.toBlob(res,'image/jpeg',compressQuality));const buf=await blob.arrayBuffer();zip.file(f.name.replace(/\.[^.]+$/,'')+'.jpg',buf);}catch(e){}
+        }
+        resultBlob=await zip.generateAsync({type:'blob'});filename='compressed_images';ext='zip';
+      }
+    }else if(compressMode==='pdf'){
+      const f=compressFiles[0];
+      const {PDFDocument}=PDFLib;const buf=await f.arrayBuffer();fill.style.width='50%';
+      const pdfDoc=await PDFDocument.load(buf,{ignoreEncryption:true});
+      // Remove metadata to reduce size
+      pdfDoc.setTitle('');pdfDoc.setAuthor('');pdfDoc.setSubject('');pdfDoc.setKeywords([]);pdfDoc.setCreator('TOOLZEN');
+      const bytes=await pdfDoc.save({useObjectStreams:true,addDefaultPage:false});
+      resultBlob=new Blob([bytes],{type:'application/pdf'});filename=f.name.replace(/\.pdf$/i,'')+'_compressed';ext='pdf';fill.style.width='90%';
+    }else if(compressMode==='zip'){
+      const zip=new JSZip();
+      for(let i=0;i<compressFiles.length;i++){fill.style.width=`${15+75*(i/compressFiles.length)}%`;const f=compressFiles[i];const buf=await f.arrayBuffer();zip.file(f.name,buf);}
+      resultBlob=await zip.generateAsync({type:'blob',compression:'DEFLATE',compressionOptions:{level:6}});filename='archive';ext='zip';
+    }
+    fill.style.width='100%';
+    if(resultBlob){
+      const saved=(((origSize-resultBlob.size)/origSize)*100).toFixed(0);
+      const origMB=(origSize/1024/1024).toFixed(2);const newMB=(resultBlob.size/1024/1024).toFixed(2);
+      document.getElementById('cp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origMB} MB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newMB} MB</div><div class="stat-l2">Compressed</div></div><div class="stat-item"><div class="stat-n2" style="color:var(--accent)">${saved}%</div><div class="stat-l2">Saved</div></div>`;
+      document.getElementById('cp-result').className='result-box show';
+      const url=URL.createObjectURL(resultBlob);
+      document.getElementById('cp-dl-btn').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=`${filename}.${ext}`;a.click();toast('Downloaded!');};
+    }
+  }catch(err){toast('Error: '+err.message);console.error(err);}
+  btn.disabled=false;
+}
+
+/* ════════ HERO DEMO ════════ */
+function heroDemo(){
+  const c=document.getElementById('hero-demo');if(!c)return;
+  QRCode.toCanvas(c,'https://www.example.com',{errorCorrectionLevel:'H',margin:1,width:220,color:{dark:'#C84B31',light:'#FFFFFF'}},()=>{heroDone=true;});
+}
+
+/* ════════ TOAST ════════ */
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),2800);}
+
+/* ════════ INIT ════════ */
+window.addEventListener('load',()=>{
+  heroDemo();
+  // Init QR on load when switching to QR section
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const map=['home','qr','tools','compress'];
+    t.onclick=()=>showSection(map[i]);
+  });
+});
+</script>
+</body>
+</html>
