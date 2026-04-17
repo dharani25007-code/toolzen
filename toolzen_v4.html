@@ -272,11 +272,37 @@ input[type=range]{flex:1;accent-color:var(--accent);height:4px}
 #toast.show{transform:translateX(-50%) translateY(0)}
 
 /* FOOTER */
-footer{background:var(--ink);color:rgba(255,255,255,.45);padding:2rem;text-align:center;font-size:.76rem}
-footer strong{color:#fff}
+footer{background:var(--ink);color:rgba(230, 119, 22, 0.45);padding:2rem;text-align:center;font-size:.76rem}
+footer strong{color:#ce4116}
 .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
-.footer-links a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:#fff}
+.footer-links a{color:rgba(240, 30, 30, 0.45);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#010101}
+
+/* AI TABS */
+.ai-tab{background:linear-gradient(90deg,rgba(200,75,49,.08),rgba(26,86,219,.08))!important;color:var(--accent)!important;border:1px dashed rgba(200,75,49,.3)!important}
+.ai-tab.active{background:linear-gradient(135deg,var(--accent),var(--accent2))!important;color:#fff!important;border:none!important}
+
+/* AI PANEL */
+.ai-panel-header{text-align:center;margin-bottom:1.8rem;padding:1.6rem;background:var(--white);border:1px solid var(--border);border-radius:18px}
+.ai-badge{display:inline-flex;align-items:center;gap:.3rem;background:rgba(200,75,49,.1);color:var(--accent);font-size:.68rem;font-weight:700;padding:.28rem .8rem;border-radius:30px;letter-spacing:.08em;text-transform:uppercase;border:1px solid rgba(200,75,49,.22)}
+.smart-grid{display:grid;grid-template-columns:400px 1fr;gap:1.6rem;align-items:start}
+@media(max-width:1050px){.smart-grid{grid-template-columns:1fr}}
+.ai-info-strip{display:flex;flex-wrap:wrap;gap:.8rem;margin-top:1.2rem;padding:1rem;background:var(--paper2);border-radius:14px;border:1px solid var(--border)}
+.ai-info-item{flex:1;min-width:200px;font-size:.78rem;color:var(--ink2);line-height:1.5;padding:.5rem .8rem;background:var(--white);border-radius:9px;border:1px solid var(--border)}
+
+/* SMART QR OUTPUT */
+.smart-qr-out{display:flex;flex-direction:column;align-items:center;gap:1rem;width:100%}
+.smart-preview-card{background:var(--paper);border:1px solid var(--border);border-radius:14px;padding:1.2rem;width:100%;font-size:.8rem}
+.smart-rule{display:flex;align-items:center;gap:.6rem;padding:.5rem .7rem;background:var(--white);border-radius:8px;border:1px solid var(--border);margin-bottom:.4rem;font-size:.78rem}
+.smart-rule-icon{width:26px;height:26px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+
+/* INTERACTIVE QR PREVIEW */
+.iq-mini-preview{width:100%;border-radius:16px;overflow:hidden;border:1px solid var(--border);box-shadow:0 8px 32px rgba(0,0,0,.12)}
+.iq-mini-preview iframe{width:100%;height:380px;border:none;display:block}
+
+/* SECURE QR */
+.secure-badge-wrap{display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;background:rgba(15,110,86,.08);border:1px solid rgba(15,110,86,.2);border-radius:9px;font-size:.78rem;color:#0F6E56;font-weight:600;margin-bottom:.5rem}
+.sig-hash{font-family:var(--font-m);font-size:.65rem;color:var(--ink3);word-break:break-all;background:var(--paper2);padding:.5rem .7rem;border-radius:7px;border:1px solid var(--border);margin-top:.4rem}
 
 /* ANIMATIONS */
 .fi{opacity:0;transform:translateY(18px);animation:fi .55s ease forwards}
@@ -352,17 +378,17 @@ footer strong{color:#fff}
 <section style="border-bottom:1px solid var(--border)">
 <div class="hero">
   <div class="fi">
-    <div class="hero-badge">✦ Smart File Converter + QR Designer Platform</div>
+    <div class="hero-badge">✦ Smart File Converter + AI QR Platform v4</div>
     <h1 class="hero-title">Convert. Create.<br/><em>Compress.</em></h1>
-    <p class="hero-sub">The all-in-one toolkit — convert 50+ file formats across documents, images, data & code. Design stunning QR codes with 42+ shapes, and compress files instantly. All in browser.</p>
+    <p class="hero-sub">The all-in-one toolkit — 50+ file converters, 42+ QR shapes, and now 4 next-gen AI QR modes: Smart (device-aware), Interactive (mini app), Student (digital identity), and Secure (anti-scam). All in browser, completely free.</p>
     <div style="display:flex;gap:.6rem;flex-wrap:wrap">
-      <button class="hero-cta" onclick="showSection('qr')">Design QR →</button>
+      <button class="hero-cta" onclick="showSection('qr');setQRMode('smart')">🧠 Smart QR →</button>
       <button class="hero-cta" style="background:var(--accent2)" onclick="showSection('tools')">Convert Files →</button>
-      <button class="hero-cta" style="background:var(--accent3)" onclick="showSection('compress')">Compress →</button>
+      <button class="hero-cta" style="background:var(--accent3)" onclick="showSection('qr')">QR Designer →</button>
     </div>
-    <div style="display:flex;gap:1.6rem;margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+    <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border)">
+      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">4</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">AI QR Modes</div></div>
       <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">42+</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">QR Shapes</div></div>
-      <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">18</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Eye Styles</div></div>
       <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">50+</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">File Formats</div></div>
       <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">100%</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Free</div></div>
     </div>
@@ -383,10 +409,10 @@ footer strong{color:#fff}
     <div class="strip-item"><div class="strip-dot"></div>Word → PDF</div>
     <div class="strip-item"><div class="strip-dot"></div>HTML → PDF</div>
     <div class="strip-item"><div class="strip-dot"></div>Markdown → HTML</div>
-    <div class="strip-item"><div class="strip-dot"></div>XML → JSON</div>
-    <div class="strip-item"><div class="strip-dot"></div>CSV → JSON</div>
-    <div class="strip-item"><div class="strip-dot"></div>Base64 Encode/Decode</div>
-    <div class="strip-item"><div class="strip-dot"></div>Hash Generator</div>
+    <div class="strip-item"><div class="strip-dot"></div>🧠 Smart QR (Device + Time Aware)</div>
+    <div class="strip-item"><div class="strip-dot"></div>⚡ Interactive QR (Mini App)</div>
+    <div class="strip-item"><div class="strip-dot"></div>🎓 Student QR (Resume + Portfolio)</div>
+    <div class="strip-item"><div class="strip-dot"></div>🔐 Secure QR (Anti-Scam)</div>
     <div class="strip-item"><div class="strip-dot"></div>HEX ↔ RGB ↔ HSL</div>
     <div class="strip-item"><div class="strip-dot"></div>Timezone Converter</div>
     <div class="strip-item"><div class="strip-dot"></div>GST Calculator</div>
@@ -420,8 +446,12 @@ footer strong{color:#fff}
     <h2 class="sec-title">Built for Creators &amp; Hustlers</h2>
   </div>
   <div class="feat-grid">
+    <div class="fc"><div class="fc-icon">🧠</div><div class="fc-title">Smart QR — Device + Time Aware</div><p class="fc-desc">One QR code that detects Android/iPhone/Desktop and redirects accordingly. Add time-based offers: morning deals, evening exclusives, night specials.</p></div>
+    <div class="fc"><div class="fc-icon">⚡</div><div class="fc-title">Interactive QR — Mini App Inside</div><p class="fc-desc">After scanning, users see a beautiful interactive page with animated buttons and multiple links — not just a boring redirect. 4 premium themes.</p></div>
+    <div class="fc"><div class="fc-icon">🎓</div><div class="fc-title">Student QR — Digital Identity</div><p class="fc-desc">One QR with resume, GitHub, portfolio, and LinkedIn. Smart mode switching: HR Mode (resume first), Dev Mode (GitHub first), Social Mode (portfolio first).</p></div>
+    <div class="fc"><div class="fc-icon">🔐</div><div class="fc-title">Secure QR — Anti-Scam Protection</div><p class="fc-desc">Add verified badge, SHA-256 digital signature, and a warning preview page to your QR codes. Protect users from fake QR phishing attacks.</p></div>
     <div class="fc"><div class="fc-icon">🎨</div><div class="fc-title">42+ QR Module Shapes</div><p class="fc-desc">Classic, Dots, Rounded, Diamond, Star, Hex, Leaf, Moon, Ring, Shield, Octagon, Pac-Man, Lightning, Cloud, Eye, DNA, Clover, Petal, and 24+ more — all scannable.</p></div>
-    <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond, Arrow, Hexagon, Cross, Heart, Cloud, Octagon, Triforce, Curved, Bubbly, Pinch, Squircle — mix and match.</p></div>
+    <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond,  Hexagon, Cross, Heart, Cloud, Octagon, Curved, Pinch, Squircle — mix and match.</p></div>
     <div class="fc"><div class="fc-icon">🎭</div><div class="fc-title">Custom Colors + Gradients</div><p class="fc-desc">Pick any foreground & gradient end color. 12 built-in gradient presets: Sunset, Emerald, Cosmic, Gold, Fire, Ocean, Candy, Aurora and more.</p></div>
     <div class="fc"><div class="fc-icon">📄</div><div class="fc-title">22+ File Converters</div><p class="fc-desc">Word→PDF, PDF→Word, HTML→PDF, CSV→PDF, JSON↔CSV, Image resize/crop/grayscale, Watermark, Metadata editor and more — all in browser.</p></div>
     <div class="fc"><div class="fc-icon">📦</div><div class="fc-title">File Compressor</div><p class="fc-desc">Compress images (JPEG, PNG, WebP), ZIP multiple files, and reduce sizes by up to 80% without losing quality.</p></div>
@@ -461,6 +491,10 @@ footer strong{color:#fff}
     <button class="tool-tab" onclick="setQRMode('batch')">Batch</button>
     <button class="tool-tab" onclick="setQRMode('brandkit')">Brand Kit</button>
     <button class="tool-tab" onclick="setQRMode('card')">Business Card</button>
+    <button class="tool-tab ai-tab" onclick="setQRMode('smart')">🧠 Smart QR</button>
+    <button class="tool-tab ai-tab" onclick="setQRMode('interactive')">⚡ Interactive QR</button>
+    <button class="tool-tab ai-tab" onclick="setQRMode('student')">🎓 Student QR</button>
+    <button class="tool-tab ai-tab" onclick="setQRMode('secure')">🔐 Secure QR</button>
   </div>
 
   <!-- ENCODE -->
@@ -541,15 +575,12 @@ footer strong{color:#fff}
               <div class="chip-e"    onclick="selEye(this,'shield')">Shield</div>
               <div class="chip-e"    onclick="selEye(this,'star')">Star</div>
               <div class="chip-e"    onclick="selEye(this,'diamond')">Diamond</div>
-              <div class="chip-e"    onclick="selEye(this,'arrow')">Arrow</div>
               <div class="chip-e"    onclick="selEye(this,'hexeye')">Hexagon</div>
               <div class="chip-e"    onclick="selEye(this,'crosseye')">Cross</div>
               <div class="chip-e"    onclick="selEye(this,'heartey')">Heart</div>
               <div class="chip-e"    onclick="selEye(this,'cloud2')">Cloud</div>
               <div class="chip-e"    onclick="selEye(this,'octaeye')">Octagon</div>
-              <div class="chip-e"    onclick="selEye(this,'trioeye')">Triforce</div>
               <div class="chip-e"    onclick="selEye(this,'curvey')">Curved</div>
-              <div class="chip-e"    onclick="selEye(this,'bubbly')">Bubbly</div>
               <div class="chip-e"    onclick="selEye(this,'pinch')">Pinch</div>
               <div class="chip-e"    onclick="selEye(this,'squirc')">Squircle</div>
             </div>
@@ -919,6 +950,233 @@ footer strong{color:#fff}
 </div>
 </div>
 
+<!-- ══ SMART QR PANEL ══ -->
+<div id="smart-panel" style="display:none" class="app-wrap">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="ai-panel-header">
+      <span class="ai-badge">🧠 AI-Powered</span>
+      <h3 style="font-family:var(--font-d);font-size:1.5rem;font-weight:800;margin:.4rem 0 .5rem">Smart QR — One QR, Infinite Destinations</h3>
+      <p style="color:var(--ink2);font-size:.88rem">Detect device, location, and time — then redirect users to the perfect destination automatically.</p>
+    </div>
+    <div class="smart-grid">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">🎯 Smart Rules</span></div>
+        <div class="ctrl-body">
+          <div class="fl">
+            <label class="flbl">Android Link (Play Store)</label>
+            <input class="url-in" id="sq-android" type="text" placeholder="https://play.google.com/store/apps/..."/>
+          </div>
+          <div class="fl">
+            <label class="flbl">iPhone / iOS Link (App Store)</label>
+            <input class="url-in" id="sq-ios" type="text" placeholder="https://apps.apple.com/..."/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Desktop / PC Link (Website)</label>
+            <input class="url-in" id="sq-desktop" type="text" placeholder="https://yourwebsite.com"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Fallback (if none match)</label>
+            <input class="url-in" id="sq-fallback" type="text" placeholder="https://yourwebsite.com"/>
+          </div>
+          <div style="border-top:1px solid var(--border);padding-top:.8rem">
+            <label class="flbl" style="margin-bottom:.5rem;display:block">⏰ Time-Based Offers (Optional)</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem">
+              <div class="fl"><label class="flbl">Morning Link (6–12)</label><input class="url-in" id="sq-morning" placeholder="https://..."/></div>
+              <div class="fl"><label class="flbl">Afternoon (12–18)</label><input class="url-in" id="sq-afternoon" placeholder="https://..."/></div>
+              <div class="fl"><label class="flbl">Evening (18–22)</label><input class="url-in" id="sq-evening" placeholder="https://..."/></div>
+              <div class="fl"><label class="flbl">Night (22–6)</label><input class="url-in" id="sq-night" placeholder="https://..."/></div>
+            </div>
+          </div>
+          <button class="gen-btn" onclick="generateSmartQR()">🧠 Generate Smart QR</button>
+        </div>
+      </div>
+      <div class="out-panel" id="smart-out">
+        <div class="out-empty">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+          <div style="margin-top:.6rem;font-weight:600">Configure Smart Rules</div>
+          <div style="font-size:.78rem;margin-top:.3rem">Fill in the links above and generate your smart QR</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-info-strip">
+      <div class="ai-info-item">📱 <strong>Device Detection</strong> — Redirect Android/iOS/Desktop users automatically</div>
+      <div class="ai-info-item">⏰ <strong>Time-Aware</strong> — Show morning offers, evening deals, or night exclusives</div>
+      <div class="ai-info-item">🔗 <strong>One QR, Many Links</strong> — Change behavior anytime without reprinting</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INTERACTIVE QR PANEL ══ -->
+<div id="interactive-panel" style="display:none" class="app-wrap">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="ai-panel-header">
+      <span class="ai-badge" style="background:rgba(26,86,219,.12);color:var(--accent2);border-color:rgba(26,86,219,.25)">⚡ Mini App</span>
+      <h3 style="font-family:var(--font-d);font-size:1.5rem;font-weight:800;margin:.4rem 0 .5rem">Interactive QR — A Mini App Inside a QR</h3>
+      <p style="color:var(--ink2);font-size:.88rem">After scanning, users see a full interactive page with buttons, animations, and a chatbot — not just a boring link.</p>
+    </div>
+    <div class="smart-grid">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">⚡ Configure Mini App</span></div>
+        <div class="ctrl-body">
+          <div class="fl">
+            <label class="flbl">Title / Headline</label>
+            <input class="url-in" id="iq-title" type="text" placeholder="Welcome! Tap below to explore"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Tagline / Subtitle</label>
+            <input class="url-in" id="iq-sub" type="text" placeholder="Your app, product, or portfolio"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Button 1 Label + Link</label>
+            <div style="display:flex;gap:.4rem">
+              <input class="url-in" id="iq-btn1-label" placeholder="🚀 Download App" style="flex:.4"/>
+              <input class="url-in" id="iq-btn1-link" placeholder="https://..." style="flex:.6"/>
+            </div>
+          </div>
+          <div class="fl">
+            <label class="flbl">Button 2 Label + Link</label>
+            <div style="display:flex;gap:.4rem">
+              <input class="url-in" id="iq-btn2-label" placeholder="🌐 Visit Website" style="flex:.4"/>
+              <input class="url-in" id="iq-btn2-link" placeholder="https://..." style="flex:.6"/>
+            </div>
+          </div>
+          <div class="fl">
+            <label class="flbl">Button 3 Label + Link (Optional)</label>
+            <div style="display:flex;gap:.4rem">
+              <input class="url-in" id="iq-btn3-label" placeholder="📞 Contact" style="flex:.4"/>
+              <input class="url-in" id="iq-btn3-link" placeholder="tel:+91..." style="flex:.6"/>
+            </div>
+          </div>
+          <div class="fl">
+            <label class="flbl">Theme</label>
+            <div class="cg">
+              <div class="chip on" onclick="selIQTheme(this,'dark')">Dark</div>
+              <div class="chip" onclick="selIQTheme(this,'light')">Light</div>
+              <div class="chip" onclick="selIQTheme(this,'gradient')">Gradient</div>
+              <div class="chip" onclick="selIQTheme(this,'neon')">Neon</div>
+            </div>
+          </div>
+          <button class="gen-btn" onclick="generateInteractiveQR()">⚡ Generate Interactive QR</button>
+        </div>
+      </div>
+      <div class="out-panel" id="interactive-out">
+        <div class="out-empty">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          <div style="margin-top:.6rem;font-weight:600">Build Your Mini App</div>
+          <div style="font-size:.78rem;margin-top:.3rem">Fill in the details and generate a scannable mini-app QR</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-info-strip">
+      <div class="ai-info-item">🎨 <strong>Beautiful Landing Page</strong> — Not just a link, a full interactive experience</div>
+      <div class="ai-info-item">🔘 <strong>Multiple Buttons</strong> — Guide users to app, website, contact, or social</div>
+      <div class="ai-info-item">🎭 <strong>4 Themes</strong> — Dark, Light, Gradient, Neon — matches your brand</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ STUDENT QR PANEL ══ -->
+<div id="student-panel" style="display:none" class="app-wrap">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="ai-panel-header">
+      <span class="ai-badge" style="background:rgba(124,58,237,.1);color:var(--accent3);border-color:rgba(124,58,237,.22)">🎓 Student Edition</span>
+      <h3 style="font-family:var(--font-d);font-size:1.5rem;font-weight:800;margin:.4rem 0 .5rem">Multi-Purpose Student QR — Your Digital Identity</h3>
+      <p style="color:var(--ink2);font-size:.88rem">One QR code that contains your resume, projects, portfolio, and contact — with smart mode switching.</p>
+    </div>
+    <div class="smart-grid">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">🎓 Your Info</span></div>
+        <div class="ctrl-body">
+          <div class="fl"><label class="flbl">Your Name</label><input class="url-in" id="stq-name" placeholder="Arun Kumar"/></div>
+          <div class="fl"><label class="flbl">Role / Major</label><input class="url-in" id="stq-role" placeholder="CSE Student · Full Stack Developer"/></div>
+          <div class="fl"><label class="flbl">📄 Resume / CV Link</label><input class="url-in" id="stq-resume" placeholder="https://drive.google.com/..."/></div>
+          <div class="fl"><label class="flbl">💻 GitHub</label><input class="url-in" id="stq-github" placeholder="https://github.com/username"/></div>
+          <div class="fl"><label class="flbl">🌐 Portfolio</label><input class="url-in" id="stq-portfolio" placeholder="https://yourname.dev"/></div>
+          <div class="fl"><label class="flbl">📱 App Download (Optional)</label><input class="url-in" id="stq-app" placeholder="https://play.google.com/..."/></div>
+          <div class="fl"><label class="flbl">💼 LinkedIn</label><input class="url-in" id="stq-linkedin" placeholder="https://linkedin.com/in/username"/></div>
+          <div class="fl">
+            <label class="flbl">Default Mode</label>
+            <div class="cg">
+              <div class="chip on" onclick="selSTMode(this,'hr')">👔 HR Mode (Resume First)</div>
+              <div class="chip" onclick="selSTMode(this,'dev')">💻 Dev Mode (GitHub First)</div>
+              <div class="chip" onclick="selSTMode(this,'social')">😄 Social Mode (Portfolio First)</div>
+            </div>
+          </div>
+          <button class="gen-btn" onclick="generateStudentQR()">🎓 Generate Student QR</button>
+        </div>
+      </div>
+      <div class="out-panel" id="student-out">
+        <div class="out-empty">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          <div style="margin-top:.6rem;font-weight:600">Your Digital Identity QR</div>
+          <div style="font-size:.78rem;margin-top:.3rem">Fill your details and generate your personal QR card</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-info-strip">
+      <div class="ai-info-item">👔 <strong>HR Mode</strong> — Resume and LinkedIn front and center for job applications</div>
+      <div class="ai-info-item">💻 <strong>Dev Mode</strong> — GitHub and projects for hackathons and interviews</div>
+      <div class="ai-info-item">😄 <strong>Social Mode</strong> — Portfolio and personality-first for networking events</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SECURE QR PANEL ══ -->
+<div id="secure-panel" style="display:none" class="app-wrap">
+  <div style="max-width:900px;margin:0 auto">
+    <div class="ai-panel-header">
+      <span class="ai-badge" style="background:rgba(15,110,86,.1);color:#0F6E56;border-color:rgba(15,110,86,.22)">🔐 Security</span>
+      <h3 style="font-family:var(--font-d);font-size:1.5rem;font-weight:800;margin:.4rem 0 .5rem">Secure QR — Protect Against Fake QR Scams</h3>
+      <p style="color:var(--ink2);font-size:.88rem">Add a verified badge, digital signature, and safety check to your QR codes. Users know it's the real deal.</p>
+    </div>
+    <div class="smart-grid">
+      <div class="ctrl-panel">
+        <div class="ctrl-header"><span class="ctrl-htitle">🔐 Security Settings</span></div>
+        <div class="ctrl-body">
+          <div class="fl">
+            <label class="flbl">URL to Protect</label>
+            <input class="url-in" id="secq-url" type="text" placeholder="https://yourwebsite.com"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Organization / Brand Name</label>
+            <input class="url-in" id="secq-org" type="text" placeholder="Your Company / Name"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Secret Passphrase (for signing)</label>
+            <input class="url-in" id="secq-pass" type="password" placeholder="Keep this secret!"/>
+          </div>
+          <div class="fl">
+            <label class="flbl">Security Features</label>
+            <div class="tgl-grid">
+              <label class="tgl-item" onclick="togSecure('badge')"><div class="tgl on" id="tgl-badge"><div class="tknob"></div></div><span class="tgl-lbl">✅ Verified Badge</span></label>
+              <label class="tgl-item" onclick="togSecure('sig')"><div class="tgl on" id="tgl-sig"><div class="tknob"></div></div><span class="tgl-lbl">🔏 Digital Signature</span></label>
+              <label class="tgl-item" onclick="togSecure('warn')"><div class="tgl on" id="tgl-warn"><div class="tknob"></div></div><span class="tgl-lbl">⚠️ Warning Page</span></label>
+              <label class="tgl-item" onclick="togSecure('exp')"><div class="tgl" id="tgl-exp"><div class="tknob"></div></div><span class="tgl-lbl">📅 Expiry Date</span></label>
+            </div>
+          </div>
+          <div class="fl" id="secq-expiry-row" style="display:none">
+            <label class="flbl">Expiry Date</label>
+            <input class="url-in" id="secq-expiry" type="date"/>
+          </div>
+          <button class="gen-btn" onclick="generateSecureQR()" style="background:linear-gradient(135deg,#0F6E56,#1A56DB)">🔐 Generate Secure QR</button>
+        </div>
+      </div>
+      <div class="out-panel" id="secure-out">
+        <div class="out-empty">
+          <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div style="margin-top:.6rem;font-weight:600">Secure Your QR Code</div>
+          <div style="font-size:.78rem;margin-top:.3rem">Add verification and protection to prevent QR scams</div>
+        </div>
+      </div>
+    </div>
+    <div class="ai-info-strip">
+      <div class="ai-info-item">✅ <strong>Verified Badge</strong> — Visually prove authenticity with a green checkmark</div>
+      <div class="ai-info-item">🔏 <strong>Digital Signature</strong> — Cryptographic hash proves the QR hasn't been tampered with</div>
+      <div class="ai-info-item">⚠️ <strong>Warning Page</strong> — Users see a preview of the URL before visiting — no surprises</div>
+    </div>
+  </div>
+</div>
+
 <!-- ══ COMPRESS SECTION ══ -->
 <div id="sec-compress" class="section">
 <div class="tools-section">
@@ -988,7 +1246,7 @@ footer strong{color:#fff}
     <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#C84B31"/><rect x="4" y="6" width="10" height="13" rx="2" fill="white" opacity="0.9"/><line x1="6" y1="10" x2="12" y2="10" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="13" x2="12" y2="13" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><path d="M15.5 12 L17.5 10 L17.5 11.2 L19.5 11.2 L19.5 12.8 L17.5 12.8 L17.5 14 Z" fill="white"/><path d="M19.5 16 L17.5 18 L17.5 16.8 L15.5 16.8 L15.5 15.2 L17.5 15.2 L17.5 14 Z" fill="white" opacity="0.7"/><rect x="21" y="6" width="7" height="13" rx="2" fill="white" opacity="0.75"/><rect x="4" y="22" width="24" height="4" rx="2" fill="white" opacity="0.3"/><rect x="4" y="22" width="14" height="4" rx="2" fill="white" opacity="0.7"/></svg>
     <strong>TOOLZEN</strong>
   </div>
-  <div>Smart File Converter · QR Designer · Compressor — 50+ Tools, All Free, All In Browser</div>
+  <div>Smart File Converter · AI QR Designer · Compressor — 54+ Tools, All Free, All In Browser · v4.0</div>
 </footer>
 
 <div id="toast"></div>
@@ -1025,7 +1283,7 @@ let bkData={logo:null,colors:[],selectedFg:null};
 const qrHistory=[];
 
 /* ════════ QR MODE TABS ════════ */
-const QR_PANELS=['encode','decode','batch','brandkit','card'];
+const QR_PANELS=['encode','decode','batch','brandkit','card','smart','interactive','student','secure'];
 function setQRMode(m){
   QR_PANELS.forEach(p=>{const el=document.getElementById(p+'-panel');if(el)el.style.display=p===m?'block':'none';});
   document.querySelectorAll('.tool-tab').forEach(t=>{
@@ -1103,7 +1361,7 @@ function drawMod(ctx,shape,x,y,s){
     case 'arrow':    ctx.moveTo(x,y+s*.22);ctx.lineTo(x+s*.58,y+s*.22);ctx.lineTo(x+s*.58,y);ctx.lineTo(x+s,cy);ctx.lineTo(x+s*.58,y+s);ctx.lineTo(x+s*.58,y+s*.78);ctx.lineTo(x,y+s*.78);ctx.closePath();break;
     case 'wave':     {const wh=s*.3;ctx.moveTo(x,cy);ctx.bezierCurveTo(x+s*.25,cy-wh,x+s*.5,cy+wh,x+s*.75,cy-wh*.5);ctx.bezierCurveTo(x+s*.9,cy-wh*.8,x+s,cy-wh*.4,x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
     case 'pixel':    {const ps=s/3;for(let pi=0;pi<3;pi++)for(let pj=0;pj<3;pj++){if((pi+pj)%2===0)ctx.rect(x+pi*ps,y+pj*ps,ps,ps);}break;}
-    case 'bubble':   {const rad=r*.9;ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.closePath();ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.arc(cx-rad*.25,cy-rad*.25,rad*.3,0,Math.PI*2);break;}
+    case 'bubble':   {const rad=r*.9;ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.arc(cx-rad*.25,cy-rad*.25,rad*.3,0,Math.PI*2);ctx.fill();return;}
     case 'flame':    ctx.moveTo(cx,y);ctx.bezierCurveTo(x+s*.85,y+s*.3,x+s*.75,y+s*.5,cx+s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.9,y+s*.6,x+s*.85,y+s*.8,cx,y+s);ctx.bezierCurveTo(x+s*.15,y+s*.8,x+s*.1,y+s*.6,cx-s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.25,y+s*.5,x+s*.15,y+s*.3,cx,y);ctx.closePath();break;
     case 'crystal':  {for(let i=0;i<6;i++){const a=i*Math.PI/3;const bx=cx+Math.cos(a)*r*.88,by=cy+Math.sin(a)*r*.88;if(i===0)ctx.moveTo(bx,by);else ctx.lineTo(bx,by);}ctx.closePath();break;}
     case 'triangle': ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.95,y+s*.95);ctx.lineTo(x+s*.05,y+s*.95);ctx.closePath();break;
@@ -1112,8 +1370,8 @@ function drawMod(ctx,shape,x,y,s){
     case 'zigzag':   {const zw=s/4,zh=s*.4;ctx.moveTo(x,cy);for(let zi=0;zi<4;zi++){ctx.lineTo(x+zw*(zi+.5),zi%2===0?cy-zh:cy+zh);}ctx.lineTo(x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
     case 'plus':     {const pw=s*.28,po=(s-pw)/2;ctx.rect(x+po,y,pw,s);ctx.rect(x,y+po,s,pw);break;}
     /* NEW SHAPES */
-    case 'moon':     {ctx.arc(cx,cy,r*.88,0,Math.PI*2);ctx.fill();ctx.beginPath();const moff=r*.3;ctx.globalCompositeOperation='destination-out';ctx.arc(cx+moff,cy-moff,r*.72,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
-    case 'ring':     {ctx.arc(cx,cy,r*.9,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.globalCompositeOperation='destination-out';ctx.arc(cx,cy,r*.5,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
+    case 'moon':     {ctx.save();ctx.beginPath();ctx.arc(cx,cy,r*.88,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='destination-out';ctx.beginPath();const moff=r*.3;ctx.arc(cx+moff,cy-moff,r*.72,0,Math.PI*2);ctx.fill();ctx.restore();return;}
+    case 'ring':     {ctx.save();ctx.beginPath();ctx.arc(cx,cy,r*.9,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(cx,cy,r*.5,0,Math.PI*2);ctx.fill();ctx.restore();return;}
     case 'shield':   {ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.9,y+s*.25);ctx.lineTo(x+s*.9,y+s*.6);ctx.quadraticCurveTo(x+s*.9,y+s,cx,y+s);ctx.quadraticCurveTo(x+s*.1,y+s,x+s*.1,y+s*.6);ctx.lineTo(x+s*.1,y+s*.25);ctx.closePath();break;}
     case 'octagon':  {for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);else ctx.lineTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);}ctx.closePath();break;}
     case 'rhombus':  {ctx.moveTo(cx,y+s*.1);ctx.lineTo(x+s*.85,cy);ctx.lineTo(cx,y+s*.9);ctx.lineTo(x+s*.15,cy);ctx.closePath();break;}
@@ -1124,10 +1382,10 @@ function drawMod(ctx,shape,x,y,s){
     case 'mosaic':   {const ms2=s/2;ctx.rect(x,y,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y,ms2*.9,ms2*.9);ctx.rect(x,y+ms2*.1+ms2,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y+ms2*.1+ms2,ms2*.9,ms2*.9);break;}
     case 'spark':    {for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=i%2===0?r*.9:r*.35;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
     case 'petal':    {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.moveTo(cx,cy);ctx.arc(cx+Math.cos(a)*r*.4,cy+Math.sin(a)*r*.4,r*.6,a+Math.PI,a+Math.PI*2);}ctx.closePath();break;}
-    case 'clover':   {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.arc(cx+Math.cos(a)*r*.42,cy+Math.sin(a)*r*.42,r*.52,0,Math.PI*2);}break;}
-    case 'dna':      {ctx.ellipse(cx,cy,r*.3,r*.9,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(cx,cy,r*.3,r*.9,-Math.PI/6,0,Math.PI*2);break;}
+    case 'clover':   {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*.42,cy+Math.sin(a)*r*.42,r*.52,0,Math.PI*2);ctx.fill();}return;}
+    case 'dna':      {ctx.ellipse(cx,cy,r*.3,r*.9,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(cx,cy,r*.3,r*.9,-Math.PI/6,0,Math.PI*2);ctx.fill();return;}
     case 'cloud':    {ctx.arc(cx-r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx+r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx,cy-r*.05,r*.55,0,Math.PI*2);ctx.rect(cx-r*.75,cy+r*.15,r*1.5,r*.6);break;}
-    case 'eye2':     {ctx.ellipse(cx,cy,r*.9,r*.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(cx,cy,r*.28,0,Math.PI*2);break;}
+    case 'eye2':     {ctx.ellipse(cx,cy,r*.9,r*.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(cx,cy,r*.28,0,Math.PI*2);ctx.fill();return;}
     case 'lightning':{ctx.moveTo(cx+r*.2,y);ctx.lineTo(x+s*.2,cy);ctx.lineTo(cx+r*.1,cy);ctx.lineTo(x+s*.1,y+s);ctx.lineTo(cx+r*.4,cy+r*.3);ctx.lineTo(cx+r*.8,cy+r*.3);ctx.closePath();break;}
     case 'pac':      {ctx.arc(cx,cy,r*.9,Math.PI*.2,Math.PI*1.8);ctx.lineTo(cx,cy);ctx.closePath();break;}
     case 'badge':    {ctx.moveTo(cx,y+s*.05);for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,rr=i%2===0?r*.9:r*.75;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
@@ -1139,30 +1397,170 @@ function drawMod(ctx,shape,x,y,s){
   ctx.fill();
 }
 
-/* ════════ 18 EYE STYLES ════════ */
+/* ════════ EYE HELPERS ════════ */
 function rrFill(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();ctx.fill();}
+function polyEye(ctx,ecx,ecy,r,sides){ctx.beginPath();for(let i=0;i<sides;i++){const a=i*Math.PI*2/sides-Math.PI/2;i===0?ctx.moveTo(ecx+Math.cos(a)*r,ecy+Math.sin(a)*r):ctx.lineTo(ecx+Math.cos(a)*r,ecy+Math.sin(a)*r);}ctx.closePath();ctx.fill();}
+function starEye(ctx,ecx,ecy,ro,ri,pts){ctx.beginPath();for(let i=0;i<pts*2;i++){const a=i*Math.PI/pts-Math.PI/2,rr=i%2===0?ro:ri;i===0?ctx.moveTo(ecx+Math.cos(a)*rr,ecy+Math.sin(a)*rr):ctx.lineTo(ecx+Math.cos(a)*rr,ecy+Math.sin(a)*rr);}ctx.closePath();ctx.fill();}
+
+/* ════════ 18 EYE STYLES ════════ */
 function drawEye(ctx,rx,ry,ms,style,fg,bg){
   const s7=ms*7,f=c=>{ctx.fillStyle=c;},ecx=rx+s7/2,ecy=ry+s7/2;
-  if(style==='square'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
-  else if(style==='rounded'){const R=ms*1.8;f(fg);rrFill(ctx,rx,ry,s7,s7,R);f(bg);rrFill(ctx,rx+ms,ry+ms,ms*5,ms*5,R*.7);f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.8);}
-  else if(style==='circle'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.5,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='leaf'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.bezierCurveTo(rx+s7,ry,rx+s7,ry+s7,ecx,ry+s7);ctx.bezierCurveTo(rx,ry+s7,rx,ry,ecx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.bezierCurveTo(rx+s7-ms,ry+ms,rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.bezierCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms,ecx,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='shield'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7*.3);ctx.lineTo(rx+s7,ry+s7*.62);ctx.quadraticCurveTo(rx+s7,ry+s7,ecx,ry+s7);ctx.quadraticCurveTo(rx,ry+s7,rx,ry+s7*.62);ctx.lineTo(rx,ry+s7*.3);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ry+ms+s7*.22);ctx.lineTo(rx+s7-ms,ry+ms+s7*.47);ctx.quadraticCurveTo(rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.quadraticCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms+s7*.47);ctx.lineTo(rx+ms,ry+ms+s7*.22);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='star'){f(fg);ctx.beginPath();for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2,ai=a+2*Math.PI/10;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);ctx.lineTo(ecx+Math.cos(ai)*ms*1.8,ecy+Math.sin(ai)*ms*1.8);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.2,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='diamond'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ecy);ctx.lineTo(ecx,ry+s7);ctx.lineTo(rx,ecy);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(ecx,ry+s7-ms);ctx.lineTo(rx+ms,ecy);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='arrow'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx+ms*.5,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
-  /* NEW EYE STYLES */
-  else if(style==='hexeye'){f(fg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);else ctx.lineTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='crosseye'){f(fg);const ct=ms,co=(s7-ct)/2;ctx.fillRect(rx+co,ry,ct,s7);ctx.fillRect(rx,ry+co,s7,ct);f(bg);ctx.fillRect(rx+ms*1.5,ry+ms*1.5,ms*4,ms*4);f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='heartey'){f(fg);const hs2=s7*.45;ctx.beginPath();ctx.moveTo(ecx,ry+hs2);ctx.bezierCurveTo(ecx,ry,rx,ry,rx,ry+hs2);ctx.bezierCurveTo(rx,ry+s7*.72,ecx,ry+s7*.88,ecx,ry+s7);ctx.bezierCurveTo(ecx,ry+s7*.88,rx+s7,ry+s7*.72,rx+s7,ry+hs2);ctx.bezierCurveTo(rx+s7,ry,ecx,ry,ecx,ry+hs2);ctx.fill();f(bg);ctx.beginPath();const hsi=ms*.7;ctx.moveTo(ecx,ry+hs2+hsi);ctx.bezierCurveTo(ecx,ry+hsi,rx+hsi,ry+hsi,rx+hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+hsi,ry+s7*.72-hsi,ecx,ry+s7*.88-hsi,ecx,ry+s7-hsi);ctx.bezierCurveTo(ecx,ry+s7*.88-hsi,rx+s7-hsi,ry+s7*.72-hsi,rx+s7-hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+s7-hsi,ry+hsi,ecx,ry+hsi,ecx,ry+hs2+hsi);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='cloud2'){f(fg);ctx.beginPath();ctx.arc(ecx-ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx+ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx,ecy-ms*.3,ms*1.9,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
-  else if(style==='octaeye'){f(fg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);else ctx.lineTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='trioeye'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7);ctx.lineTo(rx,ry+s7);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms*1.5);ctx.lineTo(rx+s7-ms,ry+s7-ms);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ry+s7*.62,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='curvey'){const R2=ms*2.4;f(fg);rrFill(ctx,rx,ry,s7,s7,R2);f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.8,0,Math.PI*2);ctx.fill();f(fg);rrFill(ctx,rx+ms*1.8,ry+ms*1.8,ms*3.4,ms*3.4,ms*.7);}
-  else if(style==='bubbly'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.6,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*.8,0,Math.PI*2);ctx.fill();}
-  else if(style==='pinch'){f(fg);ctx.beginPath();ctx.moveTo(rx,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='squirc'){const sq=s7*.42;f(fg);ctx.beginPath();ctx.moveTo(ecx,ry+s7*.03);ctx.bezierCurveTo(ecx+sq,ry+s7*.03,rx+s7*.97,ecy-sq+sq,rx+s7*.97,ecy);ctx.bezierCurveTo(rx+s7*.97,ecy+sq,ecx+sq,ry+s7*.97,ecx,ry+s7*.97);ctx.bezierCurveTo(ecx-sq,ry+s7*.97,rx+s7*.03,ecy+sq,rx+s7*.03,ecy);ctx.bezierCurveTo(rx+s7*.03,ecy-sq,ecx-sq,ry+s7*.03,ecx,ry+s7*.03);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.4,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else{f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
+  const dot=r=>{ctx.beginPath();ctx.arc(ecx,ecy,r,0,Math.PI*2);ctx.fill();};
+
+  /* 1 — SQUARE (default) */
+  if(style==='square'){
+    f(fg);ctx.fillRect(rx,ry,s7,s7);
+    f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);
+    f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);
+
+  /* 2 — ROUNDED */
+  }else if(style==='rounded'){
+    const R=ms*1.6;
+    f(fg);rrFill(ctx,rx,ry,s7,s7,R);
+    f(bg);rrFill(ctx,rx+ms,ry+ms,ms*5,ms*5,R*.65);
+    f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.7);
+
+  /* 3 — CIRCLE */
+  }else if(style==='circle'){
+    f(fg);dot(s7/2);
+    f(bg);dot(ms*2.5);
+    f(fg);dot(ms*1.5);
+
+  /* 4 — LEAF */
+  }else if(style==='leaf'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.bezierCurveTo(rx+s7,ry,rx+s7,ry+s7,ecx,ry+s7);
+    ctx.bezierCurveTo(rx,ry+s7,rx,ry,ecx,ry);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+ms);ctx.bezierCurveTo(rx+s7-ms,ry+ms,rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);
+    ctx.bezierCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms,ecx,ry+ms);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 5 — SHIELD */
+  }else if(style==='shield'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7*.28);ctx.lineTo(rx+s7,ry+s7*.6);
+    ctx.quadraticCurveTo(rx+s7,ry+s7,ecx,ry+s7);
+    ctx.quadraticCurveTo(rx,ry+s7,rx,ry+s7*.6);
+    ctx.lineTo(rx,ry+s7*.28);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    const sm=ms*1.1;
+    ctx.moveTo(ecx,ry+sm);ctx.lineTo(rx+s7-sm,ry+sm+s7*.2);ctx.lineTo(rx+s7-sm,ry+sm+s7*.44);
+    ctx.quadraticCurveTo(rx+s7-sm,ry+s7-sm,ecx,ry+s7-sm);
+    ctx.quadraticCurveTo(rx+sm,ry+s7-sm,rx+sm,ry+sm+s7*.44);
+    ctx.lineTo(rx+sm,ry+sm+s7*.2);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 6 — STAR */
+  }else if(style==='star'){
+    f(fg);starEye(ctx,ecx,ecy,s7/2*.92,ms*1.9,5);
+    f(bg);dot(ms*2.2);
+    f(fg);dot(ms*1.4);
+
+  /* 7 — DIAMOND */
+  }else if(style==='diamond'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ecy);ctx.lineTo(ecx,ry+s7);ctx.lineTo(rx,ecy);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+ms*1.2);ctx.lineTo(rx+s7-ms*1.2,ecy);ctx.lineTo(ecx,ry+s7-ms*1.2);ctx.lineTo(rx+ms*1.2,ecy);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 9 — HEXAGON */
+  }else if(style==='hexeye'){
+    f(fg);polyEye(ctx,ecx,ecy,s7/2*.94,6);
+    f(bg);polyEye(ctx,ecx,ecy,ms*2.45,6);
+    f(fg);dot(ms*1.4);
+
+  /* 10 — CROSS */
+  }else if(style==='crosseye'){
+    const ct=ms*1.5,co=(s7-ct)/2;
+    f(fg);ctx.fillRect(rx+co,ry,ct,s7);ctx.fillRect(rx,ry+co,s7,ct);
+    f(bg);ctx.fillRect(rx+ms*1.8,ry+ms*1.8,ms*3.4,ms*3.4);
+    f(fg);dot(ms*1.4);
+
+  /* 11 — HEART */
+  }else if(style==='heartey'){
+    const hw=s7,hh=s7,htop=ry+hh*.42;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,htop);
+    ctx.bezierCurveTo(ecx,ry+hh*.05,rx,ry+hh*.05,rx,htop);
+    ctx.bezierCurveTo(rx,ry+hh*.75,ecx,ry+hh*.9,ecx,ry+hh);
+    ctx.bezierCurveTo(ecx,ry+hh*.9,rx+hw,ry+hh*.75,rx+hw,htop);
+    ctx.bezierCurveTo(rx+hw,ry+hh*.05,ecx,ry+hh*.05,ecx,htop);
+    ctx.fill();
+    f(bg);const hpad=ms*.9;const htop2=ry+hh*.42+hpad*.5;
+    ctx.beginPath();
+    ctx.moveTo(ecx,htop2);
+    ctx.bezierCurveTo(ecx,ry+hh*.05+hpad,rx+hpad,ry+hh*.05+hpad,rx+hpad,htop2);
+    ctx.bezierCurveTo(rx+hpad,ry+hh*.75-hpad*.3,ecx,ry+hh*.9-hpad*.5,ecx,ry+hh-hpad*.6);
+    ctx.bezierCurveTo(ecx,ry+hh*.9-hpad*.5,rx+hw-hpad,ry+hh*.75-hpad*.3,rx+hw-hpad,htop2);
+    ctx.bezierCurveTo(rx+hw-hpad,ry+hh*.05+hpad,ecx,ry+hh*.05+hpad,ecx,htop2);
+    ctx.fill();
+    f(fg);dot(ms*1.4);
+
+  /* 12 — CLOUD */
+  }else if(style==='cloud2'){
+    f(fg);
+    ctx.beginPath();ctx.arc(ecx-ms*.9,ecy+ms*.4,ms*1.7,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ecx+ms*.9,ecy+ms*.4,ms*1.7,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ecx,ecy-ms*.5,ms*2.0,0,Math.PI*2);ctx.fill();
+    // fill bottom gap
+    f(fg);ctx.fillRect(rx,ecy,s7,ry+s7-ecy);
+    f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.0,0,Math.PI*2);ctx.fill();
+    f(fg);dot(ms*1.3);
+
+  /* 13 — OCTAGON */
+  }else if(style==='octaeye'){
+    f(fg);polyEye(ctx,ecx,ecy,s7/2*.93,8);
+    f(bg);polyEye(ctx,ecx,ecy,ms*2.35,8);
+    f(fg);dot(ms*1.4);
+
+  /* 15 — CURVED (squircle outer, circle hole, rounded inner) */
+  }else if(style==='curvey'){
+    const R2=ms*2.6;
+    f(fg);rrFill(ctx,rx,ry,s7,s7,R2);
+    f(bg);dot(ms*2.8);
+    f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.8);
+
+  /* 17 — PINCH */
+  }else if(style==='pinch'){
+    const p=ms*1.8;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(rx,ry);
+    ctx.quadraticCurveTo(ecx,ry+p,rx+s7,ry);
+    ctx.quadraticCurveTo(rx+s7-p,ecy,rx+s7,ry+s7);
+    ctx.quadraticCurveTo(ecx,ry+s7-p,rx,ry+s7);
+    ctx.quadraticCurveTo(rx+p,ecy,rx,ry);
+    ctx.closePath();ctx.fill();
+    const p2=ms*1.1,pm=ms*1.1;
+    f(bg);ctx.beginPath();
+    ctx.moveTo(rx+pm,ry+pm);
+    ctx.quadraticCurveTo(ecx,ry+pm+p2,rx+s7-pm,ry+pm);
+    ctx.quadraticCurveTo(rx+s7-pm-p2,ecy,rx+s7-pm,ry+s7-pm);
+    ctx.quadraticCurveTo(ecx,ry+s7-pm-p2,rx+pm,ry+s7-pm);
+    ctx.quadraticCurveTo(rx+pm+p2,ecy,rx+pm,ry+pm);
+    ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 18 — SQUIRCLE */
+  }else if(style==='squirc'){
+    const sq=s7*.44;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+s7*.02);
+    ctx.bezierCurveTo(ecx+sq,ry+s7*.02,rx+s7*.98,ecy-sq,rx+s7*.98,ecy);
+    ctx.bezierCurveTo(rx+s7*.98,ecy+sq,ecx+sq,ry+s7*.98,ecx,ry+s7*.98);
+    ctx.bezierCurveTo(ecx-sq,ry+s7*.98,rx+s7*.02,ecy+sq,rx+s7*.02,ecy);
+    ctx.bezierCurveTo(rx+s7*.02,ecy-sq,ecx-sq,ry+s7*.02,ecx,ry+s7*.02);
+    ctx.closePath();ctx.fill();
+    f(bg);dot(ms*2.5);
+    f(fg);dot(ms*1.5);
+
+  /* fallback */
+  }else{
+    f(fg);ctx.fillRect(rx,ry,s7,s7);
+    f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);
+    f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);
+  }
 }
 
 /* ════════ MODULE DETECTION ════════ */
@@ -1181,9 +1579,16 @@ function extractMods(imgData,size){
   for(let r=0;r<n;r++){mods.push([]);for(let c=0;c<n;c++){const px=Math.min(Math.floor((c+.5)*step),size-1),py=Math.min(Math.floor((r+.5)*step),size-1);mods[r].push(d[(py*size+px)*4]<128);}}
   return{mods,n,ms:step};
 }
-function isEye(r,c,n){return(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);}
+function isEye(r,c,n){return(r<8&&c<8)||(r<8&&c>=n-8)||(r>=n-8&&c<8);}
 
 /* ════════ CORE RENDER ════════ */
+// Hidden scannable canvas always rendered in plain black/white squares
+let _scannableCanvas=null;
+function renderScannableQR(url,cfg){
+  const size=cfg.size||300;
+  if(!_scannableCanvas){_scannableCanvas=document.createElement('canvas');}
+  QRCode.toCanvas(_scannableCanvas,url,{errorCorrectionLevel:'H',margin:2,width:size+36,color:{dark:'#000000',light:'#FFFFFF'}},()=>{});
+}
 function renderQR(canvas,url,cfg,logoImg,onDone){
   const size=cfg.size||300,off=cfg.border?18:0;
   canvas.width=canvas.height=size+off*2;
@@ -1197,7 +1602,7 @@ function renderQR(canvas,url,cfg,logoImg,onDone){
       const tmp=document.createElement('canvas');tmp.width=tmp.height=size;
       tmp.getContext('2d').drawImage(img,0,0);
       const{mods,n,ms}=extractMods(tmp.getContext('2d').getImageData(0,0,size,size),size);
-      const pad=ms*.08;
+      const pad=cfg.shape==='square'?ms*.08:0;
       let firstFrameDone=false;
 
       function draw(ph){
@@ -1222,7 +1627,25 @@ function renderQR(canvas,url,cfg,logoImg,onDone){
           }
         }
         ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
-        [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>drawEye(ctx,off+ec*ms,off+er*ms,ms,cfg.eye,cfg.fg,cfg.bg));
+
+        // STEP 1: Always draw standard square finder pattern — guarantees scanning works
+        [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>{
+          const ex=off+ec*ms,ey=off+er*ms,s7=ms*7;
+          ctx.fillStyle=cfg.fg;ctx.fillRect(ex,ey,s7,s7);
+          ctx.fillStyle=cfg.bg;ctx.fillRect(ex+ms,ey+ms,ms*5,ms*5);
+          ctx.fillStyle=cfg.fg;ctx.fillRect(ex+ms*2,ey+ms*2,ms*3,ms*3);
+        });
+
+        // STEP 2: Overlay decorative eye style clipped to the 7x7 zone
+        if(cfg.eye!=='square'){
+          [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>{
+            const ex=off+ec*ms,ey=off+er*ms,s7=ms*7;
+            ctx.save();
+            ctx.beginPath();ctx.rect(ex,ey,s7,s7);ctx.clip();
+            drawEye(ctx,ex,ey,ms,cfg.eye,cfg.fg,cfg.bg);
+            ctx.restore();
+          });
+        }
 
         if(cfg.scan){
           const sy=off+size*.1+(size*.8*((Math.sin(ph*.45)+1)/2));
@@ -1268,6 +1691,7 @@ function generateQR(){
   canvas.onclick=dlQR;
 
   function doRender(logoImg){
+    renderScannableQR(url,cfg);
     renderQR(canvas,url,cfg,logoImg,(ok)=>{
       document.getElementById('qr-spinner').classList.remove('show');
       if(!ok){toast('Failed — check URL and retry');document.getElementById('out-empty').style.display='';return;}
@@ -1284,7 +1708,7 @@ function buildOutput(canvas,url){
   wrap.innerHTML='';wrap.style.display='flex';
   const cWrap=document.createElement('div');cWrap.style.cssText='position:relative;display:inline-block';cWrap.appendChild(canvas);wrap.appendChild(cWrap);
   const acts=document.createElement('div');acts.className='out-acts';
-  acts.innerHTML=`<button class="abtn p" onclick="dlQR()">⬇ Download</button><button class="abtn" onclick="copyQR()">📋 Copy</button><button class="abtn" onclick="copyURL()">🔗 Copy URL</button><button class="abtn" onclick="dlQRSvgStyle()">🎨 Make Card</button>`;
+  acts.innerHTML=`<button class="abtn p" onclick="dlQR()">⬇ Download</button><button class="abtn" onclick="dlScannable()" title="Download a plain black & white version guaranteed to scan">📲 Scannable</button><button class="abtn" onclick="copyQR()">📋 Copy</button><button class="abtn" onclick="copyURL()">🔗 Copy URL</button><button class="abtn" onclick="dlQRSvgStyle()">🎨 Make Card</button>`;
   wrap.appendChild(acts);
   const lbl=document.createElement('div');lbl.className='out-url';lbl.textContent=url;wrap.appendChild(lbl);
 }
@@ -1312,6 +1736,7 @@ function buildHistoryUI(){
 
 /* ════════ ACTIONS ════════ */
 function dlQR(){const c=document.getElementById('qr-main');if(!c)return;const a=document.createElement('a');a.download='TOOLZEN-code.png';a.href=c.toDataURL('image/png');a.click();toast('Downloaded!');}
+function dlScannable(){if(!_scannableCanvas){toast('Generate a QR first');return;}const a=document.createElement('a');a.download='TOOLZEN-scannable.png';a.href=_scannableCanvas.toDataURL('image/png');a.click();toast('Scannable version downloaded!');}
 function copyQR(){const c=document.getElementById('qr-main');if(!c){toast('Generate first');return;}c.toBlob(blob=>{try{navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>toast('Copied!')).catch(()=>toast('Use Download'));}catch(e){toast('Use Download');}});}
 function copyURL(){const u=document.getElementById('url-input').value.trim();if(!u)return;navigator.clipboard.writeText(u).then(()=>toast('URL copied!'));}
 function dlQRSvgStyle(){const u=document.getElementById('url-input').value.trim();if(u)document.getElementById('bc-url').value=u;setQRMode('card');showSection('qr');}
@@ -2062,11 +2487,28 @@ async function processFile(){
       const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_numbered';ext='pdf';
     }
 
+    else if(currentTool==='ppt2pdf'||currentTool==='excel2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const arrayBuffer=await file.arrayBuffer();fill.style.width='50%';
+      // Extract text via mammoth (works for docx; for pptx/xlsx we extract raw text)
+      let text=`Converted from: ${file.name}\n\n`;
+      try{const result=await mammoth.extractRawText({arrayBuffer});text+=result.value||'[No text content extracted]';}
+      catch(e){text+=`[Browser-based ${currentTool==='ppt2pdf'?'PowerPoint':'Excel'} conversion has limited support]\n\nFor best results, open the file in Office or Google Docs and export as PDF.\n\nFile: ${file.name}`;}
+      fill.style.width='75%';
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const pdfDoc=await PDFDocument.create();const font=await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const safeText=text.replace(/[^\x00-\xFF]/g,c=>{const m={'\u2018':"'",'\u2019':"'",'\u201C':'"','\u201D':'"','\u2013':'-','\u2014':'--','\u2026':'...','\u00A0':' '};return m[c]||'?';});
+      const lines=safeText.split('\n');let page=pdfDoc.addPage([595,842]);let y=page.getHeight()-50;
+      lines.forEach(line=>{const chunks=line.match(/.{1,85}/g)||[''];chunks.forEach(chunk=>{if(y<50){page=pdfDoc.addPage([595,842]);y=page.getHeight()-50;}try{page.drawText(chunk||' ',{x:50,y,size:11,font,color:rgb(0,0,0)});}catch(e){}y-=17;});});
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});
+      filename=file.name.replace(/\.(pptx?|xlsx?)$/i,'');ext='pdf';
+    }
+
     fill.style.width='100%';
     if(resultBlob){
       const url=URL.createObjectURL(resultBlob);
-      const origFile=currentFile instanceof FileList?currentFile[0]:currentFile;
-      const origSize=(origFile.size/1024).toFixed(1);
+      const origFile=currentFile instanceof FileList?currentFile[0]:(currentFile===true?null:currentFile);
+      const origSize=origFile?(origFile.size/1024).toFixed(1):'—';
       const newSize=(resultBlob.size/1024).toFixed(1);
       document.getElementById('tp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origSize} KB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newSize} KB</div><div class="stat-l2">Result</div></div>`;
       document.getElementById('tp-result').className='result-box show';
@@ -2153,6 +2595,185 @@ async function processCompress(){
   }catch(err){toast('Error: '+err.message);console.error(err);}
   btn.disabled=false;
 }
+
+/* ════════ SMART QR ════════ */
+let smartQRMode='all';
+function generateSmartQR(){
+  const android=document.getElementById('sq-android').value.trim();
+  const ios=document.getElementById('sq-ios').value.trim();
+  const desktop=document.getElementById('sq-desktop').value.trim();
+  const fallback=document.getElementById('sq-fallback').value.trim()||desktop||android||ios;
+  if(!fallback){toast('Please fill at least one link!');return;}
+
+  // Build a self-contained redirect HTML page as a data URL
+  const morning=document.getElementById('sq-morning').value.trim();
+  const afternoon=document.getElementById('sq-afternoon').value.trim();
+  const evening=document.getElementById('sq-evening').value.trim();
+  const night=document.getElementById('sq-night').value.trim();
+
+  const pageHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Smart Redirect</title><style>body{font-family:sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;background:#0D0D0F;color:#fff;text-align:center;margin:0}.card{background:#1A1A1E;border-radius:18px;padding:2rem;max-width:360px;width:90%}.logo{font-size:2rem;margin-bottom:.5rem}.title{font-size:1.1rem;font-weight:700;margin-bottom:.3rem}.sub{font-size:.8rem;color:#888;margin-bottom:1rem}.btn{display:block;padding:.7rem 1.2rem;border-radius:10px;background:#C84B31;color:#fff;text-decoration:none;font-weight:700;margin:.4rem 0;font-size:.85rem}</style></head><body><div class="card"><div class="logo">🧠</div><div class="title">Smart Redirect</div><div class="sub">Redirecting you to the best destination…</div><a class="btn" id="main-link" href="${fallback}">Continue →</a></div><script>
+    var ua=navigator.userAgent;
+    var h=new Date().getHours();
+    var android=${JSON.stringify(android)};
+    var ios=${JSON.stringify(ios)};
+    var desktop=${JSON.stringify(desktop)};
+    var morning=${JSON.stringify(morning)};
+    var afternoon=${JSON.stringify(afternoon)};
+    var evening=${JSON.stringify(evening)};
+    var night=${JSON.stringify(night)};
+    var timeLink='';
+    if(morning&&h>=6&&h<12)timeLink=morning;
+    else if(afternoon&&h>=12&&h<18)timeLink=afternoon;
+    else if(evening&&h>=18&&h<22)timeLink=evening;
+    else if(night&&(h>=22||h<6))timeLink=night;
+    var dest=timeLink||'';
+    if(!dest){if(/android/i.test(ua)&&android)dest=android;else if(/iphone|ipad|ipod/i.test(ua)&&ios)dest=ios;else if(!/mobile/i.test(ua)&&desktop)dest=desktop;}
+    if(!dest)dest='${fallback}';
+    document.getElementById('main-link').href=dest;
+    setTimeout(function(){window.location.href=dest;},1200);
+  <\/script></body></html>`;
+
+  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(pageHTML);
+  const out=document.getElementById('smart-out');
+  out.innerHTML='<div class="smart-qr-out"><canvas id="smart-qr-canvas"></canvas><div class="smart-preview-card"><div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.6rem">Redirect Rules</div>'
+    +(android?`<div class="smart-rule"><div class="smart-rule-icon" style="background:#3DDC84;color:#fff">🤖</div><span>Android → Play Store</span></div>`:'' )
+    +(ios?`<div class="smart-rule"><div class="smart-rule-icon" style="background:#000;color:#fff">🍎</div><span>iPhone/iPad → App Store</span></div>`:'' )
+    +(desktop?`<div class="smart-rule"><div class="smart-rule-icon" style="background:#1A56DB;color:#fff">💻</div><span>Desktop → Website</span></div>`:'' )
+    +(morning?`<div class="smart-rule"><div class="smart-rule-icon" style="background:#F7971E;color:#fff">🌅</div><span>Morning (6–12) → Special Link</span></div>`:'' )
+    +(evening?`<div class="smart-rule"><div class="smart-rule-icon" style="background:#7C3AED;color:#fff">🌆</div><span>Evening (18–22) → Special Link</span></div>`:'' )
+    +'</div>'
+    +'<div class="out-acts"><button class="abtn p" onclick="downloadSmartQR()">⬇️ Download QR</button></div></div>';
+
+  QRCode.toCanvas(document.getElementById('smart-qr-canvas'),dataUrl,{errorCorrectionLevel:'L',margin:2,width:260,color:{dark:'#0D0D0F',light:'#FFFFFF'}});
+  toast('Smart QR generated!');
+}
+function downloadSmartQR(){
+  const c=document.getElementById('smart-qr-canvas');if(!c)return;
+  const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='smart-qr.png';a.click();toast('Downloaded!');
+}
+
+/* ════════ INTERACTIVE QR ════════ */
+let iqTheme='dark';
+function selIQTheme(el,t){document.querySelectorAll('#interactive-panel .chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');iqTheme=t;}
+
+function generateInteractiveQR(){
+  const title=document.getElementById('iq-title').value.trim()||'Welcome!';
+  const sub=document.getElementById('iq-sub').value.trim()||'Tap a button below';
+  const b1l=document.getElementById('iq-btn1-label').value.trim();
+  const b1u=document.getElementById('iq-btn1-link').value.trim();
+  const b2l=document.getElementById('iq-btn2-label').value.trim();
+  const b2u=document.getElementById('iq-btn2-link').value.trim();
+  const b3l=document.getElementById('iq-btn3-label').value.trim();
+  const b3u=document.getElementById('iq-btn3-link').value.trim();
+
+  const themes={
+    dark:{bg:'#0D0D0F',card:'#1A1A1E',txt:'#F0EDE8',sub:'#888',btn:'linear-gradient(135deg,#C84B31,#FF7043)',btnTxt:'#fff'},
+    light:{bg:'#F5F3EE',card:'#FFFFFF',txt:'#0D0D0F',sub:'#666',btn:'linear-gradient(135deg,#0D0D0F,#3A3A45)',btnTxt:'#fff'},
+    gradient:{bg:'linear-gradient(135deg,#6a11cb,#2575fc)',card:'rgba(255,255,255,.12)',txt:'#fff',sub:'rgba(255,255,255,.7)',btn:'linear-gradient(135deg,#FF416C,#FF4B2B)',btnTxt:'#fff'},
+    neon:{bg:'#0A0A12',card:'#0D1B2A',txt:'#00E5FF',sub:'#7EC8E3',btn:'linear-gradient(135deg,#00E5FF,#7C3AED)',btnTxt:'#fff'}
+  };
+  const th=themes[iqTheme];
+
+  const btns=[b1l&&b1u?`<a href="${b1u}" style="display:block;padding:.7rem 1.2rem;margin:.45rem 0;border-radius:12px;background:${th.btn};color:${th.btnTxt};text-decoration:none;font-weight:700;font-size:.9rem;text-align:center;font-family:sans-serif">${b1l}</a>`:''
+   ,b2l&&b2u?`<a href="${b2u}" style="display:block;padding:.7rem 1.2rem;margin:.45rem 0;border-radius:12px;background:${th.btn};color:${th.btnTxt};text-decoration:none;font-weight:700;font-size:.9rem;text-align:center;font-family:sans-serif">${b2l}</a>`:''
+   ,b3l&&b3u?`<a href="${b3u}" style="display:block;padding:.7rem 1.2rem;margin:.45rem 0;border-radius:12px;background:${th.btn};color:${th.btnTxt};text-decoration:none;font-weight:700;font-size:.9rem;text-align:center;font-family:sans-serif">${b3l}</a>`:''
+  ].filter(Boolean).join('');
+
+  const pageHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:${th.bg};padding:1.5rem}.card{background:${th.card};border-radius:22px;padding:2rem 1.8rem;max-width:380px;width:100%;text-align:center;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1)}.emoji{font-size:2.5rem;margin-bottom:.6rem;animation:pop .4s ease}.title{font-family:sans-serif;font-size:1.3rem;font-weight:800;color:${th.txt};margin-bottom:.35rem}.sub{font-family:sans-serif;font-size:.85rem;color:${th.sub};margin-bottom:1.3rem;line-height:1.5}@keyframes pop{0%{transform:scale(.5);opacity:0}100%{transform:scale(1);opacity:1}}.card{animation:slide .4s ease}@keyframes slide{from{transform:translateY(20px);opacity:0}to{transform:none;opacity:1}}</style></head><body><div class="card"><div class="emoji">✨</div><div class="title">${title}</div><div class="sub">${sub}</div>${btns||`<p style="color:${th.sub};font-size:.8rem;font-family:sans-serif">No buttons configured</p>`}</div></body></html>`;
+
+  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(pageHTML);
+  const out=document.getElementById('interactive-out');
+  out.innerHTML='<div class="smart-qr-out"><canvas id="iq-qr-canvas"></canvas><div class="iq-mini-preview"><iframe srcdoc="'+pageHTML.replace(/"/g,'&quot;')+'"></iframe></div><div class="out-acts" style="margin-top:.5rem"><button class="abtn p" onclick="downloadIQQR()">⬇️ Download QR</button><button class="abtn" onclick="downloadIQPage()">📄 Download Page</button></div></div>';
+  QRCode.toCanvas(document.getElementById('iq-qr-canvas'),dataUrl,{errorCorrectionLevel:'L',margin:2,width:200,color:{dark:'#0D0D0F',light:'#FFFFFF'}});
+  window._iqPageHTML=pageHTML;
+  toast('Interactive QR generated!');
+}
+function downloadIQQR(){
+  const c=document.getElementById('iq-qr-canvas');if(!c)return;
+  const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='interactive-qr.png';a.click();toast('Downloaded!');
+}
+function downloadIQPage(){
+  if(!window._iqPageHTML)return;
+  const blob=new Blob([window._iqPageHTML],{type:'text/html'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='interactive-qr-page.html';a.click();toast('Page downloaded!');
+}
+
+/* ════════ STUDENT QR ════════ */
+let stMode='hr';
+function selSTMode(el,m){document.querySelectorAll('#student-panel .chip').forEach(c=>c.classList.remove('on'));el.classList.add('on');stMode=m;}
+function generateStudentQR(){
+  const name=document.getElementById('stq-name').value.trim()||'Student';
+  const role=document.getElementById('stq-role').value.trim()||'Developer';
+  const resume=document.getElementById('stq-resume').value.trim();
+  const github=document.getElementById('stq-github').value.trim();
+  const portfolio=document.getElementById('stq-portfolio').value.trim();
+  const app=document.getElementById('stq-app').value.trim();
+  const linkedin=document.getElementById('stq-linkedin').value.trim();
+
+  // Order links by mode
+  const modeOrder={
+    hr:[{l:'📄 View Resume',u:resume},{l:'💼 LinkedIn',u:linkedin},{l:'💻 GitHub',u:github},{l:'🌐 Portfolio',u:portfolio}],
+    dev:[{l:'💻 GitHub',u:github},{l:'🌐 Portfolio',u:portfolio},{l:'📄 Resume',u:resume},{l:'💼 LinkedIn',u:linkedin}],
+    social:[{l:'🌐 Portfolio',u:portfolio},{l:'💻 GitHub',u:github},{l:'📄 Resume',u:resume},{l:'💼 LinkedIn',u:linkedin}]
+  };
+  const links=[...modeOrder[stMode],app?{l:'📱 Download App',u:app}:null].filter(x=>x&&x.u);
+
+  const btnsHTML=links.map(x=>`<a href="${x.u}" target="_blank" style="display:block;padding:.65rem 1rem;margin:.35rem 0;border-radius:10px;background:#1A1A1E;border:1px solid #333;color:#F0EDE8;text-decoration:none;font-size:.85rem;font-weight:600;font-family:sans-serif;text-align:left">${x.l}</a>`).join('');
+  const modeLabel={hr:'👔 HR Mode',dev:'💻 Dev Mode',social:'😄 Social Mode'}[stMode];
+
+  const pageHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${name}</title><style>*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:#0D0D0F;display:flex;align-items:center;justify-content:center;padding:1.5rem}.card{background:#111113;border-radius:22px;padding:2rem;max-width:380px;width:100%;border:1px solid #222;animation:sl .4s ease}@keyframes sl{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}.avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,#C84B31,#7C3AED);display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto .8rem}.name{font-family:sans-serif;font-size:1.2rem;font-weight:800;color:#F0EDE8;text-align:center}.role{font-size:.8rem;color:#666;text-align:center;margin-bottom:.4rem;font-family:sans-serif}.mode-tag{display:inline-block;background:#1A1A1E;border:1px solid #333;color:#C84B31;font-size:.65rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;margin:0 auto .9rem;letter-spacing:.08em;font-family:sans-serif}.divider{height:1px;background:#1A1A1E;margin:.8rem 0}</style></head><body><div class="card"><div class="avatar">🎓</div><div class="name">${name}</div><div class="role">${role}</div><div style="text-align:center"><span class="mode-tag">${modeLabel}</span></div><div class="divider"></div>${btnsHTML}</div></body></html>`;
+
+  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(pageHTML);
+  const out=document.getElementById('student-out');
+  out.innerHTML='<div class="smart-qr-out"><canvas id="stq-qr-canvas"></canvas>'
+    +'<div class="iq-mini-preview"><iframe srcdoc="'+pageHTML.replace(/"/g,'&quot;')+'"></iframe></div>'
+    +'<div class="out-acts" style="margin-top:.5rem"><button class="abtn p" onclick="downloadSTQR()">⬇️ Download QR</button><button class="abtn" onclick="downloadSTPage()">📄 Download Page</button></div></div>';
+  QRCode.toCanvas(document.getElementById('stq-qr-canvas'),dataUrl,{errorCorrectionLevel:'L',margin:2,width:200,color:{dark:'#0D0D0F',light:'#FFFFFF'}});
+  window._stPageHTML=pageHTML;
+  toast('Student QR generated!');
+}
+function downloadSTQR(){const c=document.getElementById('stq-qr-canvas');if(!c)return;const a=document.createElement('a');a.href=c.toDataURL();a.download='student-qr.png';a.click();toast('Downloaded!');}
+function downloadSTPage(){if(!window._stPageHTML)return;const blob=new Blob([window._stPageHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='student-card.html';a.click();}
+
+/* ════════ SECURE QR ════════ */
+const secToggles={badge:true,sig:true,warn:true,exp:false};
+function togSecure(k){
+  secToggles[k]=!secToggles[k];
+  document.getElementById('tgl-'+k).classList.toggle('on',secToggles[k]);
+  if(k==='exp')document.getElementById('secq-expiry-row').style.display=secToggles.exp?'flex':'none';
+}
+async function simpleHash(str){
+  const buf=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('').slice(0,32);
+}
+async function generateSecureQR(){
+  const url=document.getElementById('secq-url').value.trim();
+  const org=document.getElementById('secq-org').value.trim()||'Verified Source';
+  const pass=document.getElementById('secq-pass').value.trim()||'toolzen';
+  const expiry=document.getElementById('secq-expiry').value;
+  if(!url){toast('Please enter a URL to protect!');return;}
+
+  const sig=await simpleHash(url+pass+org);
+  const issuedAt=new Date().toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'});
+  const expiryLabel=secToggles.exp&&expiry?new Date(expiry).toLocaleDateString('en-IN',{year:'numeric',month:'short',day:'numeric'}):'No Expiry';
+
+  const pageHTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Secure QR Verification</title><style>*{box-sizing:border-box;margin:0;padding:0}body{min-height:100vh;background:#050510;display:flex;align-items:center;justify-content:center;padding:1.5rem}.card{background:#0D1B2A;border-radius:22px;padding:2rem;max-width:420px;width:100%;border:1px solid #1A3A5C;animation:sl .5s ease}@keyframes sl{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}.shield{font-size:2.5rem;text-align:center;margin-bottom:.6rem}.verified{display:flex;align-items:center;justify-content:center;gap:.5rem;background:rgba(0,200,120,.1);border:1px solid rgba(0,200,120,.3);color:#00C878;font-size:.8rem;font-weight:700;padding:.5rem 1rem;border-radius:10px;margin-bottom:1rem;font-family:sans-serif}.org{color:#E0E8FF;font-size:1.1rem;font-weight:800;text-align:center;font-family:sans-serif;margin-bottom:.3rem}.url-preview{font-size:.78rem;color:#5A8AB0;text-align:center;word-break:break-all;margin-bottom:1.2rem;font-family:monospace}.meta{background:#0A1628;border-radius:10px;padding:.9rem 1rem;margin-bottom:1rem}.meta-row{display:flex;justify-content:space-between;font-size:.75rem;font-family:sans-serif;margin-bottom:.35rem}.meta-l{color:#5A7A9A}.meta-v{color:#A0C0E0;font-family:monospace;font-size:.68rem}.sig-block{background:#050F1A;border-radius:8px;padding:.7rem;margin-bottom:1rem;font-family:monospace;font-size:.62rem;color:#2A5A8A;word-break:break-all}.cta{display:block;padding:.75rem;border-radius:12px;background:linear-gradient(135deg,#00C878,#1A56DB);color:#fff;text-decoration:none;font-weight:700;font-size:.9rem;text-align:center;font-family:sans-serif}.warning{font-size:.72rem;color:#5A7A9A;text-align:center;margin-top:.7rem;font-family:sans-serif;line-height:1.5}</style></head><body><div class="card"><div class="shield">🔐</div>${secToggles.badge?'<div class="verified">✅ Verified Source — '+org+'</div>':''}<div class="org">${org}</div><div class="url-preview">${url}</div><div class="meta"><div class="meta-row"><span class="meta-l">Issued</span><span class="meta-v">${issuedAt}</span></div><div class="meta-row"><span class="meta-l">Expires</span><span class="meta-v">${expiryLabel}</span></div><div class="meta-row"><span class="meta-l">Status</span><span class="meta-v" style="color:#00C878">● Active &amp; Valid</span></div></div>${secToggles.sig?'<div class="sig-block">SHA-256 · '+sig+'</div>':''}<a class="cta" href="${url}">Continue to Site →</a>${secToggles.warn?'<div class="warning">⚠️ Always verify the URL above matches the expected website before proceeding</div>':''}</div></body></html>`;
+
+  const dataUrl='data:text/html;charset=utf-8,'+encodeURIComponent(pageHTML);
+  const out=document.getElementById('secure-out');
+  out.innerHTML='<div class="smart-qr-out">'
+    +(secToggles.badge?`<div class="secure-badge-wrap">✅ Verified Badge Active — ${org}</div>`:'' )
+    +(secToggles.sig?`<div class="sig-hash">🔏 SHA-256: ${sig}</div>`:'' )
+    +'<canvas id="secq-qr-canvas" style="margin-top:.8rem"></canvas>'
+    +'<div class="iq-mini-preview"><iframe srcdoc="'+pageHTML.replace(/"/g,'&quot;')+'"></iframe></div>'
+    +'<div class="out-acts" style="margin-top:.5rem"><button class="abtn p" onclick="downloadSECQR()">⬇️ Download QR</button><button class="abtn" onclick="downloadSECPage()">📄 Download Page</button></div>'
+    +'</div>';
+  QRCode.toCanvas(document.getElementById('secq-qr-canvas'),dataUrl,{errorCorrectionLevel:'M',margin:2,width:200,color:{dark:'#0D1B2A',light:'#FFFFFF'}});
+  window._secPageHTML=pageHTML;
+  toast('Secure QR generated!');
+}
+function downloadSECQR(){const c=document.getElementById('secq-qr-canvas');if(!c)return;const a=document.createElement('a');a.href=c.toDataURL();a.download='secure-qr.png';a.click();}
+function downloadSECPage(){if(!window._secPageHTML)return;const blob=new Blob([window._secPageHTML],{type:'text/html'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='secure-qr-page.html';a.click();}
 
 /* ════════ HERO DEMO ════════ */
 function heroDemo(){

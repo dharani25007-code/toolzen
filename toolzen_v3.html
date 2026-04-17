@@ -272,11 +272,11 @@ input[type=range]{flex:1;accent-color:var(--accent);height:4px}
 #toast.show{transform:translateX(-50%) translateY(0)}
 
 /* FOOTER */
-footer{background:var(--ink);color:rgba(255,255,255,.45);padding:2rem;text-align:center;font-size:.76rem}
-footer strong{color:#fff}
+footer{background:var(--ink);color:rgba(230, 119, 22, 0.45);padding:2rem;text-align:center;font-size:.76rem}
+footer strong{color:#ce4116}
 .footer-links{display:flex;justify-content:center;gap:1.5rem;margin-bottom:1rem;flex-wrap:wrap}
-.footer-links a{color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s}
-.footer-links a:hover{color:#fff}
+.footer-links a{color:rgba(240, 30, 30, 0.45);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:#010101}
 
 /* ANIMATIONS */
 .fi{opacity:0;transform:translateY(18px);animation:fi .55s ease forwards}
@@ -421,7 +421,7 @@ footer strong{color:#fff}
   </div>
   <div class="feat-grid">
     <div class="fc"><div class="fc-icon">🎨</div><div class="fc-title">42+ QR Module Shapes</div><p class="fc-desc">Classic, Dots, Rounded, Diamond, Star, Hex, Leaf, Moon, Ring, Shield, Octagon, Pac-Man, Lightning, Cloud, Eye, DNA, Clover, Petal, and 24+ more — all scannable.</p></div>
-    <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond, Arrow, Hexagon, Cross, Heart, Cloud, Octagon, Triforce, Curved, Bubbly, Pinch, Squircle — mix and match.</p></div>
+    <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond,  Hexagon, Cross, Heart, Cloud, Octagon, Curved, Pinch, Squircle — mix and match.</p></div>
     <div class="fc"><div class="fc-icon">🎭</div><div class="fc-title">Custom Colors + Gradients</div><p class="fc-desc">Pick any foreground & gradient end color. 12 built-in gradient presets: Sunset, Emerald, Cosmic, Gold, Fire, Ocean, Candy, Aurora and more.</p></div>
     <div class="fc"><div class="fc-icon">📄</div><div class="fc-title">22+ File Converters</div><p class="fc-desc">Word→PDF, PDF→Word, HTML→PDF, CSV→PDF, JSON↔CSV, Image resize/crop/grayscale, Watermark, Metadata editor and more — all in browser.</p></div>
     <div class="fc"><div class="fc-icon">📦</div><div class="fc-title">File Compressor</div><p class="fc-desc">Compress images (JPEG, PNG, WebP), ZIP multiple files, and reduce sizes by up to 80% without losing quality.</p></div>
@@ -541,15 +541,12 @@ footer strong{color:#fff}
               <div class="chip-e"    onclick="selEye(this,'shield')">Shield</div>
               <div class="chip-e"    onclick="selEye(this,'star')">Star</div>
               <div class="chip-e"    onclick="selEye(this,'diamond')">Diamond</div>
-              <div class="chip-e"    onclick="selEye(this,'arrow')">Arrow</div>
               <div class="chip-e"    onclick="selEye(this,'hexeye')">Hexagon</div>
               <div class="chip-e"    onclick="selEye(this,'crosseye')">Cross</div>
               <div class="chip-e"    onclick="selEye(this,'heartey')">Heart</div>
               <div class="chip-e"    onclick="selEye(this,'cloud2')">Cloud</div>
               <div class="chip-e"    onclick="selEye(this,'octaeye')">Octagon</div>
-              <div class="chip-e"    onclick="selEye(this,'trioeye')">Triforce</div>
               <div class="chip-e"    onclick="selEye(this,'curvey')">Curved</div>
-              <div class="chip-e"    onclick="selEye(this,'bubbly')">Bubbly</div>
               <div class="chip-e"    onclick="selEye(this,'pinch')">Pinch</div>
               <div class="chip-e"    onclick="selEye(this,'squirc')">Squircle</div>
             </div>
@@ -1103,7 +1100,7 @@ function drawMod(ctx,shape,x,y,s){
     case 'arrow':    ctx.moveTo(x,y+s*.22);ctx.lineTo(x+s*.58,y+s*.22);ctx.lineTo(x+s*.58,y);ctx.lineTo(x+s,cy);ctx.lineTo(x+s*.58,y+s);ctx.lineTo(x+s*.58,y+s*.78);ctx.lineTo(x,y+s*.78);ctx.closePath();break;
     case 'wave':     {const wh=s*.3;ctx.moveTo(x,cy);ctx.bezierCurveTo(x+s*.25,cy-wh,x+s*.5,cy+wh,x+s*.75,cy-wh*.5);ctx.bezierCurveTo(x+s*.9,cy-wh*.8,x+s,cy-wh*.4,x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
     case 'pixel':    {const ps=s/3;for(let pi=0;pi<3;pi++)for(let pj=0;pj<3;pj++){if((pi+pj)%2===0)ctx.rect(x+pi*ps,y+pj*ps,ps,ps);}break;}
-    case 'bubble':   {const rad=r*.9;ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.closePath();ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.arc(cx-rad*.25,cy-rad*.25,rad*.3,0,Math.PI*2);break;}
+    case 'bubble':   {const rad=r*.9;ctx.arc(cx,cy,rad,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.25)';ctx.arc(cx-rad*.25,cy-rad*.25,rad*.3,0,Math.PI*2);ctx.fill();return;}
     case 'flame':    ctx.moveTo(cx,y);ctx.bezierCurveTo(x+s*.85,y+s*.3,x+s*.75,y+s*.5,cx+s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.9,y+s*.6,x+s*.85,y+s*.8,cx,y+s);ctx.bezierCurveTo(x+s*.15,y+s*.8,x+s*.1,y+s*.6,cx-s*.15,y+s*.55);ctx.bezierCurveTo(x+s*.25,y+s*.5,x+s*.15,y+s*.3,cx,y);ctx.closePath();break;
     case 'crystal':  {for(let i=0;i<6;i++){const a=i*Math.PI/3;const bx=cx+Math.cos(a)*r*.88,by=cy+Math.sin(a)*r*.88;if(i===0)ctx.moveTo(bx,by);else ctx.lineTo(bx,by);}ctx.closePath();break;}
     case 'triangle': ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.95,y+s*.95);ctx.lineTo(x+s*.05,y+s*.95);ctx.closePath();break;
@@ -1112,8 +1109,8 @@ function drawMod(ctx,shape,x,y,s){
     case 'zigzag':   {const zw=s/4,zh=s*.4;ctx.moveTo(x,cy);for(let zi=0;zi<4;zi++){ctx.lineTo(x+zw*(zi+.5),zi%2===0?cy-zh:cy+zh);}ctx.lineTo(x+s,cy);ctx.lineTo(x+s,y+s);ctx.lineTo(x,y+s);ctx.closePath();break;}
     case 'plus':     {const pw=s*.28,po=(s-pw)/2;ctx.rect(x+po,y,pw,s);ctx.rect(x,y+po,s,pw);break;}
     /* NEW SHAPES */
-    case 'moon':     {ctx.arc(cx,cy,r*.88,0,Math.PI*2);ctx.fill();ctx.beginPath();const moff=r*.3;ctx.globalCompositeOperation='destination-out';ctx.arc(cx+moff,cy-moff,r*.72,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
-    case 'ring':     {ctx.arc(cx,cy,r*.9,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.globalCompositeOperation='destination-out';ctx.arc(cx,cy,r*.5,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='source-over';return;}
+    case 'moon':     {ctx.save();ctx.beginPath();ctx.arc(cx,cy,r*.88,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='destination-out';ctx.beginPath();const moff=r*.3;ctx.arc(cx+moff,cy-moff,r*.72,0,Math.PI*2);ctx.fill();ctx.restore();return;}
+    case 'ring':     {ctx.save();ctx.beginPath();ctx.arc(cx,cy,r*.9,0,Math.PI*2);ctx.fill();ctx.globalCompositeOperation='destination-out';ctx.beginPath();ctx.arc(cx,cy,r*.5,0,Math.PI*2);ctx.fill();ctx.restore();return;}
     case 'shield':   {ctx.moveTo(cx,y+s*.05);ctx.lineTo(x+s*.9,y+s*.25);ctx.lineTo(x+s*.9,y+s*.6);ctx.quadraticCurveTo(x+s*.9,y+s,cx,y+s);ctx.quadraticCurveTo(x+s*.1,y+s,x+s*.1,y+s*.6);ctx.lineTo(x+s*.1,y+s*.25);ctx.closePath();break;}
     case 'octagon':  {for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);else ctx.lineTo(cx+Math.cos(a)*r*.88,cy+Math.sin(a)*r*.88);}ctx.closePath();break;}
     case 'rhombus':  {ctx.moveTo(cx,y+s*.1);ctx.lineTo(x+s*.85,cy);ctx.lineTo(cx,y+s*.9);ctx.lineTo(x+s*.15,cy);ctx.closePath();break;}
@@ -1124,10 +1121,10 @@ function drawMod(ctx,shape,x,y,s){
     case 'mosaic':   {const ms2=s/2;ctx.rect(x,y,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y,ms2*.9,ms2*.9);ctx.rect(x,y+ms2*.1+ms2,ms2*.9,ms2*.9);ctx.rect(x+ms2*.1+ms2,y+ms2*.1+ms2,ms2*.9,ms2*.9);break;}
     case 'spark':    {for(let i=0;i<8;i++){const a=i*Math.PI/4,rr=i%2===0?r*.9:r*.35;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
     case 'petal':    {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.moveTo(cx,cy);ctx.arc(cx+Math.cos(a)*r*.4,cy+Math.sin(a)*r*.4,r*.6,a+Math.PI,a+Math.PI*2);}ctx.closePath();break;}
-    case 'clover':   {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.arc(cx+Math.cos(a)*r*.42,cy+Math.sin(a)*r*.42,r*.52,0,Math.PI*2);}break;}
-    case 'dna':      {ctx.ellipse(cx,cy,r*.3,r*.9,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(cx,cy,r*.3,r*.9,-Math.PI/6,0,Math.PI*2);break;}
+    case 'clover':   {for(let i=0;i<4;i++){const a=i*Math.PI/2;ctx.beginPath();ctx.arc(cx+Math.cos(a)*r*.42,cy+Math.sin(a)*r*.42,r*.52,0,Math.PI*2);ctx.fill();}return;}
+    case 'dna':      {ctx.ellipse(cx,cy,r*.3,r*.9,Math.PI/6,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.ellipse(cx,cy,r*.3,r*.9,-Math.PI/6,0,Math.PI*2);ctx.fill();return;}
     case 'cloud':    {ctx.arc(cx-r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx+r*.3,cy+r*.15,r*.45,0,Math.PI*2);ctx.arc(cx,cy-r*.05,r*.55,0,Math.PI*2);ctx.rect(cx-r*.75,cy+r*.15,r*1.5,r*.6);break;}
-    case 'eye2':     {ctx.ellipse(cx,cy,r*.9,r*.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(cx,cy,r*.28,0,Math.PI*2);break;}
+    case 'eye2':     {ctx.ellipse(cx,cy,r*.9,r*.5,0,0,Math.PI*2);ctx.fill();ctx.beginPath();ctx.fillStyle='rgba(255,255,255,0.6)';ctx.arc(cx,cy,r*.28,0,Math.PI*2);ctx.fill();return;}
     case 'lightning':{ctx.moveTo(cx+r*.2,y);ctx.lineTo(x+s*.2,cy);ctx.lineTo(cx+r*.1,cy);ctx.lineTo(x+s*.1,y+s);ctx.lineTo(cx+r*.4,cy+r*.3);ctx.lineTo(cx+r*.8,cy+r*.3);ctx.closePath();break;}
     case 'pac':      {ctx.arc(cx,cy,r*.9,Math.PI*.2,Math.PI*1.8);ctx.lineTo(cx,cy);ctx.closePath();break;}
     case 'badge':    {ctx.moveTo(cx,y+s*.05);for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/2,rr=i%2===0?r*.9:r*.75;if(i===0)ctx.moveTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);else ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);}ctx.closePath();break;}
@@ -1139,30 +1136,170 @@ function drawMod(ctx,shape,x,y,s){
   ctx.fill();
 }
 
-/* ════════ 18 EYE STYLES ════════ */
+/* ════════ EYE HELPERS ════════ */
 function rrFill(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();ctx.fill();}
+function polyEye(ctx,ecx,ecy,r,sides){ctx.beginPath();for(let i=0;i<sides;i++){const a=i*Math.PI*2/sides-Math.PI/2;i===0?ctx.moveTo(ecx+Math.cos(a)*r,ecy+Math.sin(a)*r):ctx.lineTo(ecx+Math.cos(a)*r,ecy+Math.sin(a)*r);}ctx.closePath();ctx.fill();}
+function starEye(ctx,ecx,ecy,ro,ri,pts){ctx.beginPath();for(let i=0;i<pts*2;i++){const a=i*Math.PI/pts-Math.PI/2,rr=i%2===0?ro:ri;i===0?ctx.moveTo(ecx+Math.cos(a)*rr,ecy+Math.sin(a)*rr):ctx.lineTo(ecx+Math.cos(a)*rr,ecy+Math.sin(a)*rr);}ctx.closePath();ctx.fill();}
+
+/* ════════ 18 EYE STYLES ════════ */
 function drawEye(ctx,rx,ry,ms,style,fg,bg){
   const s7=ms*7,f=c=>{ctx.fillStyle=c;},ecx=rx+s7/2,ecy=ry+s7/2;
-  if(style==='square'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
-  else if(style==='rounded'){const R=ms*1.8;f(fg);rrFill(ctx,rx,ry,s7,s7,R);f(bg);rrFill(ctx,rx+ms,ry+ms,ms*5,ms*5,R*.7);f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.8);}
-  else if(style==='circle'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.5,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='leaf'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.bezierCurveTo(rx+s7,ry,rx+s7,ry+s7,ecx,ry+s7);ctx.bezierCurveTo(rx,ry+s7,rx,ry,ecx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.bezierCurveTo(rx+s7-ms,ry+ms,rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.bezierCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms,ecx,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='shield'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7*.3);ctx.lineTo(rx+s7,ry+s7*.62);ctx.quadraticCurveTo(rx+s7,ry+s7,ecx,ry+s7);ctx.quadraticCurveTo(rx,ry+s7,rx,ry+s7*.62);ctx.lineTo(rx,ry+s7*.3);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ry+ms+s7*.22);ctx.lineTo(rx+s7-ms,ry+ms+s7*.47);ctx.quadraticCurveTo(rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);ctx.quadraticCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms+s7*.47);ctx.lineTo(rx+ms,ry+ms+s7*.22);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='star'){f(fg);ctx.beginPath();for(let i=0;i<5;i++){const a=(i*4*Math.PI/5)-Math.PI/2,ai=a+2*Math.PI/10;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);ctx.lineTo(ecx+Math.cos(ai)*ms*1.8,ecy+Math.sin(ai)*ms*1.8);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.2,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='diamond'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ecy);ctx.lineTo(ecx,ry+s7);ctx.lineTo(rx,ecy);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(ecx,ry+s7-ms);ctx.lineTo(rx+ms,ecy);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='arrow'){f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.lineTo(rx+s7-ms,ecy);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx+ms*.5,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
-  /* NEW EYE STYLES */
-  else if(style==='hexeye'){f(fg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.95,ecy+Math.sin(a)*s7/2*.95);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<6;i++){const a=i*Math.PI/3-Math.PI/6;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);else ctx.lineTo(ecx+Math.cos(a)*ms*2.4,ecy+Math.sin(a)*ms*2.4);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='crosseye'){f(fg);const ct=ms,co=(s7-ct)/2;ctx.fillRect(rx+co,ry,ct,s7);ctx.fillRect(rx,ry+co,s7,ct);f(bg);ctx.fillRect(rx+ms*1.5,ry+ms*1.5,ms*4,ms*4);f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='heartey'){f(fg);const hs2=s7*.45;ctx.beginPath();ctx.moveTo(ecx,ry+hs2);ctx.bezierCurveTo(ecx,ry,rx,ry,rx,ry+hs2);ctx.bezierCurveTo(rx,ry+s7*.72,ecx,ry+s7*.88,ecx,ry+s7);ctx.bezierCurveTo(ecx,ry+s7*.88,rx+s7,ry+s7*.72,rx+s7,ry+hs2);ctx.bezierCurveTo(rx+s7,ry,ecx,ry,ecx,ry+hs2);ctx.fill();f(bg);ctx.beginPath();const hsi=ms*.7;ctx.moveTo(ecx,ry+hs2+hsi);ctx.bezierCurveTo(ecx,ry+hsi,rx+hsi,ry+hsi,rx+hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+hsi,ry+s7*.72-hsi,ecx,ry+s7*.88-hsi,ecx,ry+s7-hsi);ctx.bezierCurveTo(ecx,ry+s7*.88-hsi,rx+s7-hsi,ry+s7*.72-hsi,rx+s7-hsi,ry+hs2+hsi);ctx.bezierCurveTo(rx+s7-hsi,ry+hsi,ecx,ry+hsi,ecx,ry+hs2+hsi);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='cloud2'){f(fg);ctx.beginPath();ctx.arc(ecx-ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx+ms,ecy+ms*.3,ms*1.6,0,Math.PI*2);ctx.arc(ecx,ecy-ms*.3,ms*1.9,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.3,0,Math.PI*2);ctx.fill();}
-  else if(style==='octaeye'){f(fg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);else ctx.lineTo(ecx+Math.cos(a)*s7/2*.92,ecy+Math.sin(a)*s7/2*.92);}ctx.closePath();ctx.fill();f(bg);ctx.beginPath();for(let i=0;i<8;i++){const a=i*Math.PI/4-Math.PI/8;if(i===0)ctx.moveTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);else ctx.lineTo(ecx+Math.cos(a)*ms*2.3,ecy+Math.sin(a)*ms*2.3);}ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='trioeye'){f(fg);ctx.beginPath();ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7);ctx.lineTo(rx,ry+s7);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(ecx,ry+ms*1.5);ctx.lineTo(rx+s7-ms,ry+s7-ms);ctx.lineTo(rx+ms,ry+s7-ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ry+s7*.62,ms*1.4,0,Math.PI*2);ctx.fill();}
-  else if(style==='curvey'){const R2=ms*2.4;f(fg);rrFill(ctx,rx,ry,s7,s7,R2);f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.8,0,Math.PI*2);ctx.fill();f(fg);rrFill(ctx,rx+ms*1.8,ry+ms*1.8,ms*3.4,ms*3.4,ms*.7);}
-  else if(style==='bubbly'){f(fg);ctx.beginPath();ctx.arc(ecx,ecy,s7/2,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.6,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.8,0,Math.PI*2);ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*.8,0,Math.PI*2);ctx.fill();}
-  else if(style==='pinch'){f(fg);ctx.beginPath();ctx.moveTo(rx,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry);ctx.quadraticCurveTo(ecx,ecy,rx+s7,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry+s7);ctx.quadraticCurveTo(ecx,ecy,rx,ry);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.moveTo(rx+ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+ms);ctx.quadraticCurveTo(ecx,ecy,rx+s7-ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+s7-ms);ctx.quadraticCurveTo(ecx,ecy,rx+ms,ry+ms);ctx.closePath();ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else if(style==='squirc'){const sq=s7*.42;f(fg);ctx.beginPath();ctx.moveTo(ecx,ry+s7*.03);ctx.bezierCurveTo(ecx+sq,ry+s7*.03,rx+s7*.97,ecy-sq+sq,rx+s7*.97,ecy);ctx.bezierCurveTo(rx+s7*.97,ecy+sq,ecx+sq,ry+s7*.97,ecx,ry+s7*.97);ctx.bezierCurveTo(ecx-sq,ry+s7*.97,rx+s7*.03,ecy+sq,rx+s7*.03,ecy);ctx.bezierCurveTo(rx+s7*.03,ecy-sq,ecx-sq,ry+s7*.03,ecx,ry+s7*.03);ctx.closePath();ctx.fill();f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.4,0,Math.PI*2);ctx.fill();f(fg);ctx.beginPath();ctx.arc(ecx,ecy,ms*1.5,0,Math.PI*2);ctx.fill();}
-  else{f(fg);ctx.fillRect(rx,ry,s7,s7);f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);}
+  const dot=r=>{ctx.beginPath();ctx.arc(ecx,ecy,r,0,Math.PI*2);ctx.fill();};
+
+  /* 1 — SQUARE (default) */
+  if(style==='square'){
+    f(fg);ctx.fillRect(rx,ry,s7,s7);
+    f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);
+    f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);
+
+  /* 2 — ROUNDED */
+  }else if(style==='rounded'){
+    const R=ms*1.6;
+    f(fg);rrFill(ctx,rx,ry,s7,s7,R);
+    f(bg);rrFill(ctx,rx+ms,ry+ms,ms*5,ms*5,R*.65);
+    f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.7);
+
+  /* 3 — CIRCLE */
+  }else if(style==='circle'){
+    f(fg);dot(s7/2);
+    f(bg);dot(ms*2.5);
+    f(fg);dot(ms*1.5);
+
+  /* 4 — LEAF */
+  }else if(style==='leaf'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.bezierCurveTo(rx+s7,ry,rx+s7,ry+s7,ecx,ry+s7);
+    ctx.bezierCurveTo(rx,ry+s7,rx,ry,ecx,ry);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+ms);ctx.bezierCurveTo(rx+s7-ms,ry+ms,rx+s7-ms,ry+s7-ms,ecx,ry+s7-ms);
+    ctx.bezierCurveTo(rx+ms,ry+s7-ms,rx+ms,ry+ms,ecx,ry+ms);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 5 — SHIELD */
+  }else if(style==='shield'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ry+s7*.28);ctx.lineTo(rx+s7,ry+s7*.6);
+    ctx.quadraticCurveTo(rx+s7,ry+s7,ecx,ry+s7);
+    ctx.quadraticCurveTo(rx,ry+s7,rx,ry+s7*.6);
+    ctx.lineTo(rx,ry+s7*.28);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    const sm=ms*1.1;
+    ctx.moveTo(ecx,ry+sm);ctx.lineTo(rx+s7-sm,ry+sm+s7*.2);ctx.lineTo(rx+s7-sm,ry+sm+s7*.44);
+    ctx.quadraticCurveTo(rx+s7-sm,ry+s7-sm,ecx,ry+s7-sm);
+    ctx.quadraticCurveTo(rx+sm,ry+s7-sm,rx+sm,ry+sm+s7*.44);
+    ctx.lineTo(rx+sm,ry+sm+s7*.2);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 6 — STAR */
+  }else if(style==='star'){
+    f(fg);starEye(ctx,ecx,ecy,s7/2*.92,ms*1.9,5);
+    f(bg);dot(ms*2.2);
+    f(fg);dot(ms*1.4);
+
+  /* 7 — DIAMOND */
+  }else if(style==='diamond'){
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry);ctx.lineTo(rx+s7,ecy);ctx.lineTo(ecx,ry+s7);ctx.lineTo(rx,ecy);ctx.closePath();ctx.fill();
+    f(bg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+ms*1.2);ctx.lineTo(rx+s7-ms*1.2,ecy);ctx.lineTo(ecx,ry+s7-ms*1.2);ctx.lineTo(rx+ms*1.2,ecy);ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 9 — HEXAGON */
+  }else if(style==='hexeye'){
+    f(fg);polyEye(ctx,ecx,ecy,s7/2*.94,6);
+    f(bg);polyEye(ctx,ecx,ecy,ms*2.45,6);
+    f(fg);dot(ms*1.4);
+
+  /* 10 — CROSS */
+  }else if(style==='crosseye'){
+    const ct=ms*1.5,co=(s7-ct)/2;
+    f(fg);ctx.fillRect(rx+co,ry,ct,s7);ctx.fillRect(rx,ry+co,s7,ct);
+    f(bg);ctx.fillRect(rx+ms*1.8,ry+ms*1.8,ms*3.4,ms*3.4);
+    f(fg);dot(ms*1.4);
+
+  /* 11 — HEART */
+  }else if(style==='heartey'){
+    const hw=s7,hh=s7,htop=ry+hh*.42;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,htop);
+    ctx.bezierCurveTo(ecx,ry+hh*.05,rx,ry+hh*.05,rx,htop);
+    ctx.bezierCurveTo(rx,ry+hh*.75,ecx,ry+hh*.9,ecx,ry+hh);
+    ctx.bezierCurveTo(ecx,ry+hh*.9,rx+hw,ry+hh*.75,rx+hw,htop);
+    ctx.bezierCurveTo(rx+hw,ry+hh*.05,ecx,ry+hh*.05,ecx,htop);
+    ctx.fill();
+    f(bg);const hpad=ms*.9;const htop2=ry+hh*.42+hpad*.5;
+    ctx.beginPath();
+    ctx.moveTo(ecx,htop2);
+    ctx.bezierCurveTo(ecx,ry+hh*.05+hpad,rx+hpad,ry+hh*.05+hpad,rx+hpad,htop2);
+    ctx.bezierCurveTo(rx+hpad,ry+hh*.75-hpad*.3,ecx,ry+hh*.9-hpad*.5,ecx,ry+hh-hpad*.6);
+    ctx.bezierCurveTo(ecx,ry+hh*.9-hpad*.5,rx+hw-hpad,ry+hh*.75-hpad*.3,rx+hw-hpad,htop2);
+    ctx.bezierCurveTo(rx+hw-hpad,ry+hh*.05+hpad,ecx,ry+hh*.05+hpad,ecx,htop2);
+    ctx.fill();
+    f(fg);dot(ms*1.4);
+
+  /* 12 — CLOUD */
+  }else if(style==='cloud2'){
+    f(fg);
+    ctx.beginPath();ctx.arc(ecx-ms*.9,ecy+ms*.4,ms*1.7,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ecx+ms*.9,ecy+ms*.4,ms*1.7,0,Math.PI*2);ctx.fill();
+    ctx.beginPath();ctx.arc(ecx,ecy-ms*.5,ms*2.0,0,Math.PI*2);ctx.fill();
+    // fill bottom gap
+    f(fg);ctx.fillRect(rx,ecy,s7,ry+s7-ecy);
+    f(bg);ctx.beginPath();ctx.arc(ecx,ecy,ms*2.0,0,Math.PI*2);ctx.fill();
+    f(fg);dot(ms*1.3);
+
+  /* 13 — OCTAGON */
+  }else if(style==='octaeye'){
+    f(fg);polyEye(ctx,ecx,ecy,s7/2*.93,8);
+    f(bg);polyEye(ctx,ecx,ecy,ms*2.35,8);
+    f(fg);dot(ms*1.4);
+
+  /* 15 — CURVED (squircle outer, circle hole, rounded inner) */
+  }else if(style==='curvey'){
+    const R2=ms*2.6;
+    f(fg);rrFill(ctx,rx,ry,s7,s7,R2);
+    f(bg);dot(ms*2.8);
+    f(fg);rrFill(ctx,rx+ms*2,ry+ms*2,ms*3,ms*3,ms*.8);
+
+  /* 17 — PINCH */
+  }else if(style==='pinch'){
+    const p=ms*1.8;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(rx,ry);
+    ctx.quadraticCurveTo(ecx,ry+p,rx+s7,ry);
+    ctx.quadraticCurveTo(rx+s7-p,ecy,rx+s7,ry+s7);
+    ctx.quadraticCurveTo(ecx,ry+s7-p,rx,ry+s7);
+    ctx.quadraticCurveTo(rx+p,ecy,rx,ry);
+    ctx.closePath();ctx.fill();
+    const p2=ms*1.1,pm=ms*1.1;
+    f(bg);ctx.beginPath();
+    ctx.moveTo(rx+pm,ry+pm);
+    ctx.quadraticCurveTo(ecx,ry+pm+p2,rx+s7-pm,ry+pm);
+    ctx.quadraticCurveTo(rx+s7-pm-p2,ecy,rx+s7-pm,ry+s7-pm);
+    ctx.quadraticCurveTo(ecx,ry+s7-pm-p2,rx+pm,ry+s7-pm);
+    ctx.quadraticCurveTo(rx+pm+p2,ecy,rx+pm,ry+pm);
+    ctx.closePath();ctx.fill();
+    f(fg);dot(ms*1.5);
+
+  /* 18 — SQUIRCLE */
+  }else if(style==='squirc'){
+    const sq=s7*.44;
+    f(fg);ctx.beginPath();
+    ctx.moveTo(ecx,ry+s7*.02);
+    ctx.bezierCurveTo(ecx+sq,ry+s7*.02,rx+s7*.98,ecy-sq,rx+s7*.98,ecy);
+    ctx.bezierCurveTo(rx+s7*.98,ecy+sq,ecx+sq,ry+s7*.98,ecx,ry+s7*.98);
+    ctx.bezierCurveTo(ecx-sq,ry+s7*.98,rx+s7*.02,ecy+sq,rx+s7*.02,ecy);
+    ctx.bezierCurveTo(rx+s7*.02,ecy-sq,ecx-sq,ry+s7*.02,ecx,ry+s7*.02);
+    ctx.closePath();ctx.fill();
+    f(bg);dot(ms*2.5);
+    f(fg);dot(ms*1.5);
+
+  /* fallback */
+  }else{
+    f(fg);ctx.fillRect(rx,ry,s7,s7);
+    f(bg);ctx.fillRect(rx+ms,ry+ms,ms*5,ms*5);
+    f(fg);ctx.fillRect(rx+ms*2,ry+ms*2,ms*3,ms*3);
+  }
 }
 
 /* ════════ MODULE DETECTION ════════ */
@@ -1181,9 +1318,16 @@ function extractMods(imgData,size){
   for(let r=0;r<n;r++){mods.push([]);for(let c=0;c<n;c++){const px=Math.min(Math.floor((c+.5)*step),size-1),py=Math.min(Math.floor((r+.5)*step),size-1);mods[r].push(d[(py*size+px)*4]<128);}}
   return{mods,n,ms:step};
 }
-function isEye(r,c,n){return(r<7&&c<7)||(r<7&&c>=n-7)||(r>=n-7&&c<7);}
+function isEye(r,c,n){return(r<8&&c<8)||(r<8&&c>=n-8)||(r>=n-8&&c<8);}
 
 /* ════════ CORE RENDER ════════ */
+// Hidden scannable canvas always rendered in plain black/white squares
+let _scannableCanvas=null;
+function renderScannableQR(url,cfg){
+  const size=cfg.size||300;
+  if(!_scannableCanvas){_scannableCanvas=document.createElement('canvas');}
+  QRCode.toCanvas(_scannableCanvas,url,{errorCorrectionLevel:'H',margin:2,width:size+36,color:{dark:'#000000',light:'#FFFFFF'}},()=>{});
+}
 function renderQR(canvas,url,cfg,logoImg,onDone){
   const size=cfg.size||300,off=cfg.border?18:0;
   canvas.width=canvas.height=size+off*2;
@@ -1197,7 +1341,7 @@ function renderQR(canvas,url,cfg,logoImg,onDone){
       const tmp=document.createElement('canvas');tmp.width=tmp.height=size;
       tmp.getContext('2d').drawImage(img,0,0);
       const{mods,n,ms}=extractMods(tmp.getContext('2d').getImageData(0,0,size,size),size);
-      const pad=ms*.08;
+      const pad=cfg.shape==='square'?ms*.08:0;
       let firstFrameDone=false;
 
       function draw(ph){
@@ -1222,7 +1366,25 @@ function renderQR(canvas,url,cfg,logoImg,onDone){
           }
         }
         ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
-        [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>drawEye(ctx,off+ec*ms,off+er*ms,ms,cfg.eye,cfg.fg,cfg.bg));
+
+        // STEP 1: Always draw standard square finder pattern — guarantees scanning works
+        [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>{
+          const ex=off+ec*ms,ey=off+er*ms,s7=ms*7;
+          ctx.fillStyle=cfg.fg;ctx.fillRect(ex,ey,s7,s7);
+          ctx.fillStyle=cfg.bg;ctx.fillRect(ex+ms,ey+ms,ms*5,ms*5);
+          ctx.fillStyle=cfg.fg;ctx.fillRect(ex+ms*2,ey+ms*2,ms*3,ms*3);
+        });
+
+        // STEP 2: Overlay decorative eye style clipped to the 7x7 zone
+        if(cfg.eye!=='square'){
+          [[0,0],[0,n-7],[n-7,0]].forEach(([er,ec])=>{
+            const ex=off+ec*ms,ey=off+er*ms,s7=ms*7;
+            ctx.save();
+            ctx.beginPath();ctx.rect(ex,ey,s7,s7);ctx.clip();
+            drawEye(ctx,ex,ey,ms,cfg.eye,cfg.fg,cfg.bg);
+            ctx.restore();
+          });
+        }
 
         if(cfg.scan){
           const sy=off+size*.1+(size*.8*((Math.sin(ph*.45)+1)/2));
@@ -1268,6 +1430,7 @@ function generateQR(){
   canvas.onclick=dlQR;
 
   function doRender(logoImg){
+    renderScannableQR(url,cfg);
     renderQR(canvas,url,cfg,logoImg,(ok)=>{
       document.getElementById('qr-spinner').classList.remove('show');
       if(!ok){toast('Failed — check URL and retry');document.getElementById('out-empty').style.display='';return;}
@@ -1284,7 +1447,7 @@ function buildOutput(canvas,url){
   wrap.innerHTML='';wrap.style.display='flex';
   const cWrap=document.createElement('div');cWrap.style.cssText='position:relative;display:inline-block';cWrap.appendChild(canvas);wrap.appendChild(cWrap);
   const acts=document.createElement('div');acts.className='out-acts';
-  acts.innerHTML=`<button class="abtn p" onclick="dlQR()">⬇ Download</button><button class="abtn" onclick="copyQR()">📋 Copy</button><button class="abtn" onclick="copyURL()">🔗 Copy URL</button><button class="abtn" onclick="dlQRSvgStyle()">🎨 Make Card</button>`;
+  acts.innerHTML=`<button class="abtn p" onclick="dlQR()">⬇ Download</button><button class="abtn" onclick="dlScannable()" title="Download a plain black & white version guaranteed to scan">📲 Scannable</button><button class="abtn" onclick="copyQR()">📋 Copy</button><button class="abtn" onclick="copyURL()">🔗 Copy URL</button><button class="abtn" onclick="dlQRSvgStyle()">🎨 Make Card</button>`;
   wrap.appendChild(acts);
   const lbl=document.createElement('div');lbl.className='out-url';lbl.textContent=url;wrap.appendChild(lbl);
 }
@@ -1312,6 +1475,7 @@ function buildHistoryUI(){
 
 /* ════════ ACTIONS ════════ */
 function dlQR(){const c=document.getElementById('qr-main');if(!c)return;const a=document.createElement('a');a.download='TOOLZEN-code.png';a.href=c.toDataURL('image/png');a.click();toast('Downloaded!');}
+function dlScannable(){if(!_scannableCanvas){toast('Generate a QR first');return;}const a=document.createElement('a');a.download='TOOLZEN-scannable.png';a.href=_scannableCanvas.toDataURL('image/png');a.click();toast('Scannable version downloaded!');}
 function copyQR(){const c=document.getElementById('qr-main');if(!c){toast('Generate first');return;}c.toBlob(blob=>{try{navigator.clipboard.write([new ClipboardItem({'image/png':blob})]).then(()=>toast('Copied!')).catch(()=>toast('Use Download'));}catch(e){toast('Use Download');}});}
 function copyURL(){const u=document.getElementById('url-input').value.trim();if(!u)return;navigator.clipboard.writeText(u).then(()=>toast('URL copied!'));}
 function dlQRSvgStyle(){const u=document.getElementById('url-input').value.trim();if(u)document.getElementById('bc-url').value=u;setQRMode('card');showSection('qr');}
@@ -2062,11 +2226,28 @@ async function processFile(){
       const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});filename=file.name.replace(/\.pdf$/i,'')+'_numbered';ext='pdf';
     }
 
+    else if(currentTool==='ppt2pdf'||currentTool==='excel2pdf'){
+      const file=currentFile instanceof FileList?currentFile[0]:currentFile;
+      const arrayBuffer=await file.arrayBuffer();fill.style.width='50%';
+      // Extract text via mammoth (works for docx; for pptx/xlsx we extract raw text)
+      let text=`Converted from: ${file.name}\n\n`;
+      try{const result=await mammoth.extractRawText({arrayBuffer});text+=result.value||'[No text content extracted]';}
+      catch(e){text+=`[Browser-based ${currentTool==='ppt2pdf'?'PowerPoint':'Excel'} conversion has limited support]\n\nFor best results, open the file in Office or Google Docs and export as PDF.\n\nFile: ${file.name}`;}
+      fill.style.width='75%';
+      const {PDFDocument,rgb,StandardFonts}=PDFLib;
+      const pdfDoc=await PDFDocument.create();const font=await pdfDoc.embedFont(StandardFonts.Helvetica);
+      const safeText=text.replace(/[^\x00-\xFF]/g,c=>{const m={'\u2018':"'",'\u2019':"'",'\u201C':'"','\u201D':'"','\u2013':'-','\u2014':'--','\u2026':'...','\u00A0':' '};return m[c]||'?';});
+      const lines=safeText.split('\n');let page=pdfDoc.addPage([595,842]);let y=page.getHeight()-50;
+      lines.forEach(line=>{const chunks=line.match(/.{1,85}/g)||[''];chunks.forEach(chunk=>{if(y<50){page=pdfDoc.addPage([595,842]);y=page.getHeight()-50;}try{page.drawText(chunk||' ',{x:50,y,size:11,font,color:rgb(0,0,0)});}catch(e){}y-=17;});});
+      const bytes=await pdfDoc.save();resultBlob=new Blob([bytes],{type:'application/pdf'});
+      filename=file.name.replace(/\.(pptx?|xlsx?)$/i,'');ext='pdf';
+    }
+
     fill.style.width='100%';
     if(resultBlob){
       const url=URL.createObjectURL(resultBlob);
-      const origFile=currentFile instanceof FileList?currentFile[0]:currentFile;
-      const origSize=(origFile.size/1024).toFixed(1);
+      const origFile=currentFile instanceof FileList?currentFile[0]:(currentFile===true?null:currentFile);
+      const origSize=origFile?(origFile.size/1024).toFixed(1):'—';
       const newSize=(resultBlob.size/1024).toFixed(1);
       document.getElementById('tp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origSize} KB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newSize} KB</div><div class="stat-l2">Result</div></div>`;
       document.getElementById('tp-result').className='result-box show';
