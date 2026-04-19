@@ -11,6 +11,9 @@
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![No Server Required](https://img.shields.io/badge/Server-None%20Required-blueviolet?style=flat-square)](#)
+[![Live Demo](https://img.shields.io/badge/🌐%20Live%20Demo-Visit%20Site-C84B31?style=for-the-badge)](https://dharani25007-code.github.io/toolzen/)
+
+### 🌐 [**Try it Live → dharani25007-code.github.io/toolzen**](https://dharani25007-code.github.io/toolzen/)
 
 </div>
 
