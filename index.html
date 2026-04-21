@@ -442,6 +442,7 @@ footer strong{color:#fff}
     <button class="nav-tab" onclick="showSection('tools')">File Tools</button>
     <button class="nav-tab" onclick="showSection('compress')">Compress</button>
     <button class="nav-tab" onclick="showSection('ai')" style="background:linear-gradient(135deg,#7C3AED,#C84B31);color:#fff;border-radius:26px">✨ AI Assistant</button>
+    <button class="nav-tab" onclick="showSection('utilities')">🧰 Utilities</button>
     <button class="nav-tab" onclick="showSection('analytics')">📊 Analytics</button>
   </div>
   <div class="nav-right">
@@ -459,6 +460,7 @@ footer strong{color:#fff}
   <button onclick="showSection('tools');toggleMenu()">🔄 File Converter</button>
   <button onclick="showSection('compress');toggleMenu()">📦 Compressor</button>
   <button onclick="showSection('ai');toggleMenu()" style="background:linear-gradient(135deg,#7C3AED,#C84B31);color:#fff;border-color:transparent">✨ AI Assistant</button>
+  <button onclick="showSection('utilities');toggleMenu()">🧰 Utilities</button>
   <button onclick="showSection('analytics');toggleMenu()">📊 Analytics</button>
   <button onclick="showSection('home');setTimeout(()=>document.getElementById('features').scrollIntoView({behavior:'smooth'}),300);toggleMenu()">⭐ Features</button>
 </div>
@@ -515,6 +517,14 @@ footer strong{color:#fff}
     <div class="strip-item"><div class="strip-dot"></div>Number Base Converter</div>
     <div class="strip-item"><div class="strip-dot"></div>Animated QR</div>
     <div class="strip-item"><div class="strip-dot"></div>Brand Kit</div>
+    <div class="strip-item"><div class="strip-dot"></div>📇 vCard / WiFi QR</div>
+    <div class="strip-item"><div class="strip-dot"></div>🌡️ Unit Converter</div>
+    <div class="strip-item"><div class="strip-dot"></div>💱 Live Currency</div>
+    <div class="strip-item"><div class="strip-dot"></div>🔍 JSON Formatter</div>
+    <div class="strip-item"><div class="strip-dot"></div>📊 CSV → Excel</div>
+    <div class="strip-item"><div class="strip-dot"></div>🔤 Text Diff</div>
+    <div class="strip-item"><div class="strip-dot"></div>📸 Meme Maker</div>
+    <div class="strip-item"><div class="strip-dot"></div>⏱️ Pomodoro Timer</div>
     <div class="strip-item"><div class="strip-dot"></div>42+ QR Shapes</div>
     <div class="strip-item"><div class="strip-dot"></div>18 Eye Styles</div>
     <div class="strip-item"><div class="strip-dot"></div>PDF → Word (.docx)</div>
@@ -1207,19 +1217,49 @@ footer strong{color:#fff}
 </div>
 </div>
 
+<!-- ══ UTILITIES SECTION ══ -->
+<div id="sec-utilities" class="section">
+<div class="tools-section">
+  <div class="app-head">
+    <div class="sec-tag">🧰 Utilities</div>
+    <h2 class="sec-title">Power Tools</h2>
+    <p style="color:var(--ink2);margin-top:.5rem;font-size:.9rem">8 essential utilities — all in browser, all free</p>
+  </div>
+  <div id="util-grid-view">
+    <div class="tools-grid" style="margin-top:1rem">
+      <div class="tool-card"><div class="tool-card-icon" style="background:#E0F2FE;font-size:1.3rem">📇</div><div class="tool-card-title">vCard / WiFi QR</div><div class="tool-card-desc">Generate QR codes for contacts (vCard) or WiFi networks — share credentials wirelessly.</div><button class="tool-card-btn" onclick="openUtil('vcardqr')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF7ED;font-size:1.3rem">🌡️</div><div class="tool-card-title">Unit Converter</div><div class="tool-card-desc">Convert length, weight, temperature, and speed — all units in one place.</div><button class="tool-card-btn" onclick="openUtil('unitconv')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F0FDF4;font-size:1.3rem">💱</div><div class="tool-card-title">Currency Converter</div><div class="tool-card-desc">Live exchange rates: USD, INR, EUR, GBP, JPY, AUD, CAD and 20+ more currencies.</div><button class="tool-card-btn" onclick="openUtil('currency')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#EEF2FF;font-size:1.3rem">🔍</div><div class="tool-card-title">JSON Formatter</div><div class="tool-card-desc">Paste JSON to pretty-print, validate, and explore structure. Instant error detection.</div><button class="tool-card-btn" onclick="openUtil('jsonformat')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#DCFCE7;font-size:1.3rem">📊</div><div class="tool-card-title">CSV → Excel (.xlsx)</div><div class="tool-card-desc">Convert CSV files to real Excel spreadsheets with proper formatting and download.</div><button class="tool-card-btn" onclick="openUtil('csv2xlsx')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FDF4FF;font-size:1.3rem">🔤</div><div class="tool-card-title">Text Diff Checker</div><div class="tool-card-desc">Compare two texts side by side and highlight what changed — added, removed, or modified.</div><button class="tool-card-btn" onclick="openUtil('textdiff')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF1F2;font-size:1.3rem">📸</div><div class="tool-card-title">Image Text / Meme</div><div class="tool-card-desc">Add top and bottom text to any image, pick font size and color, download as PNG.</div><button class="tool-card-btn" onclick="openUtil('mememaker')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F3E8FF;font-size:1.3rem">⏱️</div><div class="tool-card-title">Pomodoro Timer</div><div class="tool-card-desc">Built-in focus timer with Pomodoro intervals. Work sessions, short and long breaks.</div><button class="tool-card-btn" onclick="openUtil('pomodoro')">Open Tool →</button></div>
+    </div>
+  </div>
+  <div id="util-panel-wrap" style="display:none;max-width:800px;margin:1.5rem auto 0">
+    <div class="fp-header">
+      <button class="fp-back" onclick="closeUtil()">← Back</button>
+      <h2 class="fp-title" id="util-panel-title">Tool</h2>
+    </div>
+    <div class="fp-body" id="util-body" style="gap:1rem"></div>
+  </div>
+</div>
+</div>
+
 <footer>
-  <div class="footer-links">
     <a href="#" onclick="showSection('home');return false">Home</a>
     <a href="#" onclick="showSection('qr');return false">QR Designer</a>
     <a href="#" onclick="showSection('tools');return false">File Tools</a>
     <a href="#" onclick="showSection('compress');return false">Compressor</a>
     <a href="#" onclick="showSection('analytics');return false">Analytics</a>
+    <a href="#" onclick="showSection('utilities');return false">Utilities</a>
   </div>
   <div style="display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:.5rem">
     <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#C84B31"/><rect x="4" y="6" width="10" height="13" rx="2" fill="white" opacity="0.9"/><line x1="6" y1="10" x2="12" y2="10" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="13" x2="12" y2="13" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><path d="M15.5 12 L17.5 10 L17.5 11.2 L19.5 11.2 L19.5 12.8 L17.5 12.8 L17.5 14 Z" fill="white"/><path d="M19.5 16 L17.5 18 L17.5 16.8 L15.5 16.8 L15.5 15.2 L17.5 15.2 L17.5 14 Z" fill="white" opacity="0.7"/><rect x="21" y="6" width="7" height="13" rx="2" fill="white" opacity="0.75"/><rect x="4" y="22" width="24" height="4" rx="2" fill="white" opacity="0.3"/><rect x="4" y="22" width="14" height="4" rx="2" fill="white" opacity="0.7"/></svg>
-    <strong>TOOLZEN v5</strong>
+    <strong>TOOLZEN v6</strong>
   </div>
-  <div>Smart File Converter · QR Designer · Compressor · Analytics — 50+ Tools, All Free, All In Browser</div>
+  <div>Smart File Converter · QR Designer · Compressor · Analytics · 8 New Utilities — 58+ Tools, All Free, All In Browser</div>
   <div style="margin-top:.5rem;font-size:.68rem;color:rgba(255,255,255,.25)">© 2026 TOOLZEN</div>
 </footer>
 
@@ -1233,10 +1273,11 @@ const PAGE_TITLES={
   tools:'TOOLZEN — File Tools',
   compress:'TOOLZEN — File Compressor',
   analytics:'TOOLZEN — Scan Analytics',
-  ai:'TOOLZEN — AI Assistant'
+  ai:'TOOLZEN — AI Assistant',
+  utilities:'TOOLZEN — Utilities'
 };
 
-const ALL_SECTIONS = ['home','qr','tools','compress','analytics','ai'];
+const ALL_SECTIONS = ['home','qr','tools','compress','analytics','ai','utilities'];
 
 function showSection(s){
   ALL_SECTIONS.forEach(id=>{
@@ -3878,7 +3919,565 @@ function clearAiChat() {
   document.getElementById('ai-suggestions').style.display = 'flex';
 }
 
-/* ════ END AI ASSISTANT ════ */
+/* ════ UTILITIES ════ */
+function openUtil(id){
+  document.getElementById('util-grid-view').style.display='none';
+  document.getElementById('util-panel-wrap').style.display='block';
+  const titles={vcardqr:'📇 vCard / WiFi QR',unitconv:'🌡️ Unit Converter',currency:'💱 Currency Converter',jsonformat:'🔍 JSON Formatter & Validator',csv2xlsx:'📊 CSV → Excel (.xlsx)',textdiff:'🔤 Text Diff Checker',mememaker:'📸 Image Text / Meme Maker',pomodoro:'⏱️ Pomodoro Timer'};
+  document.getElementById('util-panel-title').textContent=titles[id]||id;
+  const body=document.getElementById('util-body');
+  body.innerHTML='';
+  if(id==='vcardqr') renderVcardQr(body);
+  else if(id==='unitconv') renderUnitConv(body);
+  else if(id==='currency') renderCurrency(body);
+  else if(id==='jsonformat') renderJsonFormat(body);
+  else if(id==='csv2xlsx') renderCsv2Xlsx(body);
+  else if(id==='textdiff') renderTextDiff(body);
+  else if(id==='mememaker') renderMemeMaker(body);
+  else if(id==='pomodoro') renderPomodoro(body);
+}
+function closeUtil(){
+  document.getElementById('util-grid-view').style.display='block';
+  document.getElementById('util-panel-wrap').style.display='none';
+  if(window._pomTimer) clearInterval(window._pomTimer);
+}
+
+/* ── 1. vCard / WiFi QR ── */
+function renderVcardQr(body){
+  body.innerHTML=`
+  <div style="display:flex;gap:.4rem;margin-bottom:.2rem" id="vq-tabs">
+    <button class="opt-chip on" onclick="vqTab(this,'vcard')">👤 vCard Contact</button>
+    <button class="opt-chip" onclick="vqTab(this,'wifi')">📶 WiFi Network</button>
+  </div>
+  <div id="vq-vcard">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+      <div class="fl"><label class="flbl">First Name</label><input class="url-in" id="vq-fn" placeholder="Rahul"/></div>
+      <div class="fl"><label class="flbl">Last Name</label><input class="url-in" id="vq-ln" placeholder="Sharma"/></div>
+      <div class="fl"><label class="flbl">Phone</label><input class="url-in" id="vq-ph" placeholder="+91 9876543210"/></div>
+      <div class="fl"><label class="flbl">Email</label><input class="url-in" id="vq-em" placeholder="rahul@example.com"/></div>
+      <div class="fl" style="grid-column:1/-1"><label class="flbl">Organization</label><input class="url-in" id="vq-org" placeholder="ACME Corp"/></div>
+      <div class="fl" style="grid-column:1/-1"><label class="flbl">Website</label><input class="url-in" id="vq-url" placeholder="https://example.com"/></div>
+    </div>
+  </div>
+  <div id="vq-wifi" style="display:none">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+      <div class="fl"><label class="flbl">Network Name (SSID)</label><input class="url-in" id="vq-ssid" placeholder="MyHomeWiFi"/></div>
+      <div class="fl"><label class="flbl">Security</label>
+        <select class="url-in" id="vq-sec"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="">None (Open)</option></select>
+      </div>
+      <div class="fl" style="grid-column:1/-1"><label class="flbl">Password</label><input class="url-in" id="vq-pw" type="password" placeholder="WiFi password"/></div>
+    </div>
+  </div>
+  <button class="process-btn" onclick="genVcardQr()">Generate QR Code</button>
+  <div id="vq-out" style="display:none;text-align:center">
+    <canvas id="vq-canvas" style="border-radius:12px;max-width:250px"></canvas>
+    <div style="margin-top:.8rem;display:flex;gap:.5rem;justify-content:center">
+      <button class="dl-btn" onclick="dlVcardQr()">⬇ Download PNG</button>
+    </div>
+  </div>`;
+}
+function vqTab(el,t){
+  el.closest('#vq-tabs').querySelectorAll('.opt-chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('vq-vcard').style.display=t==='vcard'?'':'none';
+  document.getElementById('vq-wifi').style.display=t==='wifi'?'':'none';
+}
+function genVcardQr(){
+  const isWifi=document.getElementById('vq-wifi').style.display!=='none';
+  let data='';
+  if(isWifi){
+    const ssid=document.getElementById('vq-ssid').value.trim();
+    const sec=document.getElementById('vq-sec').value;
+    const pw=document.getElementById('vq-pw').value;
+    if(!ssid){toast('Enter a network name');return;}
+    data=`WIFI:T:${sec};S:${ssid};P:${pw};;`;
+  } else {
+    const fn=document.getElementById('vq-fn').value.trim();
+    const ln=document.getElementById('vq-ln').value.trim();
+    if(!fn&&!ln){toast('Enter at least a name');return;}
+    data=`BEGIN:VCARD\nVERSION:3.0\nN:${ln};${fn}\nFN:${fn} ${ln}\nORG:${document.getElementById('vq-org').value}\nTEL:${document.getElementById('vq-ph').value}\nEMAIL:${document.getElementById('vq-em').value}\nURL:${document.getElementById('vq-url').value}\nEND:VCARD`;
+  }
+  const canvas=document.getElementById('vq-canvas');
+  QRCode.toCanvas(canvas,data,{width:250,margin:2,color:{dark:'#0D0D0F',light:'#FFFFFF'}},err=>{
+    if(err){toast('QR Error: '+err.message);return;}
+    document.getElementById('vq-out').style.display='block';
+    toast('QR generated!');
+  });
+}
+function dlVcardQr(){
+  const canvas=document.getElementById('vq-canvas');
+  const a=document.createElement('a');a.download='contact-qr.png';a.href=canvas.toDataURL();a.click();
+}
+
+/* ── 2. Unit Converter ── */
+function renderUnitConv(body){
+  const cats={
+    Length:{units:['mm','cm','m','km','in','ft','yd','mi'],base:{mm:1,cm:10,m:1000,km:1e6,in:25.4,ft:304.8,yd:914.4,mi:1609344}},
+    Weight:{units:['mg','g','kg','t','oz','lb'],base:{mg:1,g:1000,kg:1e6,t:1e9,oz:28349.5,lb:453592}},
+    Speed:{units:['m/s','km/h','mph','knot','ft/s'],base:{'m/s':1,'km/h':0.27778,'mph':0.44704,'knot':0.51444,'ft/s':0.3048}},
+    Temperature:{units:['°C','°F','K'],base:null}
+  };
+  window._ucCats=cats;
+  body.innerHTML=`
+  <div class="fl"><label class="flbl">Category</label>
+    <select class="url-in" id="uc-cat" onchange="ucUpdateUnits()">${Object.keys(cats).map(k=>`<option>${k}</option>`).join('')}</select>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:.7rem;align-items:end">
+    <div class="fl"><label class="flbl">From</label>
+      <select class="url-in" id="uc-from"></select>
+    </div>
+    <div style="font-size:1.4rem;padding-bottom:.3rem;text-align:center">⇄</div>
+    <div class="fl"><label class="flbl">To</label>
+      <select class="url-in" id="uc-to"></select>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+    <div class="fl"><label class="flbl">Value</label><input class="url-in" id="uc-val" type="number" value="1" oninput="ucConvert()"/></div>
+    <div class="fl"><label class="flbl">Result</label><input class="url-in" id="uc-res" readonly style="background:var(--paper2);font-weight:700"/></div>
+  </div>
+  <div id="uc-table" style="background:var(--paper2);border-radius:10px;padding:.9rem;font-size:.78rem;line-height:1.9;font-family:var(--font-m)"></div>`;
+  ucUpdateUnits();
+}
+function ucUpdateUnits(){
+  const cat=document.getElementById('uc-cat').value;
+  const units=window._ucCats[cat].units;
+  ['uc-from','uc-to'].forEach((id,i)=>{
+    document.getElementById(id).innerHTML=units.map((u,j)=>`<option${(i===0&&j===0)||(i===1&&j===1)?' selected':''}>${u}</option>`).join('');
+  });
+  ucConvert();
+}
+function ucConvert(){
+  const cat=document.getElementById('uc-cat').value;
+  const from=document.getElementById('uc-from').value;
+  const to=document.getElementById('uc-to').value;
+  const val=parseFloat(document.getElementById('uc-val').value)||0;
+  let result=0;
+  if(cat==='Temperature'){
+    let c=val;
+    if(from==='°F')c=(val-32)/1.8;
+    else if(from==='K')c=val-273.15;
+    if(to==='°C')result=c;
+    else if(to==='°F')result=c*1.8+32;
+    else result=c+273.15;
+  } else {
+    const base=window._ucCats[cat].base;
+    const inBase=val*base[from];
+    result=inBase/base[to];
+  }
+  document.getElementById('uc-res').value=result%1===0?result:+result.toFixed(6);
+  // Quick ref table
+  const units=window._ucCats[cat].units;
+  let rows='';
+  units.forEach(u=>{
+    let r=0;
+    if(cat==='Temperature'){
+      let c=val;
+      if(from==='°F')c=(val-32)/1.8;else if(from==='K')c=val-273.15;
+      if(u==='°C')r=c;else if(u==='°F')r=c*1.8+32;else r=c+273.15;
+    } else {
+      const base=window._ucCats[cat].base;
+      r=val*base[from]/base[u];
+    }
+    rows+=`<span style="color:var(--ink3)">${val} ${from}</span> = <strong>${r%1===0?r:+r.toFixed(5)} ${u}</strong><br>`;
+  });
+  document.getElementById('uc-table').innerHTML=rows;
+}
+
+/* ── 3. Currency Converter ── */
+function renderCurrency(body){
+  body.innerHTML=`
+  <p style="font-size:.8rem;color:var(--ink3)">Live exchange rates via open.er-api.com (free, no key needed). Rates refresh on load.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+    <div class="fl"><label class="flbl">Amount</label><input class="url-in" id="fx-amt" type="number" value="100" oninput="fxConvert()"/></div>
+    <div class="fl"><label class="flbl">From</label>
+      <select class="url-in" id="fx-from" onchange="fxConvert()"></select>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem">
+    <div class="fl"><label class="flbl">Result</label><input class="url-in" id="fx-res" readonly style="background:var(--paper2);font-weight:700;font-size:1.05rem"/></div>
+    <div class="fl"><label class="flbl">To</label>
+      <select class="url-in" id="fx-to" onchange="fxConvert()"></select>
+    </div>
+  </div>
+  <div id="fx-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin-top:.3rem"></div>
+  <div id="fx-status" style="font-size:.72rem;color:var(--ink3);text-align:center"></div>`;
+  fxLoad();
+}
+window._fxRates={};
+async function fxLoad(){
+  const st=document.getElementById('fx-status');
+  if(st)st.textContent='⏳ Fetching rates…';
+  try{
+    const r=await fetch('https://open.er-api.com/v6/latest/USD');
+    const d=await r.json();
+    window._fxRates=d.rates;
+    const currencies=Object.keys(d.rates).sort();
+    const pref=['USD','INR','EUR','GBP','JPY','AUD','CAD','CHF','SGD','AED','CNY','HKD','MXN','BRL','ZAR','KRW','THB','IDR','MYR','PKR'];
+    const ordered=[...pref.filter(c=>currencies.includes(c)),...currencies.filter(c=>!pref.includes(c))];
+    ['fx-from','fx-to'].forEach((id,i)=>{
+      const sel=document.getElementById(id);
+      if(!sel)return;
+      sel.innerHTML=ordered.map(c=>`<option${(i===0&&c==='USD')||(i===1&&c==='INR')?' selected':''}>${c}</option>`).join('');
+    });
+    if(st)st.textContent=`✅ Rates updated: ${new Date(d.time_last_update_utc).toLocaleString()}`;
+    fxConvert();
+    fxGrid();
+  }catch(e){if(st)st.textContent='⚠️ Could not fetch rates. Check connection.';}
+}
+function fxConvert(){
+  const rates=window._fxRates;if(!Object.keys(rates).length)return;
+  const from=document.getElementById('fx-from')?.value;
+  const to=document.getElementById('fx-to')?.value;
+  const amt=parseFloat(document.getElementById('fx-amt')?.value)||0;
+  const inUSD=amt/rates[from];
+  const result=inUSD*rates[to];
+  const el=document.getElementById('fx-res');
+  if(el)el.value=result.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:4});
+  fxGrid();
+}
+function fxGrid(){
+  const rates=window._fxRates;if(!Object.keys(rates).length)return;
+  const from=document.getElementById('fx-from')?.value;
+  const amt=parseFloat(document.getElementById('fx-amt')?.value)||1;
+  const grid=document.getElementById('fx-grid');if(!grid)return;
+  const show=['USD','INR','EUR','GBP','JPY','AUD','CAD','CHF','SGD','AED','CNY','HKD'];
+  grid.innerHTML=show.map(c=>{
+    const v=(amt/rates[from])*rates[c];
+    return `<div style="background:var(--paper2);border-radius:9px;padding:.6rem .8rem;border:1px solid var(--border)">
+      <div style="font-size:.65rem;color:var(--ink3);font-weight:700">${c}</div>
+      <div style="font-family:var(--font-m);font-weight:700;font-size:.9rem">${v.toLocaleString('en',{minimumFractionDigits:2,maximumFractionDigits:2})}</div>
+    </div>`;
+  }).join('');
+}
+
+/* ── 4. JSON Formatter ── */
+function renderJsonFormat(body){
+  body.innerHTML=`
+  <div class="fl"><label class="flbl">Paste JSON here</label>
+    <textarea class="url-in" id="jf-in" rows="10" style="font-family:var(--font-m);font-size:.78rem;resize:vertical;min-height:160px" placeholder='{"name":"TOOLZEN","version":5,"tools":["QR","Converter","AI"]}'></textarea>
+  </div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="jfFormat()">✨ Format & Validate</button>
+    <button class="abtn" onclick="jfMinify()">⚡ Minify</button>
+    <button class="abtn" onclick="jfClear()">🗑 Clear</button>
+    <button class="abtn" onclick="jfCopy()">📋 Copy Output</button>
+  </div>
+  <div id="jf-status" style="font-size:.8rem;border-radius:8px;padding:.5rem .8rem;display:none"></div>
+  <pre id="jf-out" style="display:none;background:var(--paper2);border-radius:11px;padding:1rem;font-size:.75rem;overflow:auto;max-height:380px;border:1px solid var(--border);white-space:pre-wrap;word-break:break-word;font-family:var(--font-m);line-height:1.6"></pre>`;
+}
+function jfFormat(){
+  const raw=document.getElementById('jf-in').value.trim();
+  const st=document.getElementById('jf-status');
+  const out=document.getElementById('jf-out');
+  if(!raw){toast('Paste some JSON first');return;}
+  try{
+    const parsed=JSON.parse(raw);
+    const pretty=JSON.stringify(parsed,null,2);
+    // Syntax highlight
+    const html=pretty.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,match=>{
+      let cls='color:#C84B31';
+      if(/^"/.test(match)){if(/:$/.test(match))cls='color:var(--accent2)';else cls='color:#0F9E6E';}
+      else if(/true|false/.test(match))cls='color:#7C3AED';
+      else if(/null/.test(match))cls='color:var(--ink3)';
+      return `<span style="${cls}">${match}</span>`;
+    });
+    out.innerHTML=html;out.style.display='block';
+    st.style.cssText='display:block;background:#DCFCE7;color:#166534;font-size:.8rem;border-radius:8px;padding:.5rem .8rem';
+    st.textContent=`✅ Valid JSON — ${JSON.stringify(parsed).length} chars, ${countKeys(parsed)} keys`;
+    window._jfParsed=parsed;
+  }catch(e){
+    out.style.display='none';
+    st.style.cssText='display:block;background:#FEE2E2;color:#991B1B;font-size:.8rem;border-radius:8px;padding:.5rem .8rem';
+    st.textContent='❌ Invalid JSON: '+e.message;
+  }
+}
+function countKeys(o,n=0){if(typeof o==='object'&&o!==null){n+=Object.keys(o).length;Object.values(o).forEach(v=>{if(typeof v==='object')n=countKeys(v,n);});}return n;}
+function jfMinify(){
+  const raw=document.getElementById('jf-in').value.trim();
+  if(!raw){toast('Paste some JSON first');return;}
+  try{
+    document.getElementById('jf-out').textContent=JSON.stringify(JSON.parse(raw));
+    document.getElementById('jf-out').style.display='block';
+    toast('Minified!');
+  }catch(e){toast('Invalid JSON: '+e.message);}
+}
+function jfClear(){document.getElementById('jf-in').value='';document.getElementById('jf-out').style.display='none';document.getElementById('jf-status').style.display='none';}
+function jfCopy(){
+  const out=document.getElementById('jf-out');
+  if(!out.textContent){toast('Nothing to copy');return;}
+  navigator.clipboard.writeText(out.textContent).then(()=>toast('Copied!')).catch(()=>toast('Copy failed'));
+}
+
+/* ── 5. CSV → Excel ── */
+function renderCsv2Xlsx(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="cx-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="cxDrop(event)">
+    <input type="file" id="cx-file" accept=".csv,text/csv" onchange="cxLoad(this.files[0])"/>
+    <div class="upload-icon">📊</div>
+    <div class="upload-title">Drop CSV file here or click to browse</div>
+    <div class="upload-sub">Supports .csv files</div>
+  </div>
+  <div class="file-info" id="cx-info"></div>
+  <div id="cx-preview" style="display:none;overflow:auto;max-height:220px;border-radius:10px;border:1px solid var(--border)"></div>
+  <div style="display:flex;gap:.7rem;align-items:center;flex-wrap:wrap" id="cx-opts" style="display:none">
+    <div class="fl" style="flex:1"><label class="flbl">Sheet Name</label><input class="url-in" id="cx-sheet" value="Sheet1"/></div>
+  </div>
+  <button class="process-btn" id="cx-btn" onclick="cxConvert()" disabled>📊 Convert to Excel (.xlsx)</button>
+  <div class="result-box" id="cx-result">
+    <div class="result-title">✅ Excel file ready!</div>
+    <div class="result-stats" id="cx-stats"></div>
+    <button class="dl-btn" id="cx-dl">⬇ Download .xlsx</button>
+  </div>`;
+  window._cxData=null;
+}
+function cxDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');cxLoad(e.dataTransfer.files[0]);}
+function cxLoad(file){
+  if(!file)return;
+  const info=document.getElementById('cx-info');
+  info.textContent=`📄 ${file.name} (${(file.size/1024).toFixed(1)} KB)`;info.classList.add('show');
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const text=ev.target.result;
+    const rows=text.trim().split('\n').map(r=>r.split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
+    window._cxData={rows,name:file.name.replace('.csv','')};
+    // Preview table
+    const prev=document.getElementById('cx-preview');
+    prev.style.display='block';
+    const maxRows=Math.min(6,rows.length);
+    let html=`<table style="width:100%;border-collapse:collapse;font-size:.73rem;font-family:var(--font-m)">`;
+    for(let i=0;i<maxRows;i++){
+      html+=`<tr style="background:${i%2===0?'var(--paper)':'var(--paper2)'}">`;
+      rows[i].forEach((cell,ci)=>html+=`<td style="padding:.35rem .6rem;border:1px solid var(--border);${i===0?'font-weight:700;background:var(--ink);color:var(--paper)':''}">${cell}</td>`);
+      html+=`</tr>`;
+    }
+    if(rows.length>maxRows)html+=`<tr><td colspan="${rows[0].length}" style="text-align:center;padding:.4rem;color:var(--ink3);font-size:.7rem">… ${rows.length-maxRows} more rows</td></tr>`;
+    html+=`</table>`;
+    prev.innerHTML=html;
+    document.getElementById('cx-btn').disabled=false;
+    document.getElementById('cx-opts').style.display='flex';
+  };
+  reader.readAsText(file);
+}
+function cxConvert(){
+  const d=window._cxData;if(!d){toast('Load a CSV first');return;}
+  const sheetName=document.getElementById('cx-sheet').value||'Sheet1';
+  const ws=XLSX.utils.aoa_to_sheet(d.rows);
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,sheetName);
+  // Style header row
+  const range=XLSX.utils.decode_range(ws['!ref']);
+  for(let c=range.s.c;c<=range.e.c;c++){
+    const addr=XLSX.utils.encode_cell({r:0,c});
+    if(!ws[addr])continue;
+    ws[addr].s={font:{bold:true},fill:{fgColor:{rgb:'0D0D0F'}}};
+  }
+  const blob=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+  const url=URL.createObjectURL(new Blob([blob],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));
+  const res=document.getElementById('cx-result');res.classList.add('show');
+  document.getElementById('cx-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${d.rows.length}</div><div class="stat-l2">Rows</div></div><div class="stat-item"><div class="stat-n2">${d.rows[0]?.length||0}</div><div class="stat-l2">Columns</div></div>`;
+  const dl=document.getElementById('cx-dl');
+  dl.onclick=()=>{const a=document.createElement('a');a.href=url;a.download=d.name+'.xlsx';a.click();};
+  toast('Excel ready!');
+}
+
+/* ── 6. Text Diff Checker ── */
+function renderTextDiff(body){
+  body.innerHTML=`
+  <p style="font-size:.8rem;color:var(--ink3)">Paste two texts and see word-level differences highlighted.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem">
+    <div class="fl"><label class="flbl">Original Text</label>
+      <textarea class="url-in" id="td-a" rows="8" style="resize:vertical;font-size:.78rem;min-height:120px" placeholder="Original version of the text…"></textarea>
+    </div>
+    <div class="fl"><label class="flbl">Modified Text</label>
+      <textarea class="url-in" id="td-b" rows="8" style="resize:vertical;font-size:.78rem;min-height:120px" placeholder="Modified version of the text…"></textarea>
+    </div>
+  </div>
+  <button class="process-btn" onclick="tdCompare()">🔤 Compare Texts</button>
+  <div id="td-stats" style="display:none;font-size:.78rem;color:var(--ink2);display:flex;gap:1.2rem;flex-wrap:wrap"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.8rem" id="td-out" style="display:none">
+    <div>
+      <div class="flbl" style="margin-bottom:.4rem">Original</div>
+      <div id="td-out-a" style="background:var(--paper2);border-radius:10px;padding:.9rem;font-size:.8rem;line-height:1.9;min-height:80px;border:1px solid var(--border);word-break:break-word"></div>
+    </div>
+    <div>
+      <div class="flbl" style="margin-bottom:.4rem">Modified</div>
+      <div id="td-out-b" style="background:var(--paper2);border-radius:10px;padding:.9rem;font-size:.8rem;line-height:1.9;min-height:80px;border:1px solid var(--border);word-break:break-word"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:1rem;font-size:.74rem;color:var(--ink3)" id="td-legend" style="display:none">
+    <span><span style="background:#DCFCE7;border-radius:3px;padding:.1rem .35rem;color:#166534">added</span> Added</span>
+    <span><span style="background:#FEE2E2;border-radius:3px;padding:.1rem .35rem;color:#991B1B;text-decoration:line-through">removed</span> Removed</span>
+  </div>`;
+}
+function tdCompare(){
+  const a=document.getElementById('td-a').value;
+  const b=document.getElementById('td-b').value;
+  if(!a.trim()&&!b.trim()){toast('Enter text in both boxes');return;}
+  const wa=a.split(/(\s+)/);
+  const wb=b.split(/(\s+)/);
+  // LCS diff
+  function lcs(a,b){const m=a.length,n=b.length,dp=Array.from({length:m+1},()=>new Array(n+1).fill(0));for(let i=1;i<=m;i++)for(let j=1;j<=n;j++){if(a[i-1]===b[j-1])dp[i][j]=dp[i-1][j-1]+1;else dp[i][j]=Math.max(dp[i-1][j],dp[i][j-1]);}let i=m,j=n,res=[];while(i>0&&j>0){if(a[i-1]===b[j-1]){res.unshift({type:'eq',val:a[i-1]});i--;j--;}else if(dp[i-1][j]>=dp[i][j-1]){res.unshift({type:'del',val:a[i-1]});i--;}else{res.unshift({type:'ins',val:b[j-1]});j--;}}while(i>0){res.unshift({type:'del',val:a[i-1]});i--;}while(j>0){res.unshift({type:'ins',val:b[j-1]});j--;}return res;}
+  const diff=lcs(wa,wb);
+  let htmlA='',htmlB='',added=0,removed=0;
+  diff.forEach(d=>{
+    const v=d.val.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    if(d.type==='eq'){htmlA+=v;htmlB+=v;}
+    else if(d.type==='del'){htmlA+=`<mark style="background:#FEE2E2;color:#991B1B;border-radius:3px;text-decoration:line-through">${v}</mark>`;removed++;}
+    else{htmlB+=`<mark style="background:#DCFCE7;color:#166534;border-radius:3px">${v}</mark>`;added++;}
+  });
+  document.getElementById('td-out-a').innerHTML=htmlA||'<span style="color:var(--ink3)">empty</span>';
+  document.getElementById('td-out-b').innerHTML=htmlB||'<span style="color:var(--ink3)">empty</span>';
+  document.getElementById('td-out').style.display='grid';
+  document.getElementById('td-legend').style.display='flex';
+  const st=document.getElementById('td-stats');
+  st.style.display='flex';
+  st.innerHTML=`<span style="color:#166534;font-weight:600">+${added} added</span><span style="color:#991B1B;font-weight:600">-${removed} removed</span><span>${Math.abs(wb.length-wa.length)} words ${wb.length>wa.length?'added':'removed'} overall</span>`;
+}
+
+/* ── 7. Meme Maker ── */
+function renderMemeMaker(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="mm-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="mmDrop(event)">
+    <input type="file" id="mm-file" accept="image/*" onchange="mmLoad(this.files[0])"/>
+    <div class="upload-icon">🖼️</div>
+    <div class="upload-title">Drop image here or click to browse</div>
+    <div class="upload-sub">JPG, PNG, WebP</div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:.7rem" id="mm-opts" style="display:none">
+    <div class="fl"><label class="flbl">Top Text</label><input class="url-in" id="mm-top" placeholder="TOP TEXT" oninput="mmDraw()"/></div>
+    <div class="fl"><label class="flbl">Bottom Text</label><input class="url-in" id="mm-bot" placeholder="BOTTOM TEXT" oninput="mmDraw()"/></div>
+    <div class="fl"><label class="flbl">Font Size</label>
+      <select class="url-in" id="mm-sz" onchange="mmDraw()">
+        <option value="36">Small (36px)</option><option value="52" selected>Medium (52px)</option><option value="72">Large (72px)</option><option value="96">XL (96px)</option>
+      </select>
+    </div>
+    <div class="fl"><label class="flbl">Text Color</label>
+      <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+        ${['#FFFFFF','#FFFF00','#FF0000','#000000','#00FF00','#00BFFF'].map(c=>`<div style="width:28px;height:28px;border-radius:50%;background:${c};cursor:pointer;border:2.5px solid ${c==='#FFFFFF'?'#ccc':'transparent'}" onclick="window._mmColor='${c}';mmDraw();this.parentElement.querySelectorAll('div').forEach(d=>d.style.borderColor=d===this?'var(--accent)':'transparent')"></div>`).join('')}
+        <div style="width:28px;height:28px;border-radius:50%;border:2px dashed var(--border2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.6rem;position:relative;overflow:hidden">
+          🎨<input type="color" value="#FFFFFF" style="position:absolute;inset:0;opacity:0;cursor:pointer" oninput="window._mmColor=this.value;mmDraw()"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  <canvas id="mm-canvas" style="display:none;max-width:100%;border-radius:11px;margin:0 auto;display:none"></canvas>
+  <button class="dl-btn" id="mm-dl" style="display:none;margin-top:.3rem" onclick="mmDownload()">⬇ Download Meme</button>`;
+  window._mmColor='#FFFFFF';window._mmImg=null;
+}
+function mmDrop(e){e.preventDefault();e.currentTarget.classList.remove('over');mmLoad(e.dataTransfer.files[0]);}
+function mmLoad(file){
+  if(!file||!file.type.startsWith('image/'))return;
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{window._mmImg=img;document.getElementById('mm-opts').style.display='grid';mmDraw();};
+    img.src=ev.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+function mmDraw(){
+  const img=window._mmImg;if(!img)return;
+  const canvas=document.getElementById('mm-canvas');
+  const maxW=700;const scale=Math.min(1,maxW/img.width);
+  canvas.width=img.width*scale;canvas.height=img.height*scale;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const sz=parseInt(document.getElementById('mm-sz').value)||52;
+  const color=window._mmColor||'#FFFFFF';
+  ctx.font=`900 ${sz}px Impact, Arial Black, sans-serif`;
+  ctx.textAlign='center';ctx.fillStyle=color;
+  ctx.lineWidth=sz*0.08;ctx.strokeStyle='#000000';ctx.lineJoin='round';
+  const topText=document.getElementById('mm-top').value;
+  const botText=document.getElementById('mm-bot').value;
+  if(topText){ctx.strokeText(topText,canvas.width/2,sz+10);ctx.fillText(topText,canvas.width/2,sz+10);}
+  if(botText){ctx.strokeText(botText,canvas.width/2,canvas.height-18);ctx.fillText(botText,canvas.width/2,canvas.height-18);}
+  canvas.style.display='block';
+  document.getElementById('mm-dl').style.display='flex';
+}
+function mmDownload(){
+  const canvas=document.getElementById('mm-canvas');
+  const a=document.createElement('a');a.download='meme.png';a.href=canvas.toDataURL('image/png');a.click();
+}
+
+/* ── 8. Pomodoro Timer ── */
+function renderPomodoro(body){
+  body.innerHTML=`
+  <style>
+  .pom-ring{transform:rotate(-90deg)}.pom-ring-bg{stroke:var(--paper3)}.pom-ring-fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .8s linear}
+  .pom-mode-btn{padding:.4rem 1rem;border-radius:20px;border:1.5px solid var(--border2);background:var(--paper);font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink2);transition:all .2s}
+  .pom-mode-btn.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+  </style>
+  <div style="text-align:center">
+    <div style="display:flex;gap:.5rem;justify-content:center;margin-bottom:1.4rem">
+      <button class="pom-mode-btn on" id="pom-mb-work" onclick="pomSetMode('work',25,this)">🍅 Focus (25m)</button>
+      <button class="pom-mode-btn" id="pom-mb-short" onclick="pomSetMode('short',5,this)">☕ Short Break (5m)</button>
+      <button class="pom-mode-btn" id="pom-mb-long" onclick="pomSetMode('long',15,this)">🛋️ Long Break (15m)</button>
+    </div>
+    <div style="position:relative;display:inline-block">
+      <svg width="220" height="220" viewBox="0 0 220 220">
+        <circle class="pom-ring-bg" cx="110" cy="110" r="95" fill="none" stroke-width="12"/>
+        <circle class="pom-ring-fg" id="pom-ring" cx="110" cy="110" r="95" fill="none" stroke-width="12" stroke-dasharray="596.9" stroke-dashoffset="0"/>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <div id="pom-time" style="font-family:var(--font-d);font-size:3rem;font-weight:800;letter-spacing:-.04em">25:00</div>
+        <div id="pom-label" style="font-size:.78rem;color:var(--ink3);font-weight:600;text-transform:uppercase;letter-spacing:.1em">Focus</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:.7rem;justify-content:center;margin-top:1.2rem">
+      <button class="process-btn" id="pom-start" onclick="pomToggle()" style="min-width:110px">▶ Start</button>
+      <button class="abtn p" onclick="pomReset()">↺ Reset</button>
+    </div>
+    <div style="margin-top:1.2rem;display:flex;gap:1.5rem;justify-content:center">
+      <div style="text-align:center"><div id="pom-sessions" style="font-family:var(--font-d);font-size:1.6rem;font-weight:800">0</div><div style="font-size:.65rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Sessions</div></div>
+      <div style="text-align:center"><div id="pom-mode-lbl" style="font-family:var(--font-d);font-size:1.6rem;font-weight:800">🍅</div><div style="font-size:.65rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.08em">Mode</div></div>
+    </div>
+    <p style="font-size:.73rem;color:var(--ink3);margin-top:1rem">Work 25 min → Short break 5 min. Every 4 sessions → Long break 15 min.</p>
+  </div>`;
+  window._pom={secs:25*60,total:25*60,running:false,sessions:0,mode:'work'};
+  pomDraw();
+}
+function pomSetMode(mode,mins,btn){
+  if(window._pomTimer)clearInterval(window._pomTimer);
+  document.querySelectorAll('.pom-mode-btn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  window._pom={secs:mins*60,total:mins*60,running:false,sessions:window._pom?.sessions||0,mode};
+  document.getElementById('pom-start').textContent='▶ Start';
+  pomDraw();
+}
+function pomToggle(){
+  const p=window._pom;
+  if(p.running){clearInterval(window._pomTimer);p.running=false;document.getElementById('pom-start').textContent='▶ Resume';}
+  else{p.running=true;document.getElementById('pom-start').textContent='⏸ Pause';
+    window._pomTimer=setInterval(()=>{
+      p.secs--;pomDraw();
+      if(p.secs<=0){clearInterval(window._pomTimer);p.running=false;
+        if(p.mode==='work'){p.sessions++;document.getElementById('pom-sessions').textContent=p.sessions;document.getElementById('pom-start').textContent='▶ Start';}
+        try{const ac=new (window.AudioContext||window.webkitAudioContext)();const o=ac.createOscillator();const g=ac.createGain();o.connect(g);g.connect(ac.destination);o.frequency.value=880;g.gain.value=0.3;o.start();setTimeout(()=>{o.frequency.value=660;},200);setTimeout(()=>{o.stop();ac.close();},600);}catch(e){}
+        toast(p.mode==='work'?'🍅 Focus session done! Take a break!':'☕ Break over! Time to focus!');
+      }
+    },1000);
+  }
+}
+function pomReset(){
+  if(window._pomTimer)clearInterval(window._pomTimer);
+  const p=window._pom;p.secs=p.total;p.running=false;
+  document.getElementById('pom-start').textContent='▶ Start';pomDraw();
+}
+function pomDraw(){
+  const p=window._pom;
+  const m=String(Math.floor(p.secs/60)).padStart(2,'0');
+  const s=String(p.secs%60).padStart(2,'0');
+  document.getElementById('pom-time').textContent=`${m}:${s}`;
+  const circ=596.9;const pct=p.secs/p.total;
+  document.getElementById('pom-ring').style.strokeDashoffset=circ*(1-pct);
+  const ring=document.getElementById('pom-ring');
+  ring.style.stroke=p.mode==='work'?'var(--accent)':p.mode==='short'?'#0F9E6E':'var(--accent2)';
+  const labels={work:'Focus',short:'Short Break',long:'Long Break'};
+  const emojis={work:'🍅',short:'☕',long:'🛋️'};
+  document.getElementById('pom-label').textContent=labels[p.mode]||'Focus';
+  document.getElementById('pom-mode-lbl').textContent=emojis[p.mode]||'🍅';
+}
+/* ════ END UTILITIES ════ */
 </script>
 </body>
 </html>
