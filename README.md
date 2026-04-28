@@ -1,368 +1,116 @@
 <div align="center">
 
 <!-- Animated Header Banner -->
-<img src="https://capsule-render.vercel.app/api?type=waving&color=C84B31&height=200&section=header&text=TOOLZEN&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=All-in-One%20Smart%20File%20Converter%20%2B%20QR%20Designer&descAlignY=60&descSize=18" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=waving&color=C84B31&height=220&section=header&text=TOOLZEN&fontSize=85&fontColor=ffffff&animation=fadeIn&fontAlignY=38&desc=Premium%20File%20Converter%20%2B%20Smart%20QR%20Designer&descAlignY=60&descSize=20" width="100%" />
 
 <!-- Animated Typing SVG -->
-<img src="https://readme-typing-svg.demolab.com?font=Syne&weight=800&size=28&pause=1000&color=C84B31&center=true&vCenter=true&width=700&lines=🎨+Design+QR+Codes+with+42%2B+Shapes;📄+Convert+50%2B+File+Formats;🤖+AI-Powered+File+Assistant;📦+Compress+Images+%26+PDFs;🌐+100%25+In-Browser+%E2%80%94+No+Upload+Needed!" alt="Typing SVG" />
+<img src="https://readme-typing-svg.demolab.com?font=Syne&weight=800&size=28&pause=1000&color=C84B31&center=true&vCenter=true&width=750&lines=🎨+42%2B+QR+Shapes+%26+Custom+Styles;📄+Convert+50%2B+File+Formats+Instantly;🤖+AI-Powered+File+Analysis;📦+Professional+Image+%26+PDF+Compression;🌐+100%25+In-Browser+—+Complete+Privacy;📱+Installable+PWA+with+Offline+Mode" alt="Typing SVG" />
 
 <br/>
 
-<!-- Status Badges Row 1 -->
+<!-- Status Badges -->
 [![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-
-<!-- Status Badges Row 2 -->
-[![License: MIT](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge&logo=opensourceinitiative&logoColor=white)](LICENSE)
-[![No Server](https://img.shields.io/badge/Server-None%20Required-7C3AED?style=for-the-badge&logo=cloudflare&logoColor=white)](#)
-[![Status](https://img.shields.io/badge/Status-Active%20🟢-brightgreen?style=for-the-badge)](#)
+[![PWA](https://img.shields.io/badge/PWA-Ready-7C3AED?style=for-the-badge&logo=pwa&logoColor=white)](#)
+[![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-22c55e?style=for-the-badge&logo=shield&logoColor=white)](#)
 
 <br/>
 
 <!-- Live Demo Button -->
-[![🌐 Try it Live](https://img.shields.io/badge/🌐%20TRY%20IT%20LIVE-dharani25007--code.github.io%2Ftoolzen-C84B31?style=for-the-badge&logoColor=white)](https://dharani25007-code.github.io/toolzen/)
+[![🌐 Try it Live](https://img.shields.io/badge/🌐%20LAUNCH%20APP-dharani25007--code.github.io%2Ftoolzen-C84B31?style=for-the-badge&logoColor=white)](https://dharani25007-code.github.io/toolzen/)
 
 <br/>
 
-<!-- Animated Pulse Badge -->
-<img src="https://img.shields.io/badge/50%2B%20File%20Converters-🔄%20Ready-C84B31?style=flat-square" alt="converters" />
-<img src="https://img.shields.io/badge/42%2B%20QR%20Shapes-🎨%20Stunning-7C3AED?style=flat-square" alt="qr shapes" />
-<img src="https://img.shields.io/badge/AI%20Powered-🤖%20Built%20In-1A56DB?style=flat-square" alt="ai" />
-<img src="https://img.shields.io/badge/0%20Installs-⚡%20Just%20Open-22c55e?style=flat-square" alt="zero install" />
+![Toolzen Hero Preview](hero-preview.png)
 
 </div>
 
 ---
 
-<!-- Scrolling Marquee -->
-<div align="center">
-<img src="https://capsule-render.vercel.app/api?type=rect&color=0D0D0F&height=40&text=🎨+QR+Designer+·+📄+Doc+Converter+·+🖼️+Image+Tools+·+📦+PDF+Toolkit+·+🤖+AI+Assistant+·+🧮+Utilities+·+📊+Analytics+·+🌙+Dark+Mode&fontColor=ffffff&fontSize=13&animation=twinkling" width="100%" />
-</div>
+## 🚀 The Ultimate Browser-Based Toolkit
+
+**TOOLZEN** is a high-performance, privacy-first web application that centralizes all your essential digital tasks into one powerful dashboard. From designing sophisticated QR codes to converting complex file formats, **everything happens locally in your browser**.
+
+> [!IMPORTANT]
+> **Privacy First:** Your files are NEVER uploaded to any server. All processing is done 100% client-side using JavaScript, ensuring your sensitive data stays on your device.
 
 ---
 
-## ✨ What is TOOLZEN?
-
-**TOOLZEN** is a feature-rich, browser-based web application that combines powerful file conversion tools, stunning QR code design capabilities, file compression, AI-powered assistance, and essential utilities — all running **100% locally in your browser** with zero server uploads.
-
-> 🚀 **Just open the HTML file — no installation, no backend, no sign-up required.**
-
----
-
-## 🎯 Feature Highlights at a Glance
+## 💎 Key Features & Capabilities
 
 <div align="center">
 
-| Category | Features | Count |
+| Category | High-Level Features | Tools |
 |:---:|:---|:---:|
-| 🎨 **QR Designer** | Module shapes, eye styles, gradients, effects, logo injection | **42+ shapes · 18 eye styles** |
-| 📄 **Document Converters** | Word↔PDF, TXT→PDF, Markdown→HTML, PDF tools | **7+ converters** |
-| 📊 **Data Converters** | JSON↔CSV, CSV↔JSON, XML→JSON, Excel tools | **5+ converters** |
-| 🖼️ **Image Tools** | Convert, resize, crop, grayscale, circle crop | **6+ tools** |
-| 📦 **PDF Toolkit** | Merge, split, rotate, page numbers, watermark, metadata | **7+ tools** |
-| 🌐 **Web & Code** | Base64 encode/decode, hash generator, color conversion | **5+ tools** |
-| ✨ **AI Assistant** | Claude-powered chat, file analysis, summaries | **Built-in** |
-| 🧮 **Utilities** | Unit, currency, timezone, GST calc, word counter & more | **10+ utilities** |
-| 📊 **Analytics** | Usage tracking, conversion statistics, event logs | **Real-time** |
-| 📦 **Compression** | Image compress, PDF compress, ZIP creator, batch | **4 tools** |
+| 🎨 **Smart QR Designer** | 42+ Module Shapes · 18 Eye Styles · Gradient Overlays · Logo Branding · vCard & WiFi support | **50+ Options** |
+| 🔄 **Elite File Converter** | Word ↔ PDF · PPT → PDF · Excel → PDF · JSON ↔ CSV · XML → JSON · Markdown → HTML | **50+ Formats** |
+| 📦 **Advanced Compression** | Image (JPG/PNG/WebP) · PDF Size reduction · Batch ZIP creation | **Lossless Mode** |
+| 🤖 **AI Assistant** | Claude-powered contextual chat · File analysis · Code explanation · Summary generation | **Built-in** |
+| 🧰 **Super Utilities** | Unit/Currency Converter · GST Calculator · Text Diff · Meme Maker · Pomodoro Timer | **15+ Tools** |
+| 📊 **Real-time Analytics** | Usage tracking · Conversion history · Performance metrics | **Private Logs** |
 
 </div>
 
 ---
 
-<div align="center">
-<img src="https://capsule-render.vercel.app/api?type=soft&color=gradient&customColorList=0,2,2,5,30&height=5&section=header" width="100%" />
-</div>
+## 🎨 Professional QR Designer
+Generate stunning, scannable QR codes that match your brand identity perfectly.
 
-## 🗂️ Complete Feature List
-
-### 🎨 QR Designer
-
-<img src="https://img.shields.io/badge/42%2B%20Shapes-C84B31?style=flat-square" /> <img src="https://img.shields.io/badge/18%20Eye%20Styles-7C3AED?style=flat-square" /> <img src="https://img.shields.io/badge/12%20Gradient%20Presets-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/SVG%20%26%20PNG%20Export-22c55e?style=flat-square" />
-
-- **42+ Module Shapes:** Classic, Dots, Rounded, Diamond, Star, Hexagon, Leaf, Arrow, Organic, Cross, Wave, Pixel, Bubble, Flame, Crystal, Triangle, Gear, Heart, Zigzag, Plus, Moon, Ring, Shield, Octagon, Rhombus, Bowtie, Raindrop, Fish, Pinwheel, Mosaic, Spark, Petal, Clover, DNA, Cloud, Eye, Lightning, PacMan, Badge, Puzzle, Squircle, Flag
-- **18 Eye/Finder Styles:** Square, Rounded, Circle, Leaf, Shield, Star, Diamond, Hexagon, Cross, Heart, Cloud, Octagon, Curved, Pinch, Squircle, and more
-- **Color & Gradients:** Custom foreground & gradient colors, 12 gradient presets (Sunset, Emerald, Cosmic, Gold, Fire, Midnight, Ocean, Candy, Forest, Dark, Pastel, Aurora)
-- **Effects:** Gradient overlay, animation, scan lines, frame borders, glow, drop shadow
-- **Logo Injection:** Auto-fetch favicon or upload custom logo
-- **Output Formats:** PNG (200–600px adjustable), SVG
-- **QR Decoder:** Upload any QR image to extract embedded URL/text
-- **Batch QR Generator:** Generate multiple QR codes, download as ZIP
-- **Brand Kit:** Auto-extract favicon & color palette from any website
-- **Business Card Export:** 8 premium themes, print-ready 820×460px PNG
+- **Unmatched Shapes:** Choose from 42+ shapes including Dots, Star, Heart, Leaf, DNA, Pac-Man, and more.
+- **Eye Customization:** 18 distinct finder eye styles (Star, Diamond, Hexagon, Cloud, etc.).
+- **Dynamic Gradients:** 12+ premium presets (Sunset, Cosmic, Aurora) or create your own.
+- **Brand Kit:** Automatically extract colors and icons from any website URL to brand your QR instantly.
+- **Batch Processing:** Generate hundreds of QR codes from a list and download them as a ZIP.
+- **Decoding & Analysis:** Upload any QR image to extract its data or verify its integrity.
 
 ---
 
-### 📄 Document Conversions
+## 📄 File Conversion Suite
+Fast, reliable, and completely local file processing.
 
-<img src="https://img.shields.io/badge/Word%20↔%20PDF-E34F26?style=flat-square" /> <img src="https://img.shields.io/badge/TXT%20→%20PDF-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/Markdown%20→%20HTML-7C3AED?style=flat-square" />
-
-| Converter | Details |
-|:---|:---|
-| Word → PDF | Convert `.docx` to PDF with formatting |
-| PDF → Word | Extract PDF text → editable `.docx` |
-| TXT → PDF | Convert plain text to formatted PDF |
-| PDF → Text | Extract text content from PDFs |
-| Markdown → HTML | Convert `.md` files to HTML |
-| Folder → ZIP | Pack entire folder into ZIP archive |
+- **Documents:** Word (.docx) to PDF, PDF to Word, Text to PDF, Markdown to HTML.
+- **Data & Code:** JSON to CSV/Excel, CSV to JSON, XML to JSON, Base64 Encode/Decode.
+- **Image Toolkit:** Resize, Crop, Circle-Crop, Grayscale, and Format Conversion (JPG ↔ PNG ↔ WebP ↔ GIF).
+- **PDF Toolkit:** Merge, Split, Rotate, Add Page Numbers, Watermark, and Metadata editing.
 
 ---
 
-### 📊 PowerPoint & Excel
+## ⚡ PWA & Offline Support
+TOOLZEN is built as a **Progressive Web App (PWA)**, meaning you can install it on your Desktop or Mobile and use it even without an internet connection.
 
-<img src="https://img.shields.io/badge/PPT%20→%20PDF-E34F26?style=flat-square" /> <img src="https://img.shields.io/badge/Excel%20→%20PDF-22c55e?style=flat-square" /> <img src="https://img.shields.io/badge/CSV%20→%20PDF-F7DF1E?style=flat-square" />
-
-| Converter | Details |
-|:---|:---|
-| PPT → PDF | Convert presentations to PDF |
-| PPT → Word | Extract slide text to `.docx` |
-| Excel → PDF | Convert spreadsheets to PDF |
-| CSV → PDF | Turn data into formatted PDF table |
+- **Installable:** "Add to Home Screen" support for a native-app feel.
+- **Offline Mode:** Works entirely offline once the assets are cached.
+- **Speed:** Instant loading and lightning-fast processing with zero latency.
 
 ---
 
-### 📊 Data Conversions
+## 🛠️ Modern Tech Stack
+Built with the philosophy of **Zero Build Tools** and maximum efficiency.
 
-<img src="https://img.shields.io/badge/JSON%20↔%20CSV-F7DF1E?style=flat-square" /> <img src="https://img.shields.io/badge/XML%20→%20JSON-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/JSON%20Formatter-7C3AED?style=flat-square" />
-
-| Converter | Details |
-|:---|:---|
-| JSON → CSV | Convert JSON arrays to spreadsheet CSV |
-| CSV → JSON | Convert CSV to structured JSON |
-| XML → JSON | Convert XML to JSON format |
-| JSON Formatter | Validate & beautify JSON |
-
----
-
-### 🖼️ Image Tools
-
-<img src="https://img.shields.io/badge/6%2B%20Image%20Tools-C84B31?style=flat-square" /> <img src="https://img.shields.io/badge/JPG%20↔%20PNG%20↔%20WebP-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/Circle%20Crop-22c55e?style=flat-square" />
-
-| Tool | Details |
-|:---|:---|
-| Image → PDF | Combine multiple images into one PDF |
-| PDF → Images | Extract PDF pages as PNG images (ZIP) |
-| Image Converter | JPG ↔ PNG ↔ WebP ↔ GIF conversion |
-| Image → Grayscale | Convert color to black & white |
-| Resize Image | Scale to 25%, 50%, 75%, or 200% |
-| Crop Image | Center-crop with automatic border removal |
-| Image → Circle | Crop any image into circle shape |
-
----
-
-### 📄 PDF Toolkit
-
-<img src="https://img.shields.io/badge/Merge%20PDFs-E34F26?style=flat-square" /> <img src="https://img.shields.io/badge/Split%20PDF-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/Watermark%20%26%20Rotate-7C3AED?style=flat-square" />
-
-| Tool | Details |
-|:---|:---|
-| Merge PDFs | Combine multiple PDFs into one |
-| Split PDF | Extract individual pages or ranges |
-| Rotate PDF | Rotate pages 90°, 180°, or 270° |
-| Add Page Numbers | Choose position & style |
-| Watermark PDF | Add custom text watermark |
-| Edit Metadata | Change title, author, creator info |
-
----
-
-### 🌐 Web & Code Tools
-
-<img src="https://img.shields.io/badge/Base64%20Encode%2FDecode-F7DF1E?style=flat-square" /> <img src="https://img.shields.io/badge/Hash%20Generator-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/Color%20Converter-C84B31?style=flat-square" />
-
-| Tool | Details |
-|:---|:---|
-| HTML → PDF | Convert HTML to PDF |
-| Base64 Encode/Decode | Encode/decode text and files |
-| Hash Generator | MD5, SHA-1, SHA-256, SHA-512 |
-| HEX ↔ RGB ↔ HSL | Color value conversion |
-
----
-
-### 📦 File Compression
-
-<img src="https://img.shields.io/badge/Image%20Compress-22c55e?style=flat-square" /> <img src="https://img.shields.io/badge/PDF%20Compress%20up%20to%2080%25-C84B31?style=flat-square" /> <img src="https://img.shields.io/badge/ZIP%20Creator-7C3AED?style=flat-square" />
-
-| Tool | Details |
-|:---|:---|
-| Image Compressor | JPG/PNG/WebP — High/Medium/Low/Tiny quality |
-| PDF Compressor | Reduce PDF size by up to 80% |
-| ZIP Creator | Pack multiple files into `.zip` |
-| Batch Image Compress | Compress multiple images → ZIP |
-
----
-
-### 🧮 Utilities
-
-<img src="https://img.shields.io/badge/10%2B%20Utility%20Tools-1A56DB?style=flat-square" />
-
-- 📏 **Unit Converter:** Length, weight, temperature, volume, speed
-- 💱 **Currency Converter:** Live exchange rates (multiple currencies)
-- 🕐 **Timezone Converter:** Convert between global timezones
-- 🧾 **GST Calculator:** Inclusive/exclusive tax calculations
-- 📝 **Word Counter:** Count words, characters, paragraphs
-- 🔡 **Case Converter:** UPPERCASE, lowercase, Title Case, camelCase, snake_case
-- 🔢 **Number Base Converter:** Decimal, Binary, Hex, Octal
-- 🔍 **Text Diff:** Compare two text blocks (diff viewer)
-- 😂 **Meme Maker:** Add text to images
-- ⏱️ **Pomodoro Timer:** 25min focus + 5min break cycles
-
----
-
-### ✨ AI Assistant
-
-<img src="https://img.shields.io/badge/Claude%20Powered-7C3AED?style=flat-square&logo=anthropic&logoColor=white" /> <img src="https://img.shields.io/badge/File%20Analysis-C84B31?style=flat-square" /> <img src="https://img.shields.io/badge/Real%20Time%20Chat-22c55e?style=flat-square" />
-
-- 🤖 **Claude-powered chat** built directly into the app
-- 💬 Ask questions, get summaries, draft emails, explain code
-- 📎 File attachment support
-- 🕓 Real-time conversation history
-
----
-
-### 📊 Analytics Dashboard
-
-<img src="https://img.shields.io/badge/Real%20Time%20Tracking-1A56DB?style=flat-square" /> <img src="https://img.shields.io/badge/Visual%20Bar%20Charts-22c55e?style=flat-square" />
-
-- 📈 Real-time conversion statistics
-- 📋 Usage tracking & event logs
-- ⚡ Performance metrics
-- 📊 Visual bar charts & analytics
-
----
-
-### 🌙 Dark Mode
-
-<img src="https://img.shields.io/badge/Dark%20Mode-0D0D0F?style=flat-square&logo=moon&logoColor=white" /> <img src="https://img.shields.io/badge/Smooth%20Transitions-7C3AED?style=flat-square" />
-
-- 🌙 Full light/dark theme toggle
-- ✨ Smooth CSS transitions
-- 💾 Preference is saved
-
----
-
-<div align="center">
-<img src="https://capsule-render.vercel.app/api?type=soft&color=gradient&customColorList=0,2,2,5,30&height=5&section=header" width="100%" />
-</div>
-
-## 🛠️ Tech Stack
-
-<div align="center">
-
-[![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/HTML)
-[![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![JavaScript](https://img.shields.io/badge/Vanilla%20JS-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![Google Fonts](https://img.shields.io/badge/Google%20Fonts-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://fonts.google.com)
-
-</div>
-
-| Technology | Usage |
-|:---|:---|
-| **HTML5** | Semantic markup & structure |
-| **Vanilla CSS3** | Custom design system, animations, dark mode |
-| **Vanilla JavaScript** | All logic — QR gen, file processing, UI |
-| **qrcode.js** | QR code generation (CDN) |
-| **jsQR** | QR code decoding (CDN) |
-| **JSZip** | ZIP archive creation (CDN) |
-| **pdf-lib** | PDF manipulation (CDN) |
-| **Mammoth.js** | Word `.docx` parsing (CDN) |
-| **pdfjs-dist** | PDF rendering (CDN) |
-| **XLSX** | Excel/CSV parsing (CDN) |
-| **gifshot** | GIF creation (CDN) |
-| **Google Fonts** | Syne, Instrument Sans, DM Mono |
-
-> ⚡ **Zero build tools.** No npm, no webpack, no React — pure HTML/CSS/JS.
-
----
-
-## 🚀 Getting Started
-
-### Option 1 — Open Directly *(Recommended)*
-
-```bash
-# 1. Download index.html
-# 2. Open in any modern browser (Chrome, Firefox, Edge, Safari)
-# ✅ Done! No installation needed.
-```
-
-### Option 2 — Host It Locally *(Optional)*
-
-```bash
-# Using Python
-python -m http.server 8080
-
-# Using Node.js
-npx serve .
-
-# Using VS Code → Install "Live Server" → Right-click → Open with Live Server
-```
-
-Then visit → `http://localhost:8080/index.html`
-
----
-
-## 📱 Responsive Design
-
-| Viewport | Layout |
-|:---|:---|
-| 🖥️ **Desktop (>1050px)** | Full split-panel layout with sidebar navigation |
-| 📱 **Tablet (640–1050px)** | Stacked layout, hamburger navigation |
-| 📲 **Mobile (<640px)** | Compact layout, optimized typography |
+- **Core:** Vanilla HTML5, CSS3 (Glassmorphism), and JavaScript (ES6+).
+- **Typography:** Syne, Instrument Sans, and DM Mono via Google Fonts.
+- **Libraries:** qrcode.js, jsQR, JSZip, pdf-lib, Mammoth.js, pdf.js, XLSX, gifshot.
+- **AI Integration:** Direct browser-based interface for LLM interaction.
 
 ---
 
 ## 🔒 Privacy & Security
 
-<div align="center">
-
-[![Client Side](https://img.shields.io/badge/✅%20100%25%20Client--Side-22c55e?style=for-the-badge)](#)
-[![No Uploads](https://img.shields.io/badge/✅%20No%20Server%20Uploads-22c55e?style=for-the-badge)](#)
-[![No Account](https://img.shields.io/badge/✅%20No%20Account%20Needed-22c55e?style=for-the-badge)](#)
-[![Open Source](https://img.shields.io/badge/✅%20Open%20Source-22c55e?style=for-the-badge)](#)
-
-</div>
-
-- ✅ **100% client-side** — all processing happens in your browser
-- ✅ **No server uploads** — your files never leave your device
-- ✅ **No accounts or sign-up required**
-- ✅ **No tracking or analytics sent to servers**
-- ✅ **Open source** — transparent & auditable
+| | Why Toolzen is Secure |
+|:---:|:---|
+| 🚫 | **No Server Uploads:** Your files stay on your machine. |
+| 🚫 | **No Accounts:** No sign-up, no emails, no tracking. |
+| 🚫 | **No Cookies:** We don't track your behavior or sell your data. |
+| ✅ | **Open Source:** Auditable code that you can run locally anywhere. |
 
 ---
 
-## 📸 Sections Overview
+## 🚀 Getting Started
 
-| Section | Features |
-|:---|:---|
-| 🏠 **Home** | Hero, feature grid, how-it-works steps, benefits |
-| 📱 **QR Designer** | Encode, Decode, Batch, Brand Kit, Business Card |
-| 🔄 **File Tools** | 50+ converters with drag-and-drop support |
-| 📦 **Compressor** | Image, PDF, ZIP compression with quality controls |
-| ✨ **AI Assistant** | Claude-powered chat & file analysis |
-| 🧰 **Utilities** | 10+ quick tools (calculators, converters, etc.) |
-| 📊 **Analytics** | Real-time usage tracking & statistics |
-
----
-
-## 🙌 Credits
-
-Built with ❤️ using open-source libraries:
-
-| Library | License |
-|:---|:---:|
-| [qrcode.js](https://github.com/davidshimjs/qrcodejs) | MIT |
-| [jsQR](https://github.com/cozmo/jsQR) | Apache 2.0 |
-| [JSZip](https://stuk.github.io/jszip/) | MIT |
-| [pdf-lib](https://pdf-lib.js.org/) | MIT |
-| [Mammoth.js](https://github.com/mwilliamson/mammoth.js) | BSD |
-| [pdfjs-dist](https://mozilla.github.io/pdf.js/) | Apache 2.0 |
-| [XLSX](https://github.com/SheetJS/sheetjs) | Apache 2.0 |
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — free to use, modify, and distribute.
+1.  **Direct Launch:** Simply visit the [Live Demo](https://dharani25007-code.github.io/toolzen/) and start using it.
+2.  **Local Use:** Download the `index.html` and open it in any modern browser.
+3.  **Installation:** Click the "Install App" button in the navigation bar to add Toolzen to your device.
 
 ---
 
