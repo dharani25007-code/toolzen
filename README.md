@@ -13,7 +13,9 @@
 [![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
 [![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
 [![PWA](https://img.shields.io/badge/PWA-Ready-7C3AED?style=for-the-badge&logo=pwa&logoColor=white)](#)
+[![Offline](https://img.shields.io/badge/Offline-Supported-22c55e?style=for-the-badge&logo=cloudflare&logoColor=white)](#)
 [![Privacy](https://img.shields.io/badge/Privacy-100%25%20Local-22c55e?style=for-the-badge&logo=shield&logoColor=white)](#)
+[![License](https://img.shields.io/badge/License-MIT-C84B31?style=for-the-badge)](LICENSE)
 
 <br/>
 
@@ -22,7 +24,8 @@
 
 <br/>
 
-![Toolzen Hero Preview](hero-preview.png)
+<!-- Hero Preview -->
+<img src="hero-preview.png" alt="TOOLZEN App Preview" width="90%" style="border-radius:12px"/>
 
 </div>
 
@@ -30,7 +33,7 @@
 
 ## 🚀 The Ultimate Browser-Based Toolkit
 
-**TOOLZEN** is a high-performance, privacy-first web application that centralizes all your essential digital tasks into one powerful dashboard. From designing sophisticated QR codes to converting complex file formats, **everything happens locally in your browser**.
+**TOOLZEN** is a high-performance, privacy-first web application that centralizes all your essential digital tasks into one powerful dashboard. From designing sophisticated QR codes to converting complex file formats, **everything happens locally in your browser** — no uploads, no accounts, no tracking.
 
 > [!IMPORTANT]
 > **Privacy First:** Your files are NEVER uploaded to any server. All processing is done 100% client-side using JavaScript, ensuring your sensitive data stays on your device.
@@ -41,7 +44,7 @@
 
 <div align="center">
 
-| Category | High-Level Features | Tools |
+| Category | High-Level Features | Scale |
 |:---:|:---|:---:|
 | 🎨 **Smart QR Designer** | 42+ Module Shapes · 18 Eye Styles · Gradient Overlays · Logo Branding · vCard & WiFi support | **50+ Options** |
 | 🔄 **Elite File Converter** | Word ↔ PDF · PPT → PDF · Excel → PDF · JSON ↔ CSV · XML → JSON · Markdown → HTML | **50+ Formats** |
@@ -55,68 +58,120 @@
 ---
 
 ## 🎨 Professional QR Designer
+
 Generate stunning, scannable QR codes that match your brand identity perfectly.
 
-- **Unmatched Shapes:** Choose from 42+ shapes including Dots, Star, Heart, Leaf, DNA, Pac-Man, and more.
-- **Eye Customization:** 18 distinct finder eye styles (Star, Diamond, Hexagon, Cloud, etc.).
-- **Dynamic Gradients:** 12+ premium presets (Sunset, Cosmic, Aurora) or create your own.
-- **Brand Kit:** Automatically extract colors and icons from any website URL to brand your QR instantly.
-- **Batch Processing:** Generate hundreds of QR codes from a list and download them as a ZIP.
-- **Decoding & Analysis:** Upload any QR image to extract its data or verify its integrity.
+- **Unmatched Shapes:** 42+ shapes including Dots, Star, Heart, Leaf, DNA, Pac-Man, and more
+- **Eye Customization:** 18 distinct finder eye styles (Star, Diamond, Hexagon, Cloud, etc.)
+- **Dynamic Gradients:** 12+ premium presets (Sunset, Cosmic, Aurora) or create your own
+- **Brand Kit:** Automatically extract colors and icons from any website URL to brand your QR instantly
+- **Batch Processing:** Generate hundreds of QR codes from a list and download them as a ZIP
+- **Decoding & Analysis:** Upload any QR image to extract its data or verify its integrity
 
 ---
 
 ## 📄 File Conversion Suite
+
 Fast, reliable, and completely local file processing.
 
-- **Documents:** Word (.docx) to PDF, PDF to Word, Text to PDF, Markdown to HTML.
-- **Data & Code:** JSON to CSV/Excel, CSV to JSON, XML to JSON, Base64 Encode/Decode.
-- **Image Toolkit:** Resize, Crop, Circle-Crop, Grayscale, and Format Conversion (JPG ↔ PNG ↔ WebP ↔ GIF).
-- **PDF Toolkit:** Merge, Split, Rotate, Add Page Numbers, Watermark, and Metadata editing.
+- **Documents:** Word (.docx) to PDF, PDF to Word, Text to PDF, Markdown to HTML
+- **Data & Code:** JSON to CSV/Excel, CSV to JSON, XML to JSON, Base64 Encode/Decode
+- **Image Toolkit:** Resize, Crop, Circle-Crop, Grayscale, and Format Conversion (JPG ↔ PNG ↔ WebP ↔ GIF)
+- **PDF Toolkit:** Merge, Split, Rotate, Add Page Numbers, Watermark, and Metadata editing
 
 ---
 
 ## ⚡ PWA & Offline Support
-TOOLZEN is built as a **Progressive Web App (PWA)**, meaning you can install it on your Desktop or Mobile and use it even without an internet connection.
 
-- **Installable:** "Add to Home Screen" support for a native-app feel.
-- **Offline Mode:** Works entirely offline once the assets are cached.
-- **Speed:** Instant loading and lightning-fast processing with zero latency.
+TOOLZEN is a fully installable **Progressive Web App (PWA)** — use it on desktop or mobile, online or offline.
+
+```
+✅ Installable  →  "Add to Home Screen" for a native-app feel
+✅ Offline Mode →  Works 100% offline once assets are cached (Service Worker v2)
+✅ Instant Load →  Lightning-fast with zero network latency after first visit
+✅ Auto-Update  →  New cache version activates automatically on next visit
+```
 
 ---
 
-## 🛠️ Modern Tech Stack
+## 🛠️ Tech Stack
+
 Built with the philosophy of **Zero Build Tools** and maximum efficiency.
 
-- **Core:** Vanilla HTML5, CSS3 (Glassmorphism), and JavaScript (ES6+).
-- **Typography:** Syne, Instrument Sans, and DM Mono via Google Fonts.
-- **Libraries:** qrcode.js, jsQR, JSZip, pdf-lib, Mammoth.js, pdf.js, XLSX, gifshot.
-- **AI Integration:** Direct browser-based interface for LLM interaction.
+| Layer | Technology |
+|---|---|
+| Core | Vanilla HTML5 · CSS3 (Glassmorphism) · JavaScript ES6+ |
+| Typography | Syne · Instrument Sans · DM Mono (Google Fonts) |
+| QR Engine | qrcode.js · jsQR |
+| File Processing | pdf-lib · Mammoth.js · pdf.js · XLSX · JSZip · gifshot |
+| Code Formatting | js-beautify (HTML · CSS · JS) |
+| AI Integration | Direct browser-based LLM interface |
+| PWA | Service Worker (`sw.js`) — Cache-first strategy · Offline fallback |
 
 ---
 
 ## 🔒 Privacy & Security
 
-| | Why Toolzen is Secure |
+| | Why TOOLZEN is Secure |
 |:---:|:---|
-| 🚫 | **No Server Uploads:** Your files stay on your machine. |
-| 🚫 | **No Accounts:** No sign-up, no emails, no tracking. |
-| 🚫 | **No Cookies:** We don't track your behavior or sell your data. |
-| ✅ | **Open Source:** Auditable code that you can run locally anywhere. |
+| 🚫 | **No Server Uploads:** Your files stay on your machine |
+| 🚫 | **No Accounts:** No sign-up, no emails, no tracking |
+| 🚫 | **No Cookies:** We don't track your behavior or sell your data |
+| ✅ | **Open Source:** Fully auditable code you can run locally anywhere |
 
 ---
 
 ## 🚀 Getting Started
 
-1.  **Direct Launch:** Simply visit the [Live Demo](https://dharani25007-code.github.io/toolzen/) and start using it.
-2.  **Local Use:** Download the `index.html` and open it in any modern browser.
-3.  **Installation:** Click the "Install App" button in the navigation bar to add Toolzen to your device.
+**Option 1 — Live App (Recommended)**
+```
+Visit: https://dharani25007-code.github.io/toolzen/
+No install needed — open and use instantly.
+```
+
+**Option 2 — Local Use**
+```bash
+git clone https://github.com/dharani25007-code/toolzen.git
+cd toolzen
+# Open index.html in any modern browser
+```
+
+**Option 3 — Install as App**
+```
+Click "Install App" in the navigation bar
+→ Works on Chrome, Edge, Safari (iOS/macOS)
+→ Runs offline after installation
+```
+
+---
+
+## 📁 File Structure
+
+```
+toolzen/
+├── index.html          # Entire app — single file, zero build step
+├── manifest.json       # PWA manifest — name, icons, theme color
+├── sw.js               # Service Worker v2 — offline caching strategy
+├── icon.svg            # App icon (maskable SVG)
+├── hero-preview.png    # Screenshot for README
+├── libs/               # Local JS libraries (offline-safe)
+│   ├── qrcode.min.js
+│   ├── jsqr.js
+│   ├── jszip.min.js
+│   ├── pdf-lib.min.js
+│   ├── mammoth.min.js
+│   ├── pdf.min.js + worker
+│   ├── xlsx.full.min.js
+│   ├── gifshot.min.js
+│   └── beautify*.js
+└── LICENSE
+```
 
 ---
 
 <div align="center">
 
-Made with ❤️ by **Dharanidharan**
+Made with ❤️ by **[Dharanidharan M](https://github.com/dharani25007-code)**
 
 **TOOLZEN** — *Convert. Create. Compress. Explore.*
 
@@ -128,7 +183,6 @@ Made with ❤️ by **Dharanidharan**
 
 <br/>
 
-<!-- Animated Footer Wave -->
 <img src="https://capsule-render.vercel.app/api?type=waving&color=C84B31&height=120&section=footer&text=Thank%20You%20for%20Using%20TOOLZEN!&fontSize=20&fontColor=ffffff&animation=fadeIn" width="100%" />
 
 </div>
