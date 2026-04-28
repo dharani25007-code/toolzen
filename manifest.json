@@ -1,0 +1,18 @@
+{
+  "name": "TOOLZEN",
+  "short_name": "TOOLZEN",
+  "description": "Smart file converter and QR designer that runs fully in the browser.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F3EE",
+  "theme_color": "#C84B31",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
