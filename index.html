@@ -8,21 +8,29 @@
 <meta property="og:title" content="TOOLZEN — Smart File Converter + QR Designer"/>
 <meta property="og:description" content="42+ QR shapes · Password-protected QR · Auto-expiry QR · AI file detect · 50+ converters · All free, all in browser"/>
 <meta property="og:type" content="website"/>
+<meta name="theme-color" content="#C84B31"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="TOOLZEN"/>
 <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Crect width='1200' height='630' fill='%23C84B31'/%3E%3Crect x='0' y='0' width='1200' height='630' fill='url(%23g)'/%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23C84B31'/%3E%3Cstop offset='1' stop-color='%230D0D0F'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ctext x='600' y='290' font-family='sans-serif' font-size='110' font-weight='900' fill='white' text-anchor='middle'%3ETOOLZEN%3C/text%3E%3Ctext x='600' y='380' font-family='sans-serif' font-size='38' fill='rgba(255,255,255,0.75)' text-anchor='middle'%3ESmart QR Designer %E2%80%A2 50%2B File Converters%3C/text%3E%3C/svg%3E"/>
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:title" content="TOOLZEN — Smart QR + File Converter"/>
 <meta name="twitter:description" content="42+ QR shapes, password QR, expiry QR, AI file detect, 50+ converters. Free, no login."/>
+<link rel="manifest" href="manifest.json"/>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%23C84B31'/><rect x='4' y='6' width='10' height='13' rx='2' fill='white' opacity='.9'/><path d='M15.5 12L17.5 10L17.5 11.2L19.5 11.2L19.5 12.8L17.5 12.8L17.5 14Z' fill='white'/><rect x='21' y='6' width='7' height='13' rx='2' fill='white' opacity='.75'/><rect x='4' y='22' width='24' height='4' rx='2' fill='white' opacity='.3'/><rect x='4' y='22' width='14' height='4' rx='2' fill='white' opacity='.7'/></svg>"/>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/mammoth@1.6.0/mammoth.browser.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
-<script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/build/pdf.worker.min.js';</script>
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gifshot@0.4.5/dist/gifshot.min.js"></script>
+<script src="libs/qrcode.min.js"></script>
+<script src="libs/jsQR.js"></script>
+<script src="libs/jszip.min.js"></script>
+<script src="libs/pdf-lib.min.js"></script>
+<script src="libs/mammoth.min.js"></script>
+<script src="libs/pdf.min.js"></script>
+<script>if(typeof pdfjsLib!=='undefined')pdfjsLib.GlobalWorkerOptions.workerSrc='libs/pdf.worker.min.js';</script>
+<script src="libs/xlsx.full.min.js"></script>
+<script src="libs/gifshot.min.js"></script>
+<script src="libs/beautify.js"></script>
+<script src="libs/beautify-css.js"></script>
+<script src="libs/beautify-html.js"></script>
 <style>
 :root{
   --ink:#0D0D0F;--ink2:#3A3A45;--ink3:#7A7A8A;
@@ -56,6 +64,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem
 .nav-right{display:flex;align-items:center;gap:.6rem}
 .dark-toggle{background:none;border:1px solid var(--border2);border-radius:8px;padding:.4rem .55rem;cursor:pointer;color:var(--ink2);display:flex;align-items:center;transition:all .2s}
 .dark-toggle:hover{border-color:var(--accent);color:var(--accent)}
+.install-btn{background:var(--ink);border:1px solid var(--ink);border-radius:8px;padding:.45rem .8rem;cursor:pointer;color:var(--paper);display:none;align-items:center;gap:.35rem;font-family:var(--font-b);font-size:.76rem;font-weight:700;transition:all .2s}
+.install-btn.show{display:inline-flex}
+.install-btn:hover{background:var(--accent);border-color:var(--accent);transform:translateY(-1px)}
 .hamburger{display:none;background:none;border:1px solid var(--border2);border-radius:8px;padding:.4rem .55rem;cursor:pointer;color:var(--ink)}
 .mobile-menu{display:none;position:fixed;inset:0;top:55px;background:var(--paper);z-index:200;padding:1.5rem;flex-direction:column;gap:.8rem;border-top:1px solid var(--border);overflow-y:auto}
 .mobile-menu.open{display:flex}
@@ -74,6 +85,9 @@ nav{display:flex;align-items:center;justify-content:space-between;padding:.85rem
 .hero-sub{font-size:.98rem;color:var(--ink2);line-height:1.7;margin-bottom:1.5rem;max-width:440px}
 .hero-cta{display:inline-flex;align-items:center;gap:.4rem;background:var(--ink);color:var(--paper);padding:.7rem 1.6rem;border-radius:30px;font-size:.86rem;font-weight:700;border:none;cursor:pointer;text-decoration:none;transition:all .2s}
 .hero-cta:hover{background:var(--accent);transform:translateY(-2px)}
+.hero-cta.install{background:var(--accent2)}
+.hero-cta.install:hover{background:var(--accent3)}
+.install-note{margin-top:.9rem;font-size:.74rem;color:var(--ink3);line-height:1.5;max-width:560px}
 .hero-visual{display:flex;align-items:center;justify-content:center}
 .hero-card{background:var(--white);border-radius:22px;padding:1.8rem;border:1px solid var(--border);box-shadow:0 24px 64px rgba(13,13,15,.1)}
 
@@ -449,6 +463,10 @@ footer strong{color:#fff}
     <button class="dark-toggle" onclick="toggleDark()">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
     </button>
+    <button class="install-btn" id="install-btn" type="button">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+      Install App
+    </button>
     <button class="hamburger" onclick="toggleMenu()">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
     </button>
@@ -477,7 +495,9 @@ footer strong{color:#fff}
       <button class="hero-cta" onclick="showSection('qr')">Design QR →</button>
       <button class="hero-cta" style="background:var(--accent2)" onclick="showSection('tools')">Convert Files →</button>
       <button class="hero-cta" style="background:var(--accent3)" onclick="showSection('compress')">Compress →</button>
+      <button class="hero-cta install" id="hero-install-btn" type="button" hidden>Install App →</button>
     </div>
+    <div id="install-note" class="install-note">Open TOOLZEN from a hosted https:// site or localhost to enable real app install on mobile and desktop.</div>
     <div style="display:flex;gap:1.6rem;margin-top:1.8rem;padding-top:1.5rem;border-top:1px solid var(--border);flex-wrap:wrap">
       <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">42+</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">QR Shapes</div></div>
       <div><div style="font-family:var(--font-d);font-size:1.5rem;font-weight:800">18</div><div style="font-size:.68rem;color:var(--ink3);text-transform:uppercase;letter-spacing:.06em">Eye Styles</div></div>
@@ -546,7 +566,7 @@ footer strong{color:#fff}
     <h2 class="sec-title">Built for Creators &amp; Hustlers</h2>
   </div>
   <div class="feat-grid">
-    <div class="fc"><div class="fc-icon">✨</div><div class="fc-title">AI Assistant</div><p class="fc-desc">Claude-powered AI chat built in. Ask questions, get summaries, write emails, explain documents, get coding help — all without leaving TOOLZEN.</p></div>
+    <div class="fc"><div class="fc-icon">✨</div><div class="fc-title">AI Assistant</div><p class="fc-desc">Free local assistant built in. Ask questions about attached files, get summaries, draft simple replies, and trigger conversions — all without leaving TOOLZEN.</p></div>
     <div class="fc"><div class="fc-icon">🎨</div><div class="fc-title">42+ QR Module Shapes</div><p class="fc-desc">Classic, Dots, Rounded, Diamond, Star, Hex, Leaf, Moon, Ring, Shield, Octagon, Pac-Man, Lightning, Cloud, Eye, DNA, Clover, Petal, and 24+ more — all scannable.</p></div>
     <div class="fc"><div class="fc-icon">👁️</div><div class="fc-title">18 Eye Styles</div><p class="fc-desc">Square, Rounded, Circle, Leaf, Shield, Star, Diamond,  Hexagon, Cross, Heart, Cloud, Octagon, Curved, Pinch, Squircle — mix and match.</p></div>
     <div class="fc"><div class="fc-icon">🎭</div><div class="fc-title">Custom Colors + Gradients</div><p class="fc-desc">Pick any foreground & gradient end color. 12 built-in gradient presets: Sunset, Emerald, Cosmic, Gold, Fire, Ocean, Candy, Aurora and more.</p></div>
@@ -1155,7 +1175,7 @@ footer strong{color:#fff}
 <div id="sec-ai" class="section">
 <div class="ai-wrap">
   <div class="ai-header">
-    <div class="ai-badge">✨ Powered by Claude AI</div>
+    <div class="ai-badge">✨ Free local assistant</div>
     <div class="ai-title">AI Assistant</div>
     <div class="ai-sub">Upload any file — I'll read it, explain it, summarize it, or convert it for you</div>
     <button onclick="clearAiChat()" style="margin-top:.6rem;padding:.3rem .8rem;border-radius:8px;border:1px solid var(--border2);background:var(--paper2);font-size:.72rem;cursor:pointer;color:var(--ink3);font-family:var(--font-b)">🗑️ Clear chat</button>
@@ -1180,7 +1200,7 @@ footer strong{color:#fff}
     <div class="ai-msg">
       <div class="ai-avatar bot">✨</div>
       <div class="ai-bubble bot">
-        <strong>Hello! I'm TOOLZEN AI</strong> — your intelligent file assistant, powered by Claude.<br><br>
+        <strong>Hello! I'm TOOLZEN AI</strong> — your free local file assistant. Attach a file or ask a question and I’ll help with summaries, conversions, and simple drafting.<br><br>
         Here's what I can do for you:<br>
         • 📎 <strong>Attach a file</strong> (PDF, Word, Excel, PPT, CSV, image, text…) — I'll read, explain, summarize, or answer questions about it<br>
         • 🔄 <strong>Convert files</strong> — just ask and I'll guide you or trigger the conversion directly<br>
@@ -1223,7 +1243,7 @@ footer strong{color:#fff}
   <div class="app-head">
     <div class="sec-tag">🧰 Utilities</div>
     <h2 class="sec-title">Power Tools</h2>
-    <p style="color:var(--ink2);margin-top:.5rem;font-size:.9rem">8 essential utilities — all in browser, all free</p>
+    <p style="color:var(--ink2);margin-top:.5rem;font-size:.9rem">19 browser-based utilities — all free, all in browser</p>
   </div>
   <div id="util-grid-view">
     <div class="tools-grid" style="margin-top:1rem">
@@ -1235,6 +1255,20 @@ footer strong{color:#fff}
       <div class="tool-card"><div class="tool-card-icon" style="background:#FDF4FF;font-size:1.3rem">🔤</div><div class="tool-card-title">Text Diff Checker</div><div class="tool-card-desc">Compare two texts side by side and highlight what changed — added, removed, or modified.</div><button class="tool-card-btn" onclick="openUtil('textdiff')">Open Tool →</button></div>
       <div class="tool-card"><div class="tool-card-icon" style="background:#FFF1F2;font-size:1.3rem">📸</div><div class="tool-card-title">Image Text / Meme</div><div class="tool-card-desc">Add top and bottom text to any image, pick font size and color, download as PNG.</div><button class="tool-card-btn" onclick="openUtil('mememaker')">Open Tool →</button></div>
       <div class="tool-card"><div class="tool-card-icon" style="background:#F3E8FF;font-size:1.3rem">⏱️</div><div class="tool-card-title">Pomodoro Timer</div><div class="tool-card-desc">Built-in focus timer with Pomodoro intervals. Work sessions, short and long breaks.</div><button class="tool-card-btn" onclick="openUtil('pomodoro')">Open Tool →</button></div>
+    </div>
+    <div style="margin:1.5rem 0 .6rem;font-family:var(--font-d);font-size:.7rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)">✨ Novelty Lab</div>
+    <div class="tools-grid">
+      <div class="tool-card"><div class="tool-card-icon" style="background:#EEF2FF;font-size:1.3rem">🔍</div><div class="tool-card-title">QR Decoder</div><div class="tool-card-desc">Decode QR codes from screenshots or images and copy the hidden link or text instantly.</div><button class="tool-card-btn" onclick="openUtil('qrdecode')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF7ED;font-size:1.3rem">🎬</div><div class="tool-card-title">GIF Creator</div><div class="tool-card-desc">Turn multiple images into an animated GIF with local browser rendering.</div><button class="tool-card-btn" onclick="openUtil('gifmaker')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#ECFDF5;font-size:1.3rem">📈</div><div class="tool-card-title">Text Statistics</div><div class="tool-card-desc">Word count, reading time, readability, unique words, and keyword analysis.</div><button class="tool-card-btn" onclick="openUtil('textstats')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#E0F2FE;font-size:1.3rem">🧹</div><div class="tool-card-title">Code Formatter</div><div class="tool-card-desc">Beautify JSON, HTML, CSS, JS, XML, and Markdown with a few clicks.</div><button class="tool-card-btn" onclick="openUtil('codefmt')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FDF4FF;font-size:1.3rem">🧪</div><div class="tool-card-title">Regex Tester</div><div class="tool-card-desc">Test patterns, highlight matches, and preview replacements live.</div><button class="tool-card-btn" onclick="openUtil('regextest')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F5F3FF;font-size:1.3rem">🗒️</div><div class="tool-card-title">Local Notes</div><div class="tool-card-desc">Save searchable notes and snippets locally with browser storage.</div><button class="tool-card-btn" onclick="openUtil('notes')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FFF1F2;font-size:1.3rem">🎨</div><div class="tool-card-title">Palette Extractor</div><div class="tool-card-desc">Extract dominant colors from any image and export CSS variables.</div><button class="tool-card-btn" onclick="openUtil('palette')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F0FDF4;font-size:1.3rem">🖼️</div><div class="tool-card-title">SVG → PNG</div><div class="tool-card-desc">Convert pasted SVG markup or SVG files to PNG images with scaling.</div><button class="tool-card-btn" onclick="openUtil('svg2png')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#F3E8FF;font-size:1.3rem">🧬</div><div class="tool-card-title">Duplicate Finder</div><div class="tool-card-desc">Find duplicate files by hashing contents locally in the browser.</div><button class="tool-card-btn" onclick="openUtil('dupfinder')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#EDE9FE;font-size:1.3rem">💧</div><div class="tool-card-title">Image Watermark</div><div class="tool-card-desc">Add text or logo watermarks to one or many images and export them.</div><button class="tool-card-btn" onclick="openUtil('imgwatermark')">Open Tool →</button></div>
+      <div class="tool-card"><div class="tool-card-icon" style="background:#FEF3C7;font-size:1.3rem">✂️</div><div class="tool-card-title">Document Splitter</div><div class="tool-card-desc">Split text, markdown, or DOCX notes into separate sections by headings.</div><button class="tool-card-btn" onclick="openUtil('docsplit')">Open Tool →</button></div>
     </div>
   </div>
   <div id="util-panel-wrap" style="display:none;max-width:800px;margin:1.5rem auto 0">
@@ -1259,7 +1293,7 @@ footer strong{color:#fff}
     <svg width="20" height="20" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#C84B31"/><rect x="4" y="6" width="10" height="13" rx="2" fill="white" opacity="0.9"/><line x1="6" y1="10" x2="12" y2="10" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="13" x2="12" y2="13" stroke="#C84B31" stroke-width="1.4" stroke-linecap="round"/><path d="M15.5 12 L17.5 10 L17.5 11.2 L19.5 11.2 L19.5 12.8 L17.5 12.8 L17.5 14 Z" fill="white"/><path d="M19.5 16 L17.5 18 L17.5 16.8 L15.5 16.8 L15.5 15.2 L17.5 15.2 L17.5 14 Z" fill="white" opacity="0.7"/><rect x="21" y="6" width="7" height="13" rx="2" fill="white" opacity="0.75"/><rect x="4" y="22" width="24" height="4" rx="2" fill="white" opacity="0.3"/><rect x="4" y="22" width="14" height="4" rx="2" fill="white" opacity="0.7"/></svg>
     <strong>TOOLZEN v6</strong>
   </div>
-  <div>Smart File Converter · QR Designer · Compressor · Analytics · 8 New Utilities — 58+ Tools, All Free, All In Browser</div>
+  <div>Smart File Converter · QR Designer · Compressor · Analytics · 19 Utilities — All Free, All In Browser</div>
   <div style="margin-top:.5rem;font-size:.68rem;color:rgba(255,255,255,.25)">© 2026 TOOLZEN</div>
 </footer>
 
@@ -1278,6 +1312,13 @@ const PAGE_TITLES={
 };
 
 const ALL_SECTIONS = ['home','qr','tools','compress','analytics','ai','utilities'];
+// Optional backend URL for high-fidelity conversions.
+// Example: localStorage.setItem('TOOLZEN_BACKEND_API','http://127.0.0.1:8000')
+const BACKEND_API=(localStorage.getItem('TOOLZEN_BACKEND_API')||'').trim().replace(/\/$/, '');
+const TZ_IANA={
+  UTC:'UTC',IST:'Asia/Kolkata',EST:'America/New_York',PST:'America/Los_Angeles',CST:'America/Chicago',MST:'America/Denver',
+  GMT:'Europe/London',CET:'Europe/Paris',EET:'Europe/Helsinki',JST:'Asia/Tokyo',KST:'Asia/Seoul',AEST:'Australia/Sydney',NZST:'Pacific/Auckland'
+};
 
 function showSection(s){
   ALL_SECTIONS.forEach(id=>{
@@ -1881,8 +1922,19 @@ function decodeFile(file){
       if(code){
         const v=code.data,isUrl=/^https?:\/\//i.test(v);
         res.innerHTML=`<div style="font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);margin-bottom:.35rem;font-weight:700">✅ Decoded</div>`
-          +(isUrl?`<a class="dlink" href="${v}" target="_blank" rel="noopener">${v}</a>`:`<span>${v}</span>`)
-          +`<div style="display:flex;gap:.45rem;margin-top:.6rem;flex-wrap:wrap"><button class="lbtn" onclick="navigator.clipboard.writeText(${JSON.stringify(v)}).then(()=>toast('Copied!'))">Copy</button>${isUrl?`<button class="lbtn" onclick="document.getElementById('url-input').value=${JSON.stringify(v)};setQRMode('encode');showSection('qr');generateQR()">Use in Designer</button>`:''}</div>`;
+          +(isUrl?`<a class="dlink" href="${utilEsc(v)}" target="_blank" rel="noopener">${utilEsc(v)}</a>`:`<span>${utilEsc(v)}</span>`)
+          +`<div style="display:flex;gap:.45rem;margin-top:.6rem;flex-wrap:wrap"><button type="button" class="lbtn qr-copy-btn">Copy</button>${isUrl?`<button type="button" class="lbtn qr-use-btn">Use in Designer</button>`:''}</div>`;
+        res.querySelector('.qr-copy-btn').addEventListener('click',()=>{
+          navigator.clipboard.writeText(v).then(()=>toast('Copied!')).catch(()=>toast('Copy failed'));
+        });
+        if(isUrl){
+          res.querySelector('.qr-use-btn').addEventListener('click',()=>{
+            document.getElementById('url-input').value=v;
+            setQRMode('encode');
+            showSection('qr');
+            generateQR();
+          });
+        }
         toast('QR decoded!');
       }else{res.innerHTML=`<span style="color:var(--accent)">Could not decode.</span> Try a higher-res image.`;}
     };
@@ -1997,7 +2049,7 @@ let currentTool=null,currentFile=null,compressQuality=0.7,compressMode=null,comp
 
 const TOOL_CONFIG={
   word2pdf:{title:'Word → PDF',icon:'📄',accept:'.docx,.doc',sub:'Select a .docx Word file',btnLabel:'Convert to PDF'},
-  pdf2word:{title:'PDF → Word',icon:'📋',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Convert to DOCX'},
+  pdf2word:{title:'PDF → Word (Visual)',icon:'📋',accept:'.pdf',sub:'Select a PDF file',btnLabel:'Convert to DOCX'},
   ppt2pdf:{title:'PPT → PDF',icon:'📊',accept:'.pptx,.ppt',sub:'Select a PowerPoint file',btnLabel:'Convert to PDF'},
   ppt2docx:{title:'PPT → Word',icon:'📝',accept:'.pptx,.ppt',sub:'Select a PowerPoint file',btnLabel:'Convert to DOCX'},
   excel2pdf:{title:'Excel → PDF',icon:'📈',accept:'.xlsx,.xls',sub:'Select an Excel file',btnLabel:'Convert to PDF'},
@@ -2099,7 +2151,16 @@ function openFileTool(tool){
   }else if(tool==='timezone'){
     const tzList=['UTC','IST','EST','PST','CST','MST','GMT','CET','EET','JST','KST','AEST','NZST'];
     optDiv.style.display='flex';
-    optRow.innerHTML=`<div style="display:flex;flex-direction:column;gap:.6rem;width:100%"><input class="url-in" id="_tz_time" type="datetime-local" style="font-size:.85rem"/><div style="display:flex;gap:.5rem;align-items:center"><select class="url-in" id="_tz_from" style="flex:1">${tzList.map(t=>`<option${t==='IST'?' selected':''}>${t}</option>`).join('')}</select><span style="color:var(--ink3)">→</span><select class="url-in" id="_tz_to" style="flex:1">${tzList.map(t=>`<option${t==='UTC'?' selected':''}>${t}</option>`).join('')}</select></div><div id="_tz_out" style="padding:.7rem;background:var(--paper2);border-radius:8px;font-family:var(--font-m);font-size:.85rem;color:var(--ink2)">Select a time above then click Convert Time</div></div>`;
+    optRow.innerHTML=`<div style="display:flex;flex-direction:column;gap:.6rem;width:100%"><input class="url-in" id="_tz_time" type="datetime-local" style="font-size:.85rem" oninput="doTimezoneConv()"/><div style="display:flex;gap:.5rem;align-items:center"><select class="url-in" id="_tz_from" style="flex:1" onchange="doTimezoneConv()">${tzList.map(t=>`<option${t==='IST'?' selected':''}>${t}</option>`).join('')}</select><span style="color:var(--ink3)">→</span><select class="url-in" id="_tz_to" style="flex:1" onchange="doTimezoneConv()">${tzList.map(t=>`<option${t==='UTC'?' selected':''}>${t}</option>`).join('')}</select></div><div id="_tz_out" style="padding:.7rem;background:var(--paper2);border-radius:8px;font-family:var(--font-m);font-size:.85rem;color:var(--ink2)">Select a time above then click Convert Time</div></div>`;
+    setTimeout(()=>{
+      const tEl=document.getElementById('_tz_time');
+      if(tEl&&!tEl.value){
+        const now=new Date();
+        const pad=n=>String(n).padStart(2,'0');
+        tEl.value=`${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}T${pad(now.getHours())}:${pad(now.getMinutes())}`;
+      }
+      doTimezoneConv();
+    },0);
   }else if(tool==='numbase'){
     optDiv.style.display='flex';
     optRow.innerHTML=`<div style="display:flex;flex-direction:column;gap:.6rem;width:100%"><input class="url-in" id="_nb_val" placeholder="Enter a number (e.g. 255 or 0xFF or 11111111)" oninput="doNumBase(this.value)" style="font-size:.85rem"/><div id="_nb_out" style="padding:.7rem;background:var(--paper2);border-radius:8px;font-family:var(--font-m);font-size:.8rem;line-height:1.8;color:var(--ink2);min-height:60px">Results will appear here...</div></div>`;
@@ -2270,6 +2331,59 @@ async function updatePreview(blob, filename, containerId){
   }
 }
 
+let deferredInstallPrompt = null;
+const isLocalFile = location.protocol === 'file:';
+function syncInstallButtons(){
+  const canInstall = Boolean(deferredInstallPrompt);
+  const navBtn = document.getElementById('install-btn');
+  const heroBtn = document.getElementById('hero-install-btn');
+  const note = document.getElementById('install-note');
+  if(navBtn) navBtn.classList.toggle('show', canInstall);
+  if(heroBtn) heroBtn.hidden = !canInstall;
+  if(note){
+    if(canInstall) note.textContent = 'Install TOOLZEN to your home screen for a real app experience on mobile and desktop.';
+    else if(isLocalFile) note.textContent = 'This file is opened directly from disk. To install TOOLZEN as a real app, serve it from localhost or HTTPS first.';
+    else note.textContent = 'When the browser offers an install prompt, use it to add TOOLZEN like a real app.';
+  }
+}
+
+async function triggerInstall(){
+  if(!deferredInstallPrompt){
+    toast(isLocalFile ? 'Open from localhost or HTTPS to install' : 'Install prompt not available yet');
+    return;
+  }
+  deferredInstallPrompt.prompt();
+  const choice = await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  syncInstallButtons();
+  toast(choice.outcome === 'accepted' ? 'App install started' : 'Install dismissed');
+}
+
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  syncInstallButtons();
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  syncInstallButtons();
+  toast('TOOLZEN installed');
+});
+
+if(document.getElementById('install-btn')){
+  document.getElementById('install-btn').addEventListener('click', triggerInstall);
+}
+if(document.getElementById('hero-install-btn')){
+  document.getElementById('hero-install-btn').addEventListener('click', triggerInstall);
+}
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
+syncInstallButtons();
+
 /* ════════════════════════════════════════════════════════════════════
    TOOLZEN v7 — COMPLETE CONVERSION ENGINE
    ALL conversions: real extraction + proper visual PDF/DOCX output
@@ -2298,17 +2412,8 @@ function wrapText(text,maxChars){
 
 /* ── Draw a styled PDF page header ── */
 function drawPageHeader(page,PDFLib,fontB,title,pageNum,totalPages,accentColor){
-  const {rgb}=PDFLib;
-  const {width:W,height:H}=page.getSize();
-  const [r,g,b]=accentColor||[0.04,0.18,0.42];
-  page.drawRectangle({x:0,y:H-52,width:W,height:52,color:rgb(r,g,b)});
-  page.drawRectangle({x:0,y:H-55,width:W,height:3,color:rgb(0.1,0.6,0.9)});
-  try{page.drawText(pdfSan(title).slice(0,70),{x:16,y:H-36,size:17,font:fontB,color:rgb(1,1,1),maxWidth:W-120});}catch(e){}
-  if(totalPages>1) try{page.drawText(`${pageNum}/${totalPages}`,{x:W-55,y:H-36,size:10,font:fontB,color:rgb(0.7,0.85,1)});}catch(e){}
-  page.drawRectangle({x:0,y:0,width:5,height:H,color:rgb(0.1,0.6,0.9)});
-  page.drawRectangle({x:0,y:0,width:W,height:22,color:rgb(r,g,b),opacity:0.7});
-  try{page.drawText('TOOLZEN — toolzen.io',{x:16,y:7,size:7,font:fontB,color:rgb(0.6,0.75,0.9)});}catch(e){}
-  return H-70;
+  const {height:H}=page.getSize();
+  return H-32;
 }
 
 /* ── Render text blocks to PDF pages (shared by Word, HTML, TXT, PPT) ──
@@ -2337,27 +2442,127 @@ async function renderBlocksToPdf(pdfDoc,blocks,docTitle,PDFLib){
     if(y-needed<MB){const r=newPage();pg=r.pg;y=r.y;}
   }
 
+  function renderTableBlock(block){
+    const rows=(block.rows||[])
+      .map(row=>Array.isArray(row)?row.map(cell=>String(cell??'')):[])
+      .filter(row=>row.some(cell=>String(cell||'').trim()));
+    if(!rows.length)return;
+    const numCols=Math.max(...rows.map(row=>row.length),1);
+    const tableWidth=CW;
+    const colWidths=Array(numCols).fill(Math.floor(tableWidth/numCols));
+    colWidths[colWidths.length-1]+=tableWidth-colWidths.reduce((sum,width)=>sum+width,0);
+    const headerRows=Math.max(0,Math.min(block.headerRows||0,rows.length));
+    const padX=5;
+    const padY=4;
+
+    const rowHeight=(row,isHeader)=>{
+      let maxLines=1;
+      for(let ci=0;ci<numCols;ci++){
+        const cellText=pdfSan(row[ci]||'');
+        const cellWidth=colWidths[ci]||colWidths[colWidths.length-1]||tableWidth/numCols;
+        const charsPerLine=Math.max(8,Math.floor((cellWidth-padX*2)/5.8));
+        maxLines=Math.max(maxLines,wrapText(cellText,charsPerLine).length);
+      }
+      return Math.max(isHeader?18:17,maxLines*(isHeader?10:9)+padY*2+2);
+    };
+
+    const drawRow=(row,rowH,isHeader)=>{
+      const topY=y;
+      const bottomY=topY-rowH;
+      let cellX=ML+6;
+      for(let ci=0;ci<numCols;ci++){
+        const cellW=colWidths[ci]||colWidths[colWidths.length-1]||tableWidth/numCols;
+        const fillColor=isHeader?[0.10,0.45,0.75]:(ci%2===0?[0.97,0.98,1.0]:[1,1,1]);
+        pg.drawRectangle({x:cellX,y:bottomY+4,width:cellW,height:rowH,color:rgb(...fillColor)});
+        if(ci>0)pg.drawRectangle({x:cellX,y:bottomY+4,width:0.5,height:rowH,color:rgb(0.80,0.86,0.93)});
+        const cellText=pdfSan(row[ci]||'');
+        const charsPerLine=Math.max(8,Math.floor((cellW-padX*2)/5.8));
+        const lines=wrapText(cellText,charsPerLine).slice(0,5);
+        lines.forEach((line,li)=>{
+          try{pg.drawText(line.slice(0,120),{x:cellX+padX,y:topY-padY-10-(li*9.2),size:isHeader?8.4:8,font:isHeader?fontB:fontR,color:isHeader?rgb(1,1,1):rgb(0.08,0.15,0.28),maxWidth:cellW-padX*2});}catch(e){}
+        });
+        cellX+=cellW;
+      }
+      pg.drawRectangle({x:ML+6,y:bottomY+4,width:tableWidth,height:0.5,color:rgb(0.80,0.86,0.93)});
+    };
+
+    const drawHeader=()=>{
+      if(!headerRows)return;
+      let headerH=0;
+      for(let i=0;i<headerRows;i++)headerH+=rowHeight(rows[i],true);
+      if(y-headerH<MB){const r=newPage();pg=r.pg;y=r.y;}
+      for(let i=0;i<headerRows;i++){
+        const row=rows[i];
+        const rowH=rowHeight(row,true);
+        drawRow(row,rowH,true);
+        y-=rowH;
+      }
+      y-=2;
+    };
+
+    if(headerRows)drawHeader();
+    for(let i=headerRows;i<rows.length;i++){
+      const row=rows[i];
+      const rowH=rowHeight(row,false);
+      if(y-rowH<MB){const r=newPage();pg=r.pg;y=r.y;if(headerRows)drawHeader();}
+      drawRow(row,rowH,false);
+      y-=rowH;
+    }
+    y-=4;
+  }
+
   for(const b of blocks){
-    if(!b||(!b.text&&b.type!=='divider'&&b.type!=='spacer')) continue;
+    if(!b||(b.type!=='divider'&&b.type!=='spacer'&&b.type!=='image'&&b.type!=='table'&&!String(b.text||'').trim())) continue;
     const txt=pdfSan(b.text||'');
 
     if(b.type==='h1'){
       ensureSpace(38);
       y-=8;
-      try{pg.drawText(txt.slice(0,80),{x:ML+6,y,size:20,font:fontB,color:rgb(0.04,0.18,0.42),maxWidth:CW});}catch(e){}
+      try{pg.drawText(txt.slice(0,80),{x:ML+6,y,size:20,font:fontB,color:rgb(0,0,0),maxWidth:CW});}catch(e){}
       y-=24;
-      pg.drawRectangle({x:ML+6,y,width:CW,height:1.5,color:rgb(0.1,0.6,0.9),opacity:0.5});
+      pg.drawRectangle({x:ML+6,y,width:CW,height:0.6,color:rgb(0.75,0.75,0.75),opacity:0.7});
       y-=10;
     } else if(b.type==='h2'){
       ensureSpace(28);
       y-=6;
-      try{pg.drawText(txt.slice(0,90),{x:ML+6,y,size:15,font:fontB,color:rgb(0.06,0.22,0.48),maxWidth:CW});}catch(e){}
+      try{pg.drawText(txt.slice(0,90),{x:ML+6,y,size:15,font:fontB,color:rgb(0,0,0),maxWidth:CW});}catch(e){}
       y-=20;
     } else if(b.type==='h3'){
       ensureSpace(22);
       y-=4;
-      try{pg.drawText(txt.slice(0,100),{x:ML+6,y,size:12,font:fontB,color:rgb(0.1,0.3,0.5),maxWidth:CW});}catch(e){}
+      try{pg.drawText(txt.slice(0,100),{x:ML+6,y,size:12,font:fontB,color:rgb(0,0,0),maxWidth:CW});}catch(e){}
       y-=16;
+    } else if(b.type==='table'){
+      ensureSpace(28);
+      renderTableBlock(b);
+    } else if(b.type==='image'&&b.src){
+      try{
+        ensureSpace(120);
+        const src=b.src;
+        let img;
+        if(src.startsWith('data:image/png')){
+          const raw=atob(src.split(',')[1]||'');
+          const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+          img=await pdfDoc.embedPng(bytes);
+        }else if(src.startsWith('data:image/jpeg')||src.startsWith('data:image/jpg')){
+          const raw=atob(src.split(',')[1]||'');
+          const bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));
+          img=await pdfDoc.embedJpg(bytes);
+        }
+        if(img){
+          const maxW=CW,maxH=220;
+          const rw=maxW/img.width,rh=maxH/img.height,sc=Math.min(rw,rh,1);
+          const w=Math.max(1,Math.round(img.width*sc)),h=Math.max(1,Math.round(img.height*sc));
+          pg.drawImage(img,{x:ML+6,y:y-h,width:w,height:h});
+          y-=h+10;
+        }else{
+          ensureSpace(24);
+          const label=pdfSan(b.alt||'[Image]');
+          pg.drawRectangle({x:ML+6,y:y-18,width:160,height:18,color:rgb(0.96,0.96,0.96)});
+          pg.drawText(label.slice(0,40),{x:ML+12,y:y-7,size:8,font:fontM,color:rgb(0.22,0.22,0.22)});
+          y-=22;
+        }
+      }catch(e){}
     } else if(b.type==='bullet'||b.type==='numberedBullet'){
       const prefix=b.type==='numberedBullet'?(b.num+'. '):'• ';
       const fullTxt=prefix+txt;
@@ -2365,7 +2570,7 @@ async function renderBlocksToPdf(pdfDoc,blocks,docTitle,PDFLib){
       lines.forEach((line,li)=>{
         ensureSpace(15);
         const xOff=li===0?0:14;
-        try{pg.drawText(pdfSan(line),{x:ML+14+xOff,y,size:11,font:b.bold?fontB:fontR,color:rgb(0.08,0.15,0.25),maxWidth:CW-14-xOff});}catch(e){}
+        try{pg.drawText(pdfSan(line),{x:ML+14+xOff,y,size:11,font:b.bold?fontB:fontR,color:rgb(0,0,0),maxWidth:CW-14-xOff});}catch(e){}
         y-=15;
       });
       y-=2;
@@ -2373,15 +2578,15 @@ async function renderBlocksToPdf(pdfDoc,blocks,docTitle,PDFLib){
       const lines=txt.split('\n').slice(0,30);
       const boxH=lines.length*13+10;
       ensureSpace(boxH+8);
-      pg.drawRectangle({x:ML+6,y:y-boxH+12,width:CW,height:boxH,color:rgb(0.95,0.96,0.98)});
-      pg.drawRectangle({x:ML+6,y:y-boxH+12,width:3,height:boxH,color:rgb(0.1,0.6,0.9)});
+      pg.drawRectangle({x:ML+6,y:y-boxH+12,width:CW,height:boxH,color:rgb(0.97,0.97,0.97)});
+      pg.drawRectangle({x:ML+6,y:y-boxH+12,width:1,height:boxH,color:rgb(0.65,0.65,0.65)});
       lines.forEach((line,li)=>{
-        try{pg.drawText(pdfSan(line).slice(0,95),{x:ML+14,y:y-li*13,size:9,font:fontM,color:rgb(0.1,0.2,0.3),maxWidth:CW-14});}catch(e){}
+        try{pg.drawText(pdfSan(line).slice(0,95),{x:ML+14,y:y-li*13,size:9,font:fontM,color:rgb(0,0,0),maxWidth:CW-14});}catch(e){}
       });
       y-=boxH+6;
     } else if(b.type==='divider'){
       ensureSpace(10);
-      pg.drawRectangle({x:ML+6,y,width:CW,height:0.8,color:rgb(0.8,0.88,0.95)});
+      pg.drawRectangle({x:ML+6,y,width:CW,height:0.6,color:rgb(0.75,0.75,0.75)});
       y-=10;
     } else if(b.type==='spacer'){
       y-=(b.size||8);
@@ -2391,7 +2596,7 @@ async function renderBlocksToPdf(pdfDoc,blocks,docTitle,PDFLib){
       const lines=wrapText(txt,90);
       lines.forEach(line=>{
         ensureSpace(14);
-        try{pg.drawText(pdfSan(line),{x:ML+6,y,size:11,font,color:rgb(0.08,0.14,0.22),maxWidth:CW});}catch(e){}
+        try{pg.drawText(pdfSan(line),{x:ML+6,y,size:11,font,color:rgb(0,0,0),maxWidth:CW});}catch(e){}
         y-=14;
       });
       y-=4;
@@ -2558,6 +2763,59 @@ function buildDocx(docName,blocks,sourceInfo){
   return zip;
 }
 
+async function renderPdfPagesToImages(arrayBuffer){
+  if(typeof pdfjsLib==='undefined')throw new Error('PDF.js not loaded');
+  const pdfDoc=await pdfjsLib.getDocument({data:new Uint8Array(arrayBuffer)}).promise;
+  const pages=[];
+  for(let i=1;i<=pdfDoc.numPages;i++){
+    const page=await pdfDoc.getPage(i);
+    const viewport=page.getViewport({scale:1.75});
+    const canvas=document.createElement('canvas');
+    const ctx=canvas.getContext('2d',{alpha:false});
+    canvas.width=Math.max(1,Math.ceil(viewport.width));
+    canvas.height=Math.max(1,Math.ceil(viewport.height));
+    await page.render({canvasContext:ctx,viewport}).promise;
+    pages.push({dataUrl:canvas.toDataURL('image/png'),width:canvas.width,height:canvas.height});
+  }
+  return pages;
+}
+
+function docxImageDrawingXml(rId,docPrId,name,widthPx,heightPx){
+  const emuPerPx=9525;
+  const rawW=Math.max(1,Math.round(widthPx*emuPerPx));
+  const rawH=Math.max(1,Math.round(heightPx*emuPerPx));
+  const maxW=6.85*914400;
+  const maxH=9.35*914400;
+  const scale=Math.min(maxW/rawW,maxH/rawH,1);
+  const cx=Math.max(1,Math.round(rawW*scale));
+  const cy=Math.max(1,Math.round(rawH*scale));
+  const safeName=xe(name);
+  return `<w:p><w:r><w:drawing><wp:inline distT="0" distB="0" distL="0" distR="0"><wp:extent cx="${cx}" cy="${cy}"/><wp:effectExtent l="0" t="0" r="0" b="0"/><wp:docPr id="${docPrId}" name="${safeName}"/><wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr><a:graphic xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:pic xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><pic:nvPicPr><pic:cNvPr id="0" name="${safeName}"/><pic:cNvPicPr/></pic:nvPicPr><pic:blipFill><a:blip r:embed="${rId}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill><pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="${cx}" cy="${cy}"/></a:xfrm><a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic></a:graphicData></a:graphic></wp:inline></w:drawing></w:r></w:p>`;
+}
+
+function buildVisualDocx(docName,pages){
+  const zip=new JSZip();
+  zip.file('[Content_Types].xml',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Default Extension="png" ContentType="image/png"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/></Types>`);
+  zip.file('_rels/.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`);
+  const rels=[];
+  pages.forEach((_,i)=>{
+    rels.push(`<Relationship Id="rId${i+1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/image" Target="media/image${i+1}.png"/>`);
+  });
+  zip.file('word/_rels/document.xml.rels',`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${rels.join('')}</Relationships>`);
+  pages.forEach((page,i)=>{
+    const base64=(page.dataUrl.split(',')[1]||'');
+    zip.file(`word/media/image${i+1}.png`,base64,{base64:true});
+  });
+  let body='';
+  pages.forEach((page,i)=>{
+    if(i>0)body+='<w:p><w:r><w:br w:type="page"/></w:r></w:p>';
+    body+=docxImageDrawingXml(`rId${i+1}`,i+1,`${docName} page ${i+1}`,page.width,page.height);
+  });
+  const docXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${body}<w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="720" w:right="720" w:bottom="720" w:left="720"/></w:sectPr></w:body></w:document>`;
+  zip.file('word/document.xml',docXml);
+  return zip;
+}
+
 /* ── Parse PPTX → slide objects ── */
 async function parsePptx(arrayBuffer){
   const zip=new JSZip();
@@ -2623,10 +2881,31 @@ async function parsePptx(arrayBuffer){
 /* ── Parse DOCX → blocks using mammoth HTML ── */
 async function parseDocx(arrayBuffer){
   let html='',raw='';
-  try{const r=await mammoth.convertToHtml({arrayBuffer});html=r.value||'';}catch(e){}
+  try{
+    const convertImage=typeof mammoth!=='undefined'&&mammoth.images&&mammoth.images.inline
+      ?mammoth.images.inline(async image=>{
+        const imageBuffer=await image.read('base64');
+        return{src:`data:${image.contentType};base64,${imageBuffer}`};
+      })
+      :null;
+    const r=convertImage?await mammoth.convertToHtml({arrayBuffer,convertImage}):await mammoth.convertToHtml({arrayBuffer});
+    html=r.value||'';
+  }catch(e){}
   try{const r=await mammoth.extractRawText({arrayBuffer});raw=r.value||'';}catch(e){}
   const dom=new DOMParser().parseFromString(html||'<html><body></body></html>','text/html');
   const blocks=[];
+  const cleanText=v=>String(v||'').replace(/\s+/g,' ').trim();
+  function readTableRows(tableNode){
+    const rows=[];
+    tableNode.querySelectorAll('tr').forEach(tr=>{
+      const cells=[...tr.querySelectorAll('th,td')].map(cell=>{
+        const text=cleanText(cell.textContent||'');
+        return text||(cell.querySelector('img')?'[Image]':'');
+      });
+      if(cells.some(cell=>cell.trim()))rows.push(cells);
+    });
+    return rows;
+  }
   function walk(node){
     const tag=node.nodeName.toLowerCase();
     if(['script','style'].includes(tag))return;
@@ -2634,7 +2913,14 @@ async function parseDocx(arrayBuffer){
       const t=node.textContent.trim();
       if(t) blocks.push({type:'h'+tag[1],text:t});
     } else if(tag==='p'){
-      const t=node.textContent.trim();
+      const t=cleanText(node.textContent||'');
+      const childImgs=[...node.children].filter(el=>el.tagName==='IMG');
+      if(childImgs.length&&!t){
+        childImgs.forEach(img=>{
+          const src=img.getAttribute('src')||'';
+          if(src)blocks.push({type:'image',src,alt:img.getAttribute('alt')||''});
+        });
+      }
       const bold=!!node.querySelector('strong,b');
       const italic=!!node.querySelector('em,i');
       if(t) blocks.push({type:'p',text:t,bold,italic});
@@ -2643,11 +2929,11 @@ async function parseDocx(arrayBuffer){
     } else if(tag==='ol'){
       node.querySelectorAll('li').forEach((li,i)=>{const t=li.textContent.trim();if(t)blocks.push({type:'numberedBullet',text:t,num:i+1});});
     } else if(tag==='table'){
-      node.querySelectorAll('tr').forEach(tr=>{
-        const cells=[...tr.querySelectorAll('td,th')].map(td=>td.textContent.trim());
-        const t=cells.join(' | ');
-        if(t.trim())blocks.push({type:'p',text:t});
-      });
+      const rows=readTableRows(node);
+      if(rows.length)blocks.push({type:'table',rows,headerRows:node.querySelector('th')?1:0});
+    } else if(tag==='img'){
+      const src=node.getAttribute('src')||'';
+      if(src)blocks.push({type:'image',src,alt:node.getAttribute('alt')||''});
     } else if(tag==='pre'||tag==='code'){
       const t=node.textContent;
       if(t.trim())blocks.push({type:'code',text:t});
@@ -2734,22 +3020,86 @@ function parseXlsx(arrayBuffer){
 
 /* ── Parse CSV → sheet ── */
 function parseCsv(text){
-  const lines=text.trim().split('\n');
-  if(!lines.length)return{name:'CSV Data',headers:[],rows:[]};
-  // Handle quoted CSV
-  function parseRow(line){
-    const cells=[];let cur='';let inQ=false;
-    for(let i=0;i<line.length;i++){
-      if(line[i]==='"'){inQ=!inQ;}
-      else if(line[i]===','&&!inQ){cells.push(cur.trim());cur='';}
-      else{cur+=line[i];}
-    }
-    cells.push(cur.trim());
-    return cells;
+  const src=String(text||'');
+  if(!src.trim())return{name:'CSV Data',headers:[],rows:[]};
+  const parsed=[];
+  let row=[];let field='';let inQuotes=false;
+  for(let i=0;i<src.length;i++){
+    const ch=src[i];
+    const next=src[i+1];
+    if(ch==='"'){
+      if(inQuotes&&next==='"'){field+='"';i++;}
+      else inQuotes=!inQuotes;
+    }else if(ch===','&&!inQuotes){
+      row.push(field);field='';
+    }else if((ch==='\n'||ch==='\r')&&!inQuotes){
+      if(ch==='\r'&&next==='\n')i++;
+      row.push(field);field='';
+      if(row.some(c=>String(c).trim()!==''))parsed.push(row);
+      row=[];
+    }else field+=ch;
   }
-  const headers=parseRow(lines[0]);
-  const rows=lines.slice(1).map(parseRow).filter(r=>r.some(c=>c!==''));
+  row.push(field);
+  if(row.some(c=>String(c).trim()!==''))parsed.push(row);
+  if(!parsed.length)return{name:'CSV Data',headers:[],rows:[]};
+  const headers=(parsed[0]||[]).map(v=>String(v||'').trim());
+  const rows=parsed.slice(1).map(r=>r.map(v=>String(v||''))).filter(r=>r.some(c=>c.trim()!==''));
   return{name:'CSV Data',headers,rows};
+}
+
+function getTimeZoneOffsetMs(date,timeZone){
+  const fmt=new Intl.DateTimeFormat('en-US',{timeZone,hour12:false,year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const parts=fmt.formatToParts(date).reduce((a,p)=>{a[p.type]=p.value;return a;},{});
+  const asUTC=Date.UTC(+parts.year,+parts.month-1,+parts.day,+parts.hour,+parts.minute,+parts.second);
+  return asUTC-date.getTime();
+}
+
+function zonedDateTimeToUtc(dateTimeLocal,timeZone){
+  if(!dateTimeLocal)return null;
+  const [d,t]=(dateTimeLocal||'').split('T');
+  if(!d||!t)return null;
+  const [y,m,day]=d.split('-').map(Number);
+  const [hh,mm]=t.split(':').map(Number);
+  let guess=Date.UTC(y,m-1,day,hh,mm,0);
+  for(let i=0;i<3;i++){
+    const offset=getTimeZoneOffsetMs(new Date(guess),timeZone);
+    guess=Date.UTC(y,m-1,day,hh,mm,0)-offset;
+  }
+  return new Date(guess);
+}
+
+function formatUtcInZone(date,timeZone,label){
+  const fmt=new Intl.DateTimeFormat('en-GB',{timeZone,year:'numeric',month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+  return `${fmt.format(date)} (${label})`;
+}
+
+function doTimezoneConv(){
+  const out=document.getElementById('_tz_out');
+  const dtEl=document.getElementById('_tz_time');
+  const fromEl=document.getElementById('_tz_from');
+  const toEl=document.getElementById('_tz_to');
+  if(!out||!dtEl||!fromEl||!toEl)return;
+  const from=fromEl.value,to=toEl.value,dt=dtEl.value;
+  if(!dt){out.textContent='Select a date/time first';return;}
+  const fromZone=TZ_IANA[from]||'UTC';
+  const toZone=TZ_IANA[to]||'UTC';
+  const utcDate=zonedDateTimeToUtc(dt,fromZone);
+  if(!utcDate||Number.isNaN(utcDate.getTime())){out.textContent='Invalid date/time';return;}
+  const fromLine=formatUtcInZone(utcDate,fromZone,from);
+  const toLine=formatUtcInZone(utcDate,toZone,to);
+  out.innerHTML=`<b>From:</b> ${fromLine}<br><b>To:</b> ${toLine}<br><b>UTC:</b> ${utcDate.toISOString().replace('T',' ').replace('Z',' UTC')}`;
+}
+
+async function tryBackendPdfToDocx(file){
+  if(!BACKEND_API)return null;
+  const fd=new FormData();
+  fd.append('file',file,file.name||'input.pdf');
+  const res=await fetch(`${BACKEND_API}/convert/pdf-to-docx`,{method:'POST',body:fd});
+  if(!res.ok){
+    const msg=await res.text().catch(()=>`HTTP ${res.status}`);
+    throw new Error(msg||`Backend error ${res.status}`);
+  }
+  return res.blob();
 }
 
 /* ── Parse Markdown → blocks ── */
@@ -2768,8 +3118,102 @@ function parseMarkdown(text){
   return blocks;
 }
 
+async function renderPlainTextToPdf(text,fileName){
+  const {PDFDocument,StandardFonts,rgb}=PDFLib;
+  const pdfDoc=await PDFDocument.create();
+  const font=await pdfDoc.embedFont(StandardFonts.Courier);
+  const W=595,H=842,ML=28,MR=28,MT=28,MB=28;
+  const lineH=12;
+  let page=pdfDoc.addPage([W,H]);
+  let y=H-MT;
+  const lines=String(text||'').replace(/\r\n/g,'\n').split('\n');
+  const maxCols=Math.floor((W-ML-MR)/7.2);
+  for(const rawLine of lines){
+    let line=rawLine;
+    if(line===''){
+      y-=lineH;
+      if(y<MB){page=pdfDoc.addPage([W,H]);y=H-MT;}
+      continue;
+    }
+    while(line.length>maxCols){
+      const part=line.slice(0,maxCols);
+      page.drawText(part,{x:ML,y,size:10,font,color:rgb(0,0,0)});
+      y-=lineH;
+      if(y<MB){page=pdfDoc.addPage([W,H]);y=H-MT;}
+      line=line.slice(maxCols);
+    }
+    page.drawText(line,{x:ML,y,size:10,font,color:rgb(0,0,0)});
+    y-=lineH;
+    if(y<MB){page=pdfDoc.addPage([W,H]);y=H-MT;}
+  }
+  return new Blob([await pdfDoc.save()],{type:'application/pdf'});
+}
+
+function flattenObj(obj,prefix='',out={}){
+  if(obj===null||obj===undefined){
+    out[prefix||'value']='';
+    return out;
+  }
+  if(typeof obj!=='object'){
+    out[prefix||'value']=obj;
+    return out;
+  }
+  if(Array.isArray(obj)){
+    out[prefix||'value']=JSON.stringify(obj);
+    return out;
+  }
+  Object.keys(obj).forEach(k=>{
+    const key=prefix?`${prefix}.${k}`:k;
+    const val=obj[k];
+    if(val&&typeof val==='object'&&!Array.isArray(val))flattenObj(val,key,out);
+    else out[key]=Array.isArray(val)?JSON.stringify(val):(val??'');
+  });
+  return out;
+}
+
+const MAX_IMAGE_PIXELS=24000000;
+
+async function decodeImageFile(file){
+  if(typeof createImageBitmap==='function'){
+    try{return await createImageBitmap(file);}catch(e){}
+  }
+  return await new Promise((resolve,reject)=>{
+    const img=new Image();
+    const url=URL.createObjectURL(file);
+    img.onload=()=>{URL.revokeObjectURL(url);resolve(img);};
+    img.onerror=()=>{URL.revokeObjectURL(url);reject(new Error('Unsupported or corrupted image'));};
+    img.src=url;
+  });
+}
+
+function drawBitmapToSafeCanvas(bitmap,maxPixels=MAX_IMAGE_PIXELS){
+  const srcW=bitmap.width,srcH=bitmap.height;
+  const px=srcW*srcH;
+  const scale=px>maxPixels?Math.sqrt(maxPixels/px):1;
+  const w=Math.max(1,Math.round(srcW*scale));
+  const h=Math.max(1,Math.round(srcH*scale));
+  const c=document.createElement('canvas');
+  c.width=w;c.height=h;
+  const ctx=c.getContext('2d',{alpha:true});
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(bitmap,0,0,w,h);
+  return{canvas:c,scaled:scale<1,srcW,srcH,outW:w,outH:h};
+}
+
+async function canvasToBlobWithFallback(canvas,preferredMime='image/png',quality=0.92){
+  const tryMimes=[preferredMime,'image/png','image/jpeg','image/webp'];
+  for(const mime of tryMimes){
+    const blob=await new Promise(r=>canvas.toBlob(r,mime,quality));
+    if(blob&&blob.size>0)return{blob,mime};
+  }
+  throw new Error('Image encoder unavailable in this browser');
+}
+
 async function processFile(){
-  if(!currentFile)return;
+  const noFileTools=['colorconv','timezone','numbase','gst'];
+  const allowNoFile=noFileTools.includes(currentTool)||currentTool==='wordcount';
+  if(!currentFile&&!allowNoFile)return;
   const btn=document.getElementById('tp-process-btn');
   btn.disabled=true;
   const prog=document.getElementById('tp-progress');prog.className='progress-bar show';
@@ -2778,8 +3222,9 @@ async function processFile(){
 
   try{
     let resultBlob=null,filename='converted',ext='';
-    const file=currentFile instanceof FileList?currentFile[0]:currentFile;
-    const files=currentFile instanceof FileList?Array.from(currentFile):[currentFile];
+    let convEngine='frontend',convNotes=[];
+    const file=currentFile?(currentFile instanceof FileList?currentFile[0]:currentFile):null;
+    const files=currentFile instanceof FileList?Array.from(currentFile):(currentFile?[currentFile]:[]);
 
     /* ═══ PPT → PDF ═══ */
     if(currentTool==='ppt2pdf'){
@@ -2821,18 +3266,58 @@ async function processFile(){
       fill.style.width='95%';
       resultBlob=new Blob([await pdfDoc.save()],{type:'application/pdf'});
       filename=docTitle;ext='pdf';
-      toast('✅ Word → PDF with full formatting!');
+      toast('✅ Word → PDF with images and tables preserved!');
     }
 
     /* ═══ PDF → WORD ═══ */
     else if(currentTool==='pdf2word'){
       const ab=await file.arrayBuffer();fill.style.width='30%';
-      const blocks=await parsePdf(ab);fill.style.width='70%';
       const docName=file.name.replace(/\.pdf$/i,'');
-      const zip=buildDocx(docName,blocks,`Extracted from ${file.name}`);
-      resultBlob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
-      filename=docName;ext='docx';
-      toast('✅ PDF text extracted → DOCX!');
+      if(BACKEND_API){
+        try{
+          resultBlob=await tryBackendPdfToDocx(file);
+          fill.style.width='95%';
+          filename=docName;ext='docx';
+          convEngine='backend';
+          toast('✅ PDF converted via backend!');
+        }catch(be){
+          try{
+            const pages=await renderPdfPagesToImages(ab);fill.style.width='75%';
+            const zip=buildVisualDocx(docName,pages);
+            resultBlob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+            filename=docName;ext='docx';
+            convEngine='visual';
+            convNotes.push('Layout preserved as full-page images');
+            toast('✅ PDF converted to visual DOCX!');
+          }catch(visualErr){
+            const blocks=await parsePdf(ab);fill.style.width='75%';
+            const zip=buildDocx(docName,blocks,`Extracted from ${file.name}`);
+            resultBlob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+            filename=docName;ext='docx';
+            convEngine='fallback';
+            convNotes.push(`Backend unavailable, used text fallback (${visualErr.message})`);
+            toast('✅ PDF converted in text fallback mode');
+          }
+        }
+      }else{
+        try{
+          const pages=await renderPdfPagesToImages(ab);fill.style.width='70%';
+          const zip=buildVisualDocx(docName,pages);
+          resultBlob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+          filename=docName;ext='docx';
+          convEngine='visual';
+          convNotes.push('Layout preserved as full-page images');
+          toast('✅ PDF converted to visual DOCX!');
+        }catch(visualErr){
+          const blocks=await parsePdf(ab);fill.style.width='70%';
+          const zip=buildDocx(docName,blocks,`Extracted from ${file.name}`);
+          resultBlob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+          filename=docName;ext='docx';
+          convEngine='fallback';
+          convNotes.push(`Visual export failed, used text fallback (${visualErr.message})`);
+          toast('✅ PDF text extracted → DOCX!');
+        }
+      }
     }
 
     /* ═══ PDF → TEXT ═══ */
@@ -2913,11 +3398,8 @@ async function processFile(){
     /* ═══ TXT → PDF ═══ */
     else if(currentTool==='txt2pdf'){
       const text=await file.text();fill.style.width='40%';
-      const blocks=text.split('\n').map(line=>({type:'p',text:line.trim()||' '}));
-      const {PDFDocument}=PDFLib;const pdfDoc=await PDFDocument.create();
-      await renderBlocksToPdf(pdfDoc,blocks,file.name.replace(/\.txt$/i,''),PDFLib);
+      resultBlob=await renderPlainTextToPdf(text,file.name);
       fill.style.width='95%';
-      resultBlob=new Blob([await pdfDoc.save()],{type:'application/pdf'});
       filename=file.name.replace(/\.txt$/i,'');ext='pdf';
       toast('✅ TXT → PDF!');
     }
@@ -2927,8 +3409,9 @@ async function processFile(){
       const text=await file.text();fill.style.width='50%';
       let json;try{json=JSON.parse(text);}catch(e){toast('Invalid JSON file');btn.disabled=false;return;}
       if(!Array.isArray(json))json=[json];
-      const keys=Array.from(new Set(json.flatMap(o=>Object.keys(o))));
-      const rows=[keys.join(','),...json.map(row=>keys.map(k=>{const v=String(row[k]??'');return v.includes(',')||v.includes('"')||v.includes('\n')?`"${v.replace(/"/g,'""')}"`:v;}).join(','))];
+      const flatRows=json.map(r=>flattenObj(r));
+      const keys=Array.from(new Set(flatRows.flatMap(o=>Object.keys(o))));
+      const rows=[keys.join(','),...flatRows.map(row=>keys.map(k=>{const v=String(row[k]??'');return v.includes(',')||v.includes('"')||v.includes('\n')?`"${v.replace(/"/g,'""')}"`:v;}).join(','))];
       resultBlob=new Blob([rows.join('\n')],{type:'text/csv'});
       filename=file.name.replace(/\.json$/i,'');ext='csv';
       toast('✅ JSON → CSV!');
@@ -2959,6 +3442,8 @@ async function processFile(){
         return Object.keys(obj).length?obj:(node.textContent.trim()||'');
       }
       const dom=new DOMParser().parseFromString(text,'application/xml');
+      const perr=dom.querySelector('parsererror');
+      if(perr){toast('Invalid XML file');btn.disabled=false;return;}
       const json={[dom.documentElement.nodeName]:xmlToObj(dom.documentElement)};
       resultBlob=new Blob([JSON.stringify(json,null,2)],{type:'application/json'});
       filename=file.name.replace(/\.xml$/i,'');ext='json';
@@ -2994,50 +3479,58 @@ async function processFile(){
 
     /* ═══ IMAGE TOOLS ═══ */
     else if(currentTool==='imggrayscale'){
-      const bm=await createImageBitmap(file);fill.style.width='40%';
-      const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;
-      const ctx=c.getContext('2d');ctx.drawImage(bm,0,0);
+      const bm=await decodeImageFile(file);fill.style.width='40%';
+      const {canvas:c,scaled,srcW,srcH,outW,outH}=drawBitmapToSafeCanvas(bm);
+      const ctx=c.getContext('2d');
       const d=ctx.getImageData(0,0,c.width,c.height);
       for(let i=0;i<d.data.length;i+=4){const g=.299*d.data[i]+.587*d.data[i+1]+.114*d.data[i+2];d.data[i]=d.data[i+1]=d.data[i+2]=g;}
       ctx.putImageData(d,0,0);fill.style.width='85%';
-      resultBlob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.92));
+      const out=await canvasToBlobWithFallback(c,'image/jpeg',0.92);
+      resultBlob=out.blob;
+      if(scaled)convNotes.push(`Image scaled ${srcW}x${srcH} → ${outW}x${outH} for stability`);
       filename=file.name.replace(/\.[^.]+$/,'')+'_grayscale';ext='jpg';toast('✅ Converted to grayscale!');
     }
     else if(currentTool==='imgresize'){
-      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const bm=await decodeImageFile(file);fill.style.width='40%';
       const scale=parseFloat(window._resizeScale||'0.5');
       const nw=Math.round(bm.width*scale),nh=Math.round(bm.height*scale);
       const c=document.createElement('canvas');c.width=nw;c.height=nh;
       c.getContext('2d').drawImage(bm,0,0,nw,nh);fill.style.width='85%';
-      resultBlob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.92));
+      const out=await canvasToBlobWithFallback(c,'image/jpeg',0.92);
+      resultBlob=out.blob;
       filename=file.name.replace(/\.[^.]+$/,'')+'_resized';ext='jpg';
       toast(`✅ Resized to ${nw}×${nh}px!`);
     }
     else if(currentTool==='imgcrop'){
-      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const bm=await decodeImageFile(file);fill.style.width='40%';
       const cw=Math.floor(bm.width*.8),ch=Math.floor(bm.height*.8),ox=Math.floor(bm.width*.1),oy=Math.floor(bm.height*.1);
       const c=document.createElement('canvas');c.width=cw;c.height=ch;
       c.getContext('2d').drawImage(bm,ox,oy,cw,ch,0,0,cw,ch);fill.style.width='85%';
-      resultBlob=await new Promise(res=>c.toBlob(res,'image/jpeg',0.92));
+      const out=await canvasToBlobWithFallback(c,'image/jpeg',0.92);
+      resultBlob=out.blob;
       filename=file.name.replace(/\.[^.]+$/,'')+'_cropped';ext='jpg';toast('✅ Center-cropped!');
     }
     else if(currentTool==='imgcircle'){
-      const bm=await createImageBitmap(file);fill.style.width='40%';
+      const bm=await decodeImageFile(file);fill.style.width='40%';
       const sz=Math.min(bm.width,bm.height);
       const c=document.createElement('canvas');c.width=sz;c.height=sz;
       const ctx=c.getContext('2d');
       ctx.beginPath();ctx.arc(sz/2,sz/2,sz/2,0,Math.PI*2);ctx.clip();
       ctx.drawImage(bm,(bm.width-sz)/2,(bm.height-sz)/2,sz,sz,0,0,sz,sz);fill.style.width='85%';
-      resultBlob=await new Promise(res=>c.toBlob(res,'image/png'));
+      const out=await canvasToBlobWithFallback(c,'image/png',0.92);
+      resultBlob=out.blob;
       filename=file.name.replace(/\.[^.]+$/,'')+'_circle';ext='png';toast('✅ Circle crop done!');
     }
     else if(currentTool==='imgconv'){
-      const bm=await createImageBitmap(file);fill.style.width='40%';
-      const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;
-      c.getContext('2d').drawImage(bm,0,0);fill.style.width='70%';
+      const bm=await decodeImageFile(file);fill.style.width='40%';
+      const {canvas:c,scaled,srcW,srcH,outW,outH}=drawBitmapToSafeCanvas(bm);
+      fill.style.width='70%';
       const fmt=window._imgConvFormat||'jpeg';
       const mime=fmt==='jpeg'?'image/jpeg':fmt==='webp'?'image/webp':'image/png';
-      resultBlob=await new Promise(res=>c.toBlob(res,mime,0.92));
+      const out=await canvasToBlobWithFallback(c,mime,0.92);
+      resultBlob=out.blob;
+      if(out.mime!==mime)convNotes.push(`Requested ${mime} not fully supported, used ${out.mime}`);
+      if(scaled)convNotes.push(`Image scaled ${srcW}x${srcH} → ${outW}x${outH} for stability`);
       filename=file.name.replace(/\.[^.]+$/,'');ext=fmt==='jpeg'?'jpg':fmt;toast('✅ Image converted!');
     }
 
@@ -3050,10 +3543,10 @@ async function processFile(){
         let img;
         try{
           if(f.type.includes('jpeg')||f.type.includes('jpg'))img=await pdfDoc.embedJpg(ab);
-          else{const bm=await createImageBitmap(f);const c=document.createElement('canvas');c.width=bm.width;c.height=bm.height;c.getContext('2d').drawImage(bm,0,0);const b=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));img=await pdfDoc.embedJpg(await b.arrayBuffer());}
+          else{const bm=await decodeImageFile(f);const {canvas:c,scaled,srcW,srcH,outW,outH}=drawBitmapToSafeCanvas(bm);const b=(await canvasToBlobWithFallback(c,'image/jpeg',0.92)).blob;img=await pdfDoc.embedJpg(await b.arrayBuffer());if(scaled)convNotes.push(`${f.name}: scaled ${srcW}x${srcH} → ${outW}x${outH}`);}
           const pg=pdfDoc.addPage([img.width,img.height]);
           pg.drawImage(img,{x:0,y:0,width:img.width,height:img.height});
-        }catch(e){}
+        }catch(e){convNotes.push(`${f.name}: skipped (${e.message})`);}
       }
       resultBlob=new Blob([await pdfDoc.save()],{type:'application/pdf'});filename='images';ext='pdf';toast('✅ Images → PDF!');
     }
@@ -3070,7 +3563,7 @@ async function processFile(){
         const vp=pg.getViewport({scale:2});
         const c=document.createElement('canvas');c.width=vp.width;c.height=vp.height;
         await pg.render({canvasContext:c.getContext('2d'),viewport:vp}).promise;
-        const blob=await new Promise(r=>c.toBlob(r,'image/jpeg',0.92));
+        const blob=(await canvasToBlobWithFallback(c,'image/jpeg',0.92)).blob;
         zip.file(`page_${String(i).padStart(3,'0')}.jpg`,await blob.arrayBuffer());
       }
       resultBlob=await zip.generateAsync({type:'blob'});
@@ -3153,6 +3646,7 @@ async function processFile(){
       resultBlob=new Blob([out],{type:'text/plain'});filename='color_conversion';ext='txt';toast('✅ Color values saved!');
     }
     else if(currentTool==='timezone'){
+      doTimezoneConv();
       const out=document.getElementById('_tz_out').textContent||'Convert a time first';
       resultBlob=new Blob([out],{type:'text/plain'});filename='timezone_result';ext='txt';toast('✅ Time result saved!');
     }
@@ -3165,8 +3659,10 @@ async function processFile(){
       resultBlob=new Blob([out],{type:'text/plain'});filename='gst_calculation';ext='txt';toast('✅ GST result saved!');
     }
     else if(currentTool==='wordcount'){
-      const f2=file!==true?file:null;
-      let text=f2?(await f2.text()):(document.getElementById('_wc_text').value||'');
+      let text='';
+      if(file&&file!==true)text=await file.text();
+      else text=(document.getElementById('_wc_text')?.value||'');
+      if(!text.trim()){toast('Enter or upload text first');btn.disabled=false;return;}
       const words=text.trim().split(/\s+/).filter(Boolean).length;
       const chars=text.length,nosp=text.replace(/\s/g,'').length;
       const sents=text.split(/[.!?]+/).filter(Boolean).length;
@@ -3212,7 +3708,8 @@ async function processFile(){
       const url=URL.createObjectURL(resultBlob);
       const origSize=file&&file!==true?(file.size/1024).toFixed(1):'—';
       const newSize=(resultBlob.size/1024).toFixed(1);
-      document.getElementById('tp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origSize} KB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newSize} KB</div><div class="stat-l2">Result</div></div>`;
+      const noteHtml=convNotes.length?`<div style="width:100%;font-size:.68rem;color:var(--ink3);margin-top:.35rem">${convNotes.slice(0,3).map(n=>`• ${n}`).join('<br>')}</div>`:'';
+      document.getElementById('tp-stats').innerHTML=`<div class="stat-item"><div class="stat-n2">${origSize} KB</div><div class="stat-l2">Original</div></div><div style="font-size:1.5rem;align-self:center">→</div><div class="stat-item"><div class="stat-n2">${newSize} KB</div><div class="stat-l2">Result</div></div><div class="stat-item"><div class="stat-n2" style="font-size:.95rem">${convEngine.toUpperCase()}</div><div class="stat-l2">Engine</div></div>${noteHtml}`;
       document.getElementById('tp-result').className='result-box show';
       document.getElementById('tp-dl-btn').onclick=()=>{const a=document.createElement('a');a.href=url;a.download=`${filename}.${ext}`;a.click();toast('Downloaded!');};
       updatePreview(resultBlob, `${filename}.${ext}`, 'tp-preview');
@@ -3391,7 +3888,7 @@ function simulateScan() {
    ✨ AI ASSISTANT v2 — File Upload + Analysis + Smart Conversion
    ════════════════════════════════════════════════════════════════ */
 
-const AI_MODEL = 'claude-sonnet-4-6';
+const AI_MODE = 'local-free';
 
 // Attached file state
 let aiAttachedFile = null;   // { name, ext, type, size, text, base64, isImage }
@@ -3433,6 +3930,80 @@ function getConversions(ext) {
     webp: [{label:'→ PDF', tool:'img2pdf'}, {label:'→ JPEG', tool:'imgconv'}],
   };
   return conv[ext] || [];
+}
+
+const AI_STOP_WORDS = new Set(['the','and','for','that','with','this','from','have','will','your','you','are','was','were','but','not','can','into','about','there','their','they','them','then','than','what','when','where','which','who','whom','why','how','all','any','our','out','use','used','using','file','files','toolzen','local','free']);
+
+function topKeywords(text, limit=6){
+  const words=String(text||'').toLowerCase().match(/[a-z0-9']+/g)||[];
+  const counts={};
+  words.forEach(word=>{
+    if(word.length<4||AI_STOP_WORDS.has(word))return;
+    counts[word]=(counts[word]||0)+1;
+  });
+  return Object.entries(counts).sort((a,b)=>b[1]-a[1]).slice(0,limit).map(([word])=>word);
+}
+
+function summarizeLocalText(text){
+  const clean=String(text||'').trim();
+  if(!clean)return 'No readable text was found in this file.';
+  const lines=clean.split('\n').map(line=>line.trim()).filter(Boolean);
+  const words=clean.match(/\S+/g)||[];
+  const sentences=clean.split(/(?<=[.!?])\s+/).map(line=>line.trim()).filter(Boolean);
+  const headings=lines.filter(line=>/^(#{1,6}\s+|[A-Z][A-Z0-9 \-_,:.]{4,}|(?:\d+[.)]|[-*•])\s+)/.test(line)).map(line=>line.replace(/^#{1,6}\s+/,'').replace(/^[\d.)\-*•]+\s*/,'').trim()).filter(Boolean).slice(0,5);
+  const keywords=topKeywords(clean,6);
+  let out=`I found ${words.length} words across ${lines.length} lines.`;
+  if(sentences.length){
+    out+=` The first readable sentence looks like: ${sentences[0].slice(0,180)}${sentences[0].length>180?'...':''}`;
+  }
+  if(headings.length){
+    out+=`\n\nLikely sections:\n- ${headings.join('\n- ')}`;
+  }
+  if(keywords.length){
+    out+=`\n\nTop keywords:\n- ${keywords.join('\n- ')}`;
+  }
+  return out;
+}
+
+function conversionButtonsHtml(conversions){
+  return conversions&&conversions.length
+    ?`<div class="ai-conv-btns">${conversions.map(c=>`<button class="ai-conv-btn" onclick="triggerAiConversion('${c.tool}','${c.label}')">${c.label}</button>`).join('')}</div>`
+    :'';
+}
+
+function buildFreeAssistantReply(query, attachedFile){
+  const q=String(query||'').toLowerCase();
+  const file=attachedFile||null;
+  if(file){
+    const conversions=file.conversions||[];
+    const convHint=conversions.length?`\n\nFree actions available:\n- ${conversions.map(c=>c.label).join('\n- ')}`:'';
+    if(file.isImage){
+      return `I’m running in free local mode, so I do not call a paid vision API.\n\nI can still help with this image file: ${file.name}.${convHint}\n\nYou can convert, compress, crop, or download it using the free TOOLZEN tools.`;
+    }
+    const summary=summarizeLocalText(file.text||'');
+    if(/convert|change|turn|export|save/.test(q)&&conversions.length){
+      return `I can do that with the free built-in tools for ${file.name}.\n\n${summary}${convHint}`;
+    }
+    if(/summar|overview|analy|explain|what is this|key points|main points/.test(q)||!q){
+      return `Free local analysis for ${file.name}:\n\n${summary}${convHint}`;
+    }
+    return `I’m in free local mode for ${file.name}.\n\n${summary}${convHint}`;
+  }
+
+  if(/email|draft|write|compose|message/.test(q)){
+    const topic=query.replace(/.*(?:about|on|for)\s+/i,'').replace(/[?!\.]/g,'').trim()||'your topic';
+    return `Free local drafting mode:\n\nSubject: ${topic}\n\nHi,\n\nI’m writing regarding ${topic}. Please review the details and let me know if anything needs changing.\n\nBest regards`;
+  }
+
+  if(/summar|analy|explain/.test(q)){
+    return 'I can summarize or explain text you paste here, or a file you attach. This version stays free by working locally, so attach a document or paste the content you want me to work on.';
+  }
+
+  if(/code|bug|debug|function|script/.test(q)){
+    return 'I can help review pasted code or files locally. Attach the file or paste the snippet, and I’ll point out structure, likely issues, and what the built-in tools can do.';
+  }
+
+  return 'I’m running in free local mode, so I do not call paid AI services. I can summarize attached files, explain pasted text, and trigger TOOLZEN conversions. Attach a file or paste text and tell me what you want.';
 }
 
 /* ── Extract text from any supported file ── */
@@ -3590,50 +4161,16 @@ async function autoAnalyzeFile() {
   const { name, ext, text, isImage, base64, mediaType, conversions } = aiAttachedFile;
   const loadingBubble = addMessage('bot', '', true);
   const statusEl = document.getElementById('ai-status');
-  statusEl.textContent = '✨ Analyzing your file…';
+  statusEl.textContent = '✨ Analyzing your file locally…';
   aiTyping = true;
   document.getElementById('ai-send-btn').disabled = true;
 
   try {
-    let msgContent;
-    if (isImage) {
-      msgContent = [
-        { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
-        { type: 'text', text: `The user attached an image file: "${name}". Describe what you see in this image briefly. Then list what they can do with it (e.g. convert to PDF, compress, crop). Keep it under 120 words.` }
-      ];
-    } else {
-      const preview = text ? text.slice(0, 4000) : '[No readable text found]';
-      msgContent = `The user just attached a file named "${name}" (${ext.toUpperCase()} format). Here is its content:\n\n---\n${preview}\n---\n\nGive a brief analysis (2-3 sentences): what type of document is this, what is it about, and what are the key sections or topics? Then on a new line say "**What would you like to do with it?**" — keep the whole response under 150 words.`;
-    }
-
-    const messages = [{ role: 'user', content: msgContent }];
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: AI_MODEL,
-        max_tokens: 400,
-        system: `You are TOOLZEN AI. The user has attached a file. Analyze it briefly and helpfully. Be concise.`,
-        messages
-      })
-    });
-
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message);
-    const reply = data.content?.[0]?.text || 'File received! What would you like to do with it?';
+    const reply = buildFreeAssistantReply('', aiAttachedFile);
 
     loadingBubble.className = 'ai-bubble bot';
 
-    // Build conversion buttons HTML
-    let convHtml = '';
-    if (conversions.length) {
-      convHtml = `<div class="ai-conv-btns">
-        ${conversions.map(c => `<button class="ai-conv-btn" onclick="triggerAiConversion('${c.tool}','${c.label}')">${c.label}</button>`).join('')}
-      </div>`;
-    }
-
-    loadingBubble.innerHTML = `<p style="margin:.5rem 0">${renderMarkdown(reply)}</p>${convHtml}`;
+    loadingBubble.innerHTML = `<p style="margin:.5rem 0">${renderMarkdown(reply)}</p>${conversionButtonsHtml(conversions)}`;
 
     // Add to history with text content
     aiHistory.push({ role: 'user', content: isImage ?
@@ -3641,13 +4178,12 @@ async function autoAnalyzeFile() {
       `[Attached file: ${name}]\n\nFile content:\n${text.slice(0, 3000)}`
     });
     aiHistory.push({ role: 'assistant', content: reply });
+    if (aiHistory.length > 24) aiHistory = aiHistory.slice(-24);
 
   } catch(e) {
     loadingBubble.className = 'ai-bubble bot';
     loadingBubble.innerHTML = `<p>File attached! You can ask me to <strong>analyze, summarize, or convert</strong> it. What would you like to do?</p>
-      <div class="ai-conv-btns">${(aiAttachedFile.conversions||[]).map(c =>
-        `<button class="ai-conv-btn" onclick="triggerAiConversion('${c.tool}','${c.label}')">${c.label}</button>`
-      ).join('')}</div>`;
+      ${conversionButtonsHtml(aiAttachedFile.conversions)}`;
   }
 
   statusEl.textContent = '';
@@ -3795,94 +4331,16 @@ async function sendAiMessage() {
   // Build display text
   addMessage('user', rawText);
 
-  // Build API message — include file content if attached and not yet in history
-  let apiUserContent;
-  if (aiAttachedFile && aiHistory.length === 0) {
-    // First message with file
-    if (aiAttachedFile.isImage) {
-      apiUserContent = [
-        { type: 'image', source: { type: 'base64', media_type: aiAttachedFile.mediaType, data: aiAttachedFile.base64 } },
-        { type: 'text', text: rawText }
-      ];
-    } else {
-      apiUserContent = `[File: ${aiAttachedFile.name}]\nContent:\n${aiAttachedFile.text.slice(0,6000)}\n\n---\nUser question: ${rawText}`;
-    }
-  } else if (aiAttachedFile && aiHistory.length > 0) {
-    // Follow-up — just the text, file context already in history
-    apiUserContent = rawText;
-  } else {
-    apiUserContent = rawText;
-  }
-
-  // Check if user is asking for a conversion
-  const convKeywords = /convert|change|turn|make.*(pdf|docx|word|excel|ppt|image|jpg|png)/i;
-  const isConvRequest = convKeywords.test(rawText) && aiAttachedFile;
-
-  aiHistory.push({ role: 'user', content: typeof apiUserContent === 'string' ? apiUserContent : rawText });
-
   const loadingBubble = addMessage('bot', '', true);
-  statusEl.textContent = '✨ Claude is thinking…';
+  statusEl.textContent = '✨ Free local assistant is thinking…';
 
   try {
-    // Build messages array — for image first message use the full content object
-    const apiMessages = aiHistory.length === 1
-      ? [{ role: 'user', content: apiUserContent }]
-      : aiHistory;
-
-    const systemPrompt = `You are TOOLZEN AI — a smart, professional assistant built into TOOLZEN, a browser-based file toolkit powered by Claude.
-
-Your role is to help users with:
-• Understanding and analyzing their files (PDF, Word, Excel, PowerPoint, CSV, images, text, code, etc.)
-• Summarizing, explaining, and extracting key information from documents
-• Answering questions about file content
-• Guiding them through conversions and tool usage
-• Writing assistance: emails, reports, summaries, rewrites, translations
-• General knowledge, coding help, calculations, and research
-
-${aiAttachedFile ? `## Attached File
-**Name:** ${aiAttachedFile.name} (${aiAttachedFile.ext.toUpperCase()})
-${aiAttachedFile.text ? `**Content preview:**\n\`\`\`\n${aiAttachedFile.text.slice(0,4000)}\n\`\`\`` : '(Binary/image file — describe what you see or ask questions about it)'}
-
-**Available conversions for this file:** ${aiAttachedFile.conversions.map(c=>c.label).join(', ') || 'None detected'}
-
-When the user asks to convert this file, show the available conversion buttons and briefly explain what the output will contain.` : '## No file attached\nYou can answer general questions, help with writing tasks, explain concepts, assist with code, or the user can attach a file for deeper analysis.'}
-
-## Response Style
-- Be concise and practical. Avoid unnecessary filler phrases.
-- Use markdown formatting: **bold** for emphasis, bullet lists for steps, \`code blocks\` for code/data.
-- For document analysis, lead with the most important insight, then details.
-- For conversion requests, acknowledge the request and highlight the conversion buttons.
-- Keep responses focused — if something is unclear, ask one clarifying question.
-- Always be professional, accurate, and genuinely useful.`;
-
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: AI_MODEL,
-        max_tokens: 1024,
-        system: systemPrompt,
-        messages: apiMessages
-      })
-    });
-
-    const data = await response.json();
-    if (data.error) throw new Error(data.error.message || 'API error');
-    const reply = data.content?.[0]?.text || 'Sorry, I could not generate a response.';
+    const reply = buildFreeAssistantReply(rawText, aiAttachedFile);
 
     loadingBubble.className = 'ai-bubble bot';
 
-    // Add conversion buttons if relevant
-    let convHtml = '';
-    if (isConvRequest && aiAttachedFile?.conversions?.length) {
-      convHtml = `<div class="ai-conv-btns">
-        ${aiAttachedFile.conversions.map(c =>
-          `<button class="ai-conv-btn" onclick="triggerAiConversion('${c.tool}','${c.label}')">${c.label}</button>`
-        ).join('')}
-      </div>`;
-    }
-
-    loadingBubble.innerHTML = `<p style="margin:.5rem 0">${renderMarkdown(reply)}</p>${convHtml}`;
+    loadingBubble.innerHTML = `<p style="margin:.5rem 0">${renderMarkdown(reply)}</p>${conversionButtonsHtml(aiAttachedFile?.conversions)}`;
+    aiHistory.push({ role: 'user', content: rawText });
     aiHistory.push({ role: 'assistant', content: reply });
 
     // Keep history bounded
@@ -3893,7 +4351,6 @@ When the user asks to convert this file, show the available conversion buttons a
     loadingBubble.className = 'ai-bubble bot';
     loadingBubble.innerHTML = `<span style="color:var(--accent)">⚠️ ${err.message || 'Connection error. Please try again.'}</span>`;
     statusEl.textContent = '';
-    aiHistory.pop();
   }
 
   aiTyping = false;
@@ -3920,26 +4377,32 @@ function clearAiChat() {
 }
 
 /* ════ UTILITIES ════ */
+const UTIL_TITLES={
+  vcardqr:'📇 vCard / WiFi QR',unitconv:'🌡️ Unit Converter',currency:'💱 Currency Converter',jsonformat:'🔍 JSON Formatter & Validator',csv2xlsx:'📊 CSV → Excel (.xlsx)',textdiff:'🔤 Text Diff Checker',mememaker:'📸 Image Text / Meme Maker',pomodoro:'⏱️ Pomodoro Timer',
+  qrdecode:'🔍 QR Decoder',gifmaker:'🎬 GIF Creator',textstats:'📈 Text Statistics',codefmt:'🧹 Code Formatter',regextest:'🧪 Regex Tester',notes:'🗒️ Local Notes',palette:'🎨 Palette Extractor',svg2png:'🖼️ SVG → PNG',dupfinder:'🧬 Duplicate File Finder',imgwatermark:'💧 Image Watermark',docsplit:'✂️ Document Splitter'
+};
+const UTIL_RENDERERS={
+  vcardqr:renderVcardQr,unitconv:renderUnitConv,currency:renderCurrency,jsonformat:renderJsonFormat,csv2xlsx:renderCsv2Xlsx,textdiff:renderTextDiff,mememaker:renderMemeMaker,pomodoro:renderPomodoro,
+  qrdecode:renderQrDecoder,gifmaker:renderGifMaker,textstats:renderTextStats,codefmt:renderCodeFormatter,regextest:renderRegexTester,notes:renderLocalNotes,palette:renderPaletteExtractor,svg2png:renderSvgToPng,dupfinder:renderDuplicateFinder,imgwatermark:renderImageWatermark,docsplit:renderDocumentSplitter
+};
 function openUtil(id){
   document.getElementById('util-grid-view').style.display='none';
   document.getElementById('util-panel-wrap').style.display='block';
-  const titles={vcardqr:'📇 vCard / WiFi QR',unitconv:'🌡️ Unit Converter',currency:'💱 Currency Converter',jsonformat:'🔍 JSON Formatter & Validator',csv2xlsx:'📊 CSV → Excel (.xlsx)',textdiff:'🔤 Text Diff Checker',mememaker:'📸 Image Text / Meme Maker',pomodoro:'⏱️ Pomodoro Timer'};
-  document.getElementById('util-panel-title').textContent=titles[id]||id;
+  document.getElementById('util-panel-title').textContent=UTIL_TITLES[id]||id;
   const body=document.getElementById('util-body');
   body.innerHTML='';
-  if(id==='vcardqr') renderVcardQr(body);
-  else if(id==='unitconv') renderUnitConv(body);
-  else if(id==='currency') renderCurrency(body);
-  else if(id==='jsonformat') renderJsonFormat(body);
-  else if(id==='csv2xlsx') renderCsv2Xlsx(body);
-  else if(id==='textdiff') renderTextDiff(body);
-  else if(id==='mememaker') renderMemeMaker(body);
-  else if(id==='pomodoro') renderPomodoro(body);
+  const render=UTIL_RENDERERS[id];
+  if(render) render(body);
+  else body.innerHTML='<div style="color:var(--ink2);font-size:.9rem">This utility is not available yet.</div>';
 }
 function closeUtil(){
   document.getElementById('util-grid-view').style.display='block';
   document.getElementById('util-panel-wrap').style.display='none';
   if(window._pomTimer) clearInterval(window._pomTimer);
+}
+
+function renderSoon(body){
+  body.innerHTML='<div style="padding:1rem 0;color:var(--ink2);font-size:.9rem">This novelty tool is being wired up next. The menu entry is ready, and the implementation is coming in the next pass.</div>';
 }
 
 /* ── 1. vCard / WiFi QR ── */
@@ -4477,6 +4940,1079 @@ function pomDraw(){
   document.getElementById('pom-label').textContent=labels[p.mode]||'Focus';
   document.getElementById('pom-mode-lbl').textContent=emojis[p.mode]||'🍅';
 }
+
+function utilEsc(value){
+  return String(value ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function utilReadText(file){
+  return file && typeof file.text==='function'
+    ? file.text()
+    : new Promise((resolve,reject)=>{
+        const reader=new FileReader();
+        reader.onload=e=>resolve(String(e.target.result||''));
+        reader.onerror=()=>reject(new Error('Could not read file'));
+        reader.readAsText(file);
+      });
+}
+function utilReadDataURL(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=e=>resolve(String(e.target.result||''));
+    reader.onerror=()=>reject(new Error('Could not read file'));
+    reader.readAsDataURL(file);
+  });
+}
+function utilLoadImage(src){
+  return new Promise((resolve,reject)=>{
+    const img=new Image();
+    img.onload=()=>resolve(img);
+    img.onerror=()=>reject(new Error('Unsupported image'));
+    img.src=src;
+  });
+}
+function utilDownloadBlob(blob, filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  a.download=filename;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function utilCanvasBlob(canvas, type='image/png', quality=0.92){
+  return new Promise((resolve,reject)=>{
+    canvas.toBlob(blob=>blob?resolve(blob):reject(new Error('Could not encode image')),type,quality);
+  });
+}
+function utilBaseName(name){
+  const raw=String(name||'file').replace(/\.[^.]+$/,'');
+  return raw||'file';
+}
+function utilCountSyllables(word){
+  const clean=String(word||'').toLowerCase().replace(/[^a-z]/g,'');
+  if(!clean)return 0;
+  const groups=clean.match(/[aeiouy]+/g);
+  let count=groups?groups.length:0;
+  if(clean.endsWith('e')&&count>1)count--;
+  return Math.max(1,count);
+}
+async function readDocumentTextFull(file){
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  if(['txt','csv','md','json','xml'].includes(ext)) return await utilReadText(file);
+  if(['html','htm'].includes(ext)){
+    const raw=await utilReadText(file);
+    try{return new DOMParser().parseFromString(raw,'text/html').body.innerText||raw;}catch(e){return raw;}
+  }
+  if(['docx','doc'].includes(ext) && typeof mammoth!=='undefined'){
+    try{const r=await mammoth.extractRawText({arrayBuffer:await file.arrayBuffer()});return r.value||'';}catch(e){}
+  }
+  return await utilReadText(file);
+}
+function computeTextStats(text){
+  const clean=String(text||'').replace(/\r\n/g,'\n').trim();
+  const words=clean.match(/[A-Za-z0-9']+/g)||[];
+  const sentences=clean?clean.split(/(?<=[.!?])\s+/).map(s=>s.trim()).filter(Boolean):[];
+  const paragraphs=clean?clean.split(/\n{2,}/).map(p=>p.trim()).filter(Boolean):[];
+  const wordCount=words.length;
+  const sentenceCount=Math.max(1,sentences.length);
+  const paragraphCount=Math.max(0,paragraphs.length);
+  const uniqueWords=new Set(words.map(w=>w.toLowerCase()));
+  const syllables=words.reduce((sum,w)=>sum+utilCountSyllables(w),0);
+  const charCount=clean.length;
+  const charNoSpaces=clean.replace(/\s/g,'').length;
+  const avgWordLen=wordCount?words.join('').length/wordCount:0;
+  const avgSentenceLen=wordCount/sentenceCount;
+  const readingTime=Math.max(1,Math.ceil(wordCount/200));
+  const readingEase=wordCount?206.835-(1.015*avgSentenceLen)-(84.6*(syllables/wordCount)):0;
+  let readingLevel='Very Hard';
+  if(readingEase>=90)readingLevel='Very Easy';
+  else if(readingEase>=80)readingLevel='Easy';
+  else if(readingEase>=70)readingLevel='Fairly Easy';
+  else if(readingEase>=60)readingLevel='Standard';
+  else if(readingEase>=50)readingLevel='Fairly Difficult';
+  else if(readingEase>=30)readingLevel='Difficult';
+  return {clean,words,sentences,paragraphs,wordCount,sentenceCount,paragraphCount,uniqueWords:uniqueWords.size,syllables,charCount,charNoSpaces,avgWordLen,avgSentenceLen,readingTime,readingEase,readingLevel,topKeywords:topKeywords(clean,8)};
+}
+function renderQrDecoder(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="qd-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="qdDrop(event)">
+    <input type="file" id="qd-file" accept="image/*" onchange="qdLoad(this.files[0])"/>
+    <div class="upload-icon">🔍</div>
+    <div class="upload-title">Drop a QR image here or click to browse</div>
+    <div class="upload-sub">PNG, JPG, WebP, screenshots</div>
+  </div>
+  <div class="file-info" id="qd-info"></div>
+  <div class="result-box" id="qd-result" style="display:none"></div>`;
+}
+function qdDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  qdLoad(e.dataTransfer.files[0]);
+}
+async function qdLoad(file){
+  if(!file)return;
+  const info=document.getElementById('qd-info');
+  info.textContent=`📷 ${file.name} (${formatBytes(file.size)})`;
+  info.classList.add('show');
+  const result=document.getElementById('qd-result');
+  result.style.display='flex';
+  result.innerHTML=`<div class="qr-spinner show"></div><div style="color:var(--ink2)">Decoding QR...</div>`;
+  try{
+    if(typeof jsQR!=='function')throw new Error('QR library not loaded');
+    const {canvas,imageData}=await loadQrScanCanvas(file);
+    let code=scanQrVariants(imageData,canvas.width,canvas.height);
+    if(!code){
+      result.innerHTML=`<div class="result-title">No QR found</div><div style="color:var(--ink2);font-size:.85rem">Try a sharper image, a still frame, or a screenshot with more contrast.</div>`;
+      return;
+    }
+    const value=code.data.trim();
+    const isUrl=/^https?:\/\//i.test(value);
+    result.innerHTML=`
+      <div class="result-title">Decoded content</div>
+      <div style="background:var(--paper2);border-radius:10px;padding:.8rem;border:1px solid var(--border);font-family:var(--font-m);word-break:break-all;line-height:1.5">${isUrl?`<a class="dlink" href="${utilEsc(value)}" target="_blank" rel="noopener">${utilEsc(value)}</a>`:utilEsc(value)}</div>
+      <div class="out-acts" style="justify-content:flex-start">
+        <button type="button" class="dl-btn qr-copy-btn">Copy</button>
+        ${isUrl?`<button type="button" class="abtn qr-open-btn">Open Link</button><button type="button" class="abtn qr-use-btn">Use in Designer</button>`:''}
+      </div>`;
+    result.querySelector('.qr-copy-btn').addEventListener('click',()=>{
+      navigator.clipboard.writeText(value).then(()=>toast('Copied!')).catch(()=>toast('Copy failed'));
+    });
+    if(isUrl){
+      result.querySelector('.qr-open-btn').addEventListener('click',()=>window.open(value,'_blank','noopener'));
+      result.querySelector('.qr-use-btn').addEventListener('click',()=>{
+        document.getElementById('url-input').value=value;
+        showSection('qr');
+        generateQR();
+      });
+    }
+    toast('QR decoded!');
+  }catch(err){
+    result.innerHTML=`<div class="result-title">Decode failed</div><div style="color:var(--ink2);font-size:.85rem">${utilEsc(err.message)}</div>`;
+  }
+}
+
+async function loadQrScanCanvas(file){
+  const dataUrl=await utilReadDataURL(file);
+  const img=await utilLoadImage(dataUrl);
+  const maxDim=Math.max(img.width,img.height)||1;
+  const scale=Math.max(1,Math.min(4,800/maxDim));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.max(1,Math.round(img.width*scale));
+  canvas.height=Math.max(1,Math.round(img.height*scale));
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  ctx.fillStyle='#ffffff';
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.imageSmoothingEnabled=false;
+  ctx.drawImage(img,0,0,canvas.width,canvas.height);
+  const imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+  return {canvas,imageData};
+}
+
+function qrVariantGray(source){
+  const data=new Uint8ClampedArray(source);
+  for(let index=0;index<data.length;index+=4){
+    const lum=((data[index]*299)+(data[index+1]*587)+(data[index+2]*114))/1000;
+    data[index]=data[index+1]=data[index+2]=lum;
+  }
+  return data;
+}
+
+function qrVariantThreshold(source,threshold){
+  const data=new Uint8ClampedArray(source);
+  for(let index=0;index<data.length;index+=4){
+    const lum=((data[index]*299)+(data[index+1]*587)+(data[index+2]*114))/1000;
+    const value=lum>=threshold?255:0;
+    data[index]=data[index+1]=data[index+2]=value;
+  }
+  return data;
+}
+
+function scanQrVariants(imageData,width,height){
+  const variants=[
+    imageData.data,
+    qrVariantGray(imageData.data),
+    qrVariantThreshold(imageData.data,170),
+    qrVariantThreshold(imageData.data,200)
+  ];
+  for(const variant of variants){
+    const code=jsQR(variant,width,height,{inversionAttempts:'attemptBoth'});
+    if(code)return code;
+  }
+  return null;
+}
+
+function renderGifMaker(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="gm-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="gmDrop(event)">
+    <input type="file" id="gm-files" accept="image/*" multiple onchange="gmLoad(this.files)"/>
+    <div class="upload-icon">🎬</div>
+    <div class="upload-title">Drop multiple images here to animate them</div>
+    <div class="upload-sub">The file order becomes the frame order</div>
+  </div>
+  <div class="file-info" id="gm-info"></div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Frame Delay (ms)</label><input class="url-in" id="gm-delay" type="number" value="120" min="20" step="10"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Loop Count</label><input class="url-in" id="gm-loop" type="number" value="0" min="0"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Width</label><input class="url-in" id="gm-width" type="number" placeholder="Auto"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Height</label><input class="url-in" id="gm-height" type="number" placeholder="Auto"/></div>
+  </div>
+  <button class="process-btn" id="gm-btn" onclick="gmCreate()">🎬 Create GIF</button>
+  <div class="result-box" id="gm-result" style="display:none">
+    <div class="result-title">GIF Preview</div>
+    <img id="gm-preview" alt="GIF preview" style="display:none;max-width:100%;border-radius:12px;border:1px solid var(--border);background:var(--paper)"/>
+    <div class="out-acts" id="gm-actions" style="justify-content:flex-start"></div>
+  </div>`;
+  window._gmFiles=[];
+  window._gmGifUrl='';
+}
+function gmDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  gmLoad(e.dataTransfer.files);
+}
+function gmLoad(files){
+  window._gmFiles=Array.from(files||[]).filter(file=>file.type.startsWith('image/'));
+  const info=document.getElementById('gm-info');
+  info.textContent=window._gmFiles.length?`🖼️ ${window._gmFiles.length} image${window._gmFiles.length===1?'':'s'} loaded: ${window._gmFiles.map(file=>file.name).join(', ')}`:'Select one or more image files.';
+  info.classList.add('show');
+}
+function gmDownload(){
+  if(!window._gmGifUrl){toast('Generate the GIF first');return;}
+  const a=document.createElement('a');
+  a.href=window._gmGifUrl;
+  a.download='toolzen-animated.gif';
+  a.click();
+}
+async function gmCreate(){
+  if(typeof gifshot==='undefined'){toast('GIF generator not ready');return;}
+  if(!window._gmFiles.length){toast('Add images first');return;}
+  const btn=document.getElementById('gm-btn');
+  const result=document.getElementById('gm-result');
+  const preview=document.getElementById('gm-preview');
+  const actions=document.getElementById('gm-actions');
+  btn.disabled=true;
+  btn.textContent='🎬 Building GIF...';
+  try{
+    const images=await Promise.all(window._gmFiles.map(file=>utilReadDataURL(file)));
+    const first=await utilLoadImage(images[0]);
+    const delay=Math.max(20,parseInt(document.getElementById('gm-delay').value,10)||120);
+    const loop=Math.max(0,parseInt(document.getElementById('gm-loop').value,10)||0);
+    const width=parseInt(document.getElementById('gm-width').value,10)||first.width;
+    const height=parseInt(document.getElementById('gm-height').value,10)||first.height;
+    gifshot.createGIF({images,gifWidth:width,gifHeight:height,interval:delay/1000,numFrames:images.length,repeat:loop},obj=>{
+      btn.disabled=false;
+      btn.textContent='🎬 Create GIF';
+      if(obj.error){
+        toast('GIF generation failed');
+        return;
+      }
+      window._gmGifUrl=obj.image;
+      result.style.display='flex';
+      preview.src=obj.image;
+      preview.style.display='block';
+      actions.innerHTML='<button class="dl-btn" onclick="gmDownload()">⬇ Download GIF</button>';
+      toast('GIF ready!');
+    });
+  }catch(err){
+    btn.disabled=false;
+    btn.textContent='🎬 Create GIF';
+    toast('GIF creation failed: '+err.message);
+  }
+}
+
+function renderTextStats(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="ts-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="tsDrop(event)">
+    <input type="file" id="ts-file" accept=".txt,.md,.docx,.html,.htm,.csv,.json,.xml" onchange="tsLoad(this.files[0])"/>
+    <div class="upload-icon">📈</div>
+    <div class="upload-title">Drop a text file or paste content below</div>
+    <div class="upload-sub">Calculates readability, words, sentences, and keywords locally</div>
+  </div>
+  <div class="file-info" id="ts-info"></div>
+  <div class="fl"><label class="flbl">Text</label><textarea class="url-in" id="ts-input" rows="10" style="min-height:180px;resize:vertical;font-family:var(--font-m);font-size:.8rem" placeholder="Paste text or load a file…" oninput="tsAnalyze()"></textarea></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="tsAnalyze()">Analyze Text</button>
+    <button class="abtn" onclick="document.getElementById('ts-input').value='';tsAnalyze()">Clear</button>
+  </div>
+  <div class="result-box" id="ts-result" style="display:none"></div>
+  <div id="ts-keywords" class="cg" style="margin-top:.2rem"></div>`;
+}
+function tsDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  tsLoad(e.dataTransfer.files[0]);
+}
+async function tsLoad(file){
+  if(!file)return;
+  const info=document.getElementById('ts-info');
+  info.textContent=`📄 ${file.name} (${formatBytes(file.size)})`;
+  info.classList.add('show');
+  const text=await readDocumentTextFull(file);
+  document.getElementById('ts-input').value=text;
+  tsAnalyze();
+}
+function tsAnalyze(){
+  const text=document.getElementById('ts-input').value||'';
+  const out=document.getElementById('ts-result');
+  const kw=document.getElementById('ts-keywords');
+  if(!text.trim()){
+    out.style.display='none';
+    kw.innerHTML='';
+    return;
+  }
+  const stats=computeTextStats(text);
+  out.style.display='flex';
+  out.innerHTML=`
+    <div class="result-title">Text Summary</div>
+    <div class="result-stats" style="gap:.7rem">
+      <div class="stat-item"><div class="stat-n2">${stats.wordCount}</div><div class="stat-l2">Words</div></div>
+      <div class="stat-item"><div class="stat-n2">${stats.sentenceCount}</div><div class="stat-l2">Sentences</div></div>
+      <div class="stat-item"><div class="stat-n2">${stats.paragraphCount}</div><div class="stat-l2">Paragraphs</div></div>
+      <div class="stat-item"><div class="stat-n2">${stats.uniqueWords}</div><div class="stat-l2">Unique Words</div></div>
+      <div class="stat-item"><div class="stat-n2">${stats.readingTime}m</div><div class="stat-l2">Reading Time</div></div>
+      <div class="stat-item"><div class="stat-n2">${stats.readingEase.toFixed(1)}</div><div class="stat-l2">Readability</div></div>
+    </div>
+    <div style="font-size:.78rem;color:var(--ink2);line-height:1.7">Characters: <strong>${stats.charCount}</strong> · No spaces: <strong>${stats.charNoSpaces}</strong> · Avg word length: <strong>${stats.avgWordLen.toFixed(1)}</strong> · Avg sentence length: <strong>${stats.avgSentenceLen.toFixed(1)}</strong> · Level: <strong>${stats.readingLevel}</strong></div>`;
+  kw.innerHTML=stats.topKeywords.length?stats.topKeywords.map(word=>`<button class="chip on" style="cursor:default">${utilEsc(word)}</button>`).join(''):'<span style="color:var(--ink3);font-size:.78rem">No keywords found.</span>';
+}
+
+function renderCodeFormatter(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="cf-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="cfDrop(event)">
+    <input type="file" id="cf-file" accept=".js,.ts,.jsx,.tsx,.html,.htm,.css,.json,.xml,.txt,.md" onchange="cfLoad(this.files[0])"/>
+    <div class="upload-icon">🧹</div>
+    <div class="upload-title">Load a code file or paste code below</div>
+    <div class="upload-sub">Beautify JSON, HTML, CSS, JS, XML, and Markdown locally</div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Language</label><select class="url-in" id="cf-lang" onchange="cfFormat()"><option value="json">JSON</option><option value="js">JavaScript</option><option value="html">HTML</option><option value="css">CSS</option><option value="xml">XML</option><option value="md">Markdown</option></select></div>
+    <div class="fl" style="flex:1"><label class="flbl">Indent</label><select class="url-in" id="cf-indent" onchange="cfFormat()"><option value="2">2 spaces</option><option value="4">4 spaces</option></select></div>
+  </div>
+  <div class="fl"><label class="flbl">Source</label><textarea class="url-in" id="cf-input" rows="10" style="min-height:180px;resize:vertical;font-family:var(--font-m);font-size:.8rem" placeholder="Paste code here…" oninput="cfFormat()"></textarea></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="cfFormat()">✨ Format</button>
+    <button class="abtn" onclick="cfMinify()">⚡ Minify JSON</button>
+    <button class="abtn" onclick="cfCopy()">📋 Copy</button>
+    <button class="abtn" onclick="cfDownload()">⬇ Download</button>
+  </div>
+  <pre id="cf-output" style="display:none;background:var(--paper2);border-radius:11px;padding:1rem;font-size:.75rem;overflow:auto;max-height:420px;border:1px solid var(--border);white-space:pre-wrap;word-break:break-word;font-family:var(--font-m);line-height:1.7"></pre>`;
+}
+function cfDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  cfLoad(e.dataTransfer.files[0]);
+}
+async function cfLoad(file){
+  if(!file)return;
+  const text=await utilReadText(file);
+  document.getElementById('cf-input').value=text;
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  const langMap={json:'json',js:'js',jsx:'js',ts:'js',tsx:'js',html:'html',htm:'html',css:'css',xml:'xml',md:'md',txt:'md'};
+  document.getElementById('cf-lang').value=langMap[ext]||'json';
+  cfFormat();
+}
+function formatCodeByLanguage(lang, source, indent){
+  const text=String(source||'');
+  if(lang==='json')return JSON.stringify(JSON.parse(text),null,indent);
+  if(lang==='html')return typeof html_beautify==='function' ? html_beautify(text,{indent_size:indent,wrap_line_length:100,preserve_newlines:true,end_with_newline:true}) : text.trim();
+  if(lang==='css')return typeof css_beautify==='function' ? css_beautify(text,{indent_size:indent}) : text.trim();
+  if(lang==='js')return typeof js_beautify==='function' ? js_beautify(text,{indent_size:indent,space_in_empty_paren:true}) : text.trim();
+  if(lang==='xml')return typeof html_beautify==='function' ? html_beautify(text,{indent_size:indent,xml:true}) : text.trim();
+  if(lang==='md')return text.replace(/[ \t]+$/gm,'').replace(/\n{3,}/g,'\n\n').trim();
+  return text.trim();
+}
+function cfFormat(){
+  const source=document.getElementById('cf-input').value;
+  if(!source.trim()){
+    document.getElementById('cf-output').style.display='none';
+    return;
+  }
+  const lang=document.getElementById('cf-lang').value;
+  const indent=parseInt(document.getElementById('cf-indent').value,10)||2;
+  try{
+    const formatted=formatCodeByLanguage(lang,source,indent);
+    window._cfOutput=formatted;
+    const out=document.getElementById('cf-output');
+    out.textContent=formatted;
+    out.style.display='block';
+  }catch(err){
+    toast('Format failed: '+err.message);
+  }
+}
+function cfMinify(){
+  const source=document.getElementById('cf-input').value;
+  if(!source.trim()){toast('Paste JSON first');return;}
+  try{
+    const minified=JSON.stringify(JSON.parse(source));
+    document.getElementById('cf-output').textContent=minified;
+    document.getElementById('cf-output').style.display='block';
+    window._cfOutput=minified;
+  }catch(err){
+    toast('Invalid JSON: '+err.message);
+  }
+}
+function cfCopy(){
+  const text=window._cfOutput||document.getElementById('cf-output').textContent;
+  if(!text){toast('Nothing to copy');return;}
+  navigator.clipboard.writeText(text).then(()=>toast('Copied!')).catch(()=>toast('Copy failed'));
+}
+function cfDownload(){
+  const text=window._cfOutput||document.getElementById('cf-output').textContent;
+  if(!text){toast('Nothing to download');return;}
+  const lang=document.getElementById('cf-lang').value;
+  const ext={json:'json',js:'js',html:'html',css:'css',xml:'xml',md:'md'}[lang]||'txt';
+  utilDownloadBlob(new Blob([text],{type:'text/plain'}),`formatted-code.${ext}`);
+}
+
+function renderRegexTester(body){
+  body.innerHTML=`
+  <div class="options-row">
+    <div class="fl" style="flex:2"><label class="flbl">Pattern</label><input class="url-in" id="rt-pattern" placeholder="\b\w{4,}\b" oninput="rtTest()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Flags</label><input class="url-in" id="rt-flags" value="gim" oninput="rtTest()"/></div>
+  </div>
+  <div class="fl"><label class="flbl">Sample Text</label><textarea class="url-in" id="rt-input" rows="10" style="min-height:180px;resize:vertical;font-family:var(--font-m);font-size:.8rem" placeholder="Paste text or load a file…" oninput="rtTest()"></textarea></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="rtTest()">Run Regex</button>
+    <input type="file" id="rt-file" accept=".txt,.md,.html,.htm,.json,.csv,.xml" style="display:none" onchange="rtLoad(this.files[0])"/>
+    <button class="abtn" onclick="document.getElementById('rt-file').click()">📄 Load Text</button>
+    <button class="abtn" onclick="document.getElementById('rt-input').value='';rtTest()">Clear</button>
+  </div>
+  <div class="result-box" id="rt-result" style="display:none"></div>`;
+}
+async function rtLoad(file){
+  if(!file)return;
+  document.getElementById('rt-input').value=await utilReadText(file);
+  rtTest();
+}
+function rtTest(){
+  const pattern=document.getElementById('rt-pattern').value;
+  const flags=(document.getElementById('rt-flags').value||'g').replace(/[^gimsuy]/g,'');
+  const text=document.getElementById('rt-input').value||'';
+  const out=document.getElementById('rt-result');
+  if(!pattern.trim()){
+    out.style.display='none';
+    out.innerHTML='';
+    return;
+  }
+  try{
+    const regex=new RegExp(pattern,flags.includes('g')?flags:flags+'g');
+    const matches=[...text.matchAll(regex)];
+    out.style.display='flex';
+    out.innerHTML=`
+      <div class="result-title">Regex Test Results</div>
+      <div class="result-stats" style="gap:.7rem">
+        <div class="stat-item"><div class="stat-n2">${matches.length}</div><div class="stat-l2">Matches</div></div>
+        <div class="stat-item"><div class="stat-n2">${regex.flags}</div><div class="stat-l2">Flags</div></div>
+        <div class="stat-item"><div class="stat-n2">${regex.source.length}</div><div class="stat-l2">Pattern Chars</div></div>
+      </div>
+      <div class="cg">${matches.length?matches.slice(0,12).map((match, index)=>{
+        const groups=match.slice(1).filter(Boolean).map(group=>`<span class="chip on" style="cursor:default">${utilEsc(group)}</span>`).join('');
+        return `<div class="tool-card" style="padding:.8rem"><div style="display:flex;justify-content:space-between;gap:.8rem;align-items:center"><strong>Match ${index+1}</strong><span style="color:var(--ink3);font-size:.72rem">Index ${match.index}</span></div><div style="margin-top:.35rem;font-family:var(--font-m);word-break:break-word">${utilEsc(match[0])}</div>${groups?`<div class="chips" style="margin-top:.45rem">${groups}</div>`:''}</div>`;
+      }).join(''):'<div style="color:var(--ink2);font-size:.82rem">No matches found.</div>'}</div>`;
+  }catch(err){
+    out.style.display='flex';
+    out.innerHTML=`<div class="result-title">Regex error</div><div style="color:var(--ink2);font-size:.85rem">${utilEsc(err.message)}</div>`;
+  }
+}
+
+function renderLocalNotes(body){
+  body.innerHTML=`
+  <div class="tool-card" style="padding:1rem;display:grid;grid-template-columns:minmax(220px,280px) 1fr;gap:1rem;align-items:start">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:.5rem;margin-bottom:.75rem">
+        <strong>Notes</strong>
+        <button class="abtn" onclick="lnNew()">+ New</button>
+      </div>
+      <input class="url-in" id="ln-search" placeholder="Search notes" oninput="lnRenderList()" style="margin-bottom:.65rem"/>
+      <div id="ln-list" class="cg" style="max-height:420px;overflow:auto;padding-right:.25rem"></div>
+    </div>
+    <div>
+      <div class="fl"><label class="flbl">Title</label><input class="url-in" id="ln-title" placeholder="Untitled note"/></div>
+      <div class="fl" style="margin-top:.7rem"><label class="flbl">Note</label><textarea class="url-in" id="ln-body" rows="14" style="min-height:280px;resize:vertical;font-family:var(--font-m);font-size:.8rem" placeholder="Write locally saved notes here..."></textarea></div>
+      <div class="options-row" style="margin-top:.7rem">
+        <button class="process-btn" onclick="lnSave()">💾 Save Note</button>
+        <button class="abtn" onclick="lnDelete()">🗑 Delete</button>
+        <button class="abtn" onclick="lnExport()">⬇ Export JSON</button>
+      </div>
+      <div class="file-info show" id="ln-meta">Stored in localStorage only.</div>
+    </div>
+  </div>`;
+  lnHydrate();
+}
+function lnKey(){ return 'toolzen.localNotes.v1'; }
+function lnGetNotes(){
+  try{ return JSON.parse(localStorage.getItem(lnKey())||'[]')||[]; }
+  catch(e){ return []; }
+}
+function lnSetNotes(notes){ localStorage.setItem(lnKey(),JSON.stringify(notes)); }
+function lnHydrate(){
+  window._lnNotes=lnGetNotes();
+  if(!window._lnNotes.length){
+    window._lnActiveId='';
+    document.getElementById('ln-title').value='Welcome note';
+    document.getElementById('ln-body').value='These notes stay on this device only.';
+    lnSave(true);
+    return;
+  }
+  if(!window._lnActiveId || !window._lnNotes.some(note=>note.id===window._lnActiveId)){
+    window._lnActiveId=window._lnNotes[0].id;
+  }
+  lnLoad(window._lnActiveId);
+  lnRenderList();
+}
+function lnRenderList(){
+  const list=document.getElementById('ln-list');
+  const query=(document.getElementById('ln-search').value||'').trim().toLowerCase();
+  const items=(window._lnNotes||[]).filter(note=>!query || note.title.toLowerCase().includes(query) || note.body.toLowerCase().includes(query));
+  if(!items.length){
+    list.innerHTML='<div style="color:var(--ink2);font-size:.82rem">No notes found.</div>';
+    return;
+  }
+  list.innerHTML=items.map(note=>`<button class="tool-card" style="width:100%;text-align:left;padding:.8rem;margin-bottom:.55rem;border:1px solid ${note.id===window._lnActiveId?'var(--accent)':'var(--border)'};background:${note.id===window._lnActiveId?'rgba(166,124,82,.08)':'var(--paper)'}" onclick="lnLoad('${note.id}')"><div style="font-weight:700;font-size:.85rem;line-height:1.3">${utilEsc(note.title||'Untitled')}</div><div style="font-size:.72rem;color:var(--ink3);margin-top:.25rem">${new Date(note.updated).toLocaleString()}</div><div style="font-size:.76rem;color:var(--ink2);margin-top:.35rem;line-height:1.45;max-height:2.9em;overflow:hidden">${utilEsc((note.body||'').slice(0,120))}</div></button>`).join('');
+}
+function lnLoad(id){
+  const note=(window._lnNotes||[]).find(item=>item.id===id);
+  if(!note)return;
+  window._lnActiveId=id;
+  document.getElementById('ln-title').value=note.title;
+  document.getElementById('ln-body').value=note.body;
+  document.getElementById('ln-meta').textContent=`Updated ${new Date(note.updated).toLocaleString()}`;
+  lnRenderList();
+}
+function lnNew(){
+  window._lnActiveId='';
+  document.getElementById('ln-title').value='';
+  document.getElementById('ln-body').value='';
+  document.getElementById('ln-meta').textContent='New note ready.';
+  lnRenderList();
+}
+function lnSave(silent){
+  const title=(document.getElementById('ln-title').value||'Untitled note').trim();
+  const body=document.getElementById('ln-body').value||'';
+  const notes=lnGetNotes();
+  const now=new Date().toISOString();
+  const activeId=window._lnActiveId || (`note_${Date.now()}_${Math.random().toString(36).slice(2,8)}`);
+  const note={id:activeId,title,body,updated:now};
+  const index=notes.findIndex(item=>item.id===activeId);
+  if(index>=0) notes[index]=note;
+  else notes.unshift(note);
+  lnSetNotes(notes);
+  window._lnNotes=notes;
+  window._lnActiveId=activeId;
+  document.getElementById('ln-meta').textContent=`Saved ${new Date(now).toLocaleString()}`;
+  lnRenderList();
+  if(!silent) toast('Note saved');
+}
+function lnDelete(){
+  if(!window._lnActiveId){toast('Choose a note first');return;}
+  const notes=lnGetNotes().filter(note=>note.id!==window._lnActiveId);
+  lnSetNotes(notes);
+  window._lnNotes=notes;
+  window._lnActiveId='';
+  if(notes.length){
+    window._lnActiveId=notes[0].id;
+    lnLoad(notes[0].id);
+  }else{
+    lnNew();
+  }
+  toast('Note deleted');
+}
+function lnExport(){
+  const notes=lnGetNotes();
+  utilDownloadBlob(new Blob([JSON.stringify(notes,null,2)],{type:'application/json'}),'toolzen-notes.json');
+}
+
+function utilRgbToHex(r, g, b){
+  return '#' + [r, g, b].map(value => Math.max(0, Math.min(255, value)).toString(16).padStart(2, '0')).join('');
+}
+
+function renderPaletteExtractor(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="pe-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="peDrop(event)">
+    <input type="file" id="pe-file" accept="image/*" onchange="peLoad(this.files[0])"/>
+    <div class="upload-icon">🎨</div>
+    <div class="upload-title">Drop an image to extract its palette</div>
+    <div class="upload-sub">Works on photos, screenshots, logos, and artwork</div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Palette Size</label><input class="url-in" id="pe-count" type="number" value="8" min="3" max="20" oninput="peExtract()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Sample Step</label><input class="url-in" id="pe-step" type="number" value="8" min="1" max="32" oninput="peExtract()"/></div>
+  </div>
+  <div class="file-info" id="pe-info"></div>
+  <div id="pe-preview" style="display:none;max-width:100%;border-radius:14px;border:1px solid var(--border);overflow:hidden;background:var(--paper2)"></div>
+  <div id="pe-palettes" class="cg" style="margin-top:1rem"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.8rem">
+    <button class="process-btn" onclick="peCopyCss()">📋 Copy CSS Vars</button>
+    <button class="abtn" onclick="peDownload()">⬇ Download JSON</button>
+  </div>`;
+}
+function peDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  peLoad(e.dataTransfer.files[0]);
+}
+async function peLoad(file){
+  if(!file)return;
+  window._peFile=file;
+  document.getElementById('pe-info').textContent=`🖼️ ${file.name} (${formatBytes(file.size)})`;
+  document.getElementById('pe-info').classList.add('show');
+  const preview=document.getElementById('pe-preview');
+  preview.style.display='block';
+  preview.innerHTML=`<img alt="Palette source" src="${await utilReadDataURL(file)}" style="display:block;width:100%;height:auto"/>`;
+  peExtract();
+}
+async function peExtract(){
+  const out=document.getElementById('pe-palettes');
+  if(!window._peFile){
+    out.innerHTML='';
+    return;
+  }
+  const count=Math.max(3,Math.min(20,parseInt(document.getElementById('pe-count').value,10)||8));
+  const step=Math.max(1,Math.min(32,parseInt(document.getElementById('pe-step').value,10)||8));
+  const bitmap=await decodeImageFile(window._peFile);
+  const canvas=document.createElement('canvas');
+  const ctx=canvas.getContext('2d',{willReadFrequently:true});
+  const maxDim=360;
+  const ratio=Math.min(1,maxDim/Math.max(bitmap.width,bitmap.height));
+  canvas.width=Math.max(1,Math.round(bitmap.width*ratio));
+  canvas.height=Math.max(1,Math.round(bitmap.height*ratio));
+  ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+  const {data}=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const buckets=new Map();
+  for(let y=0;y<canvas.height;y+=step){
+    for(let x=0;x<canvas.width;x+=step){
+      const i=(y*canvas.width+x)*4;
+      const a=data[i+3];
+      if(a<32)continue;
+      const r=Math.round(data[i]/24)*24;
+      const g=Math.round(data[i+1]/24)*24;
+      const b=Math.round(data[i+2]/24)*24;
+      const key=`${r},${g},${b}`;
+      buckets.set(key,(buckets.get(key)||0)+1);
+    }
+  }
+  const colors=[...buckets.entries()].sort((a,b)=>b[1]-a[1]).slice(0,count).map(([key,qty])=>{
+    const [r,g,b]=key.split(',').map(Number);
+    return {hex:utilRgbToHex(r,g,b), rgb:`rgb(${r}, ${g}, ${b})`, qty};
+  });
+  window._pePalette=colors;
+  out.innerHTML=colors.length?colors.map((color,index)=>`<button class="tool-card" style="padding:0;border:1px solid var(--border);text-align:left;overflow:hidden" onclick="navigator.clipboard.writeText('${color.hex}').then(()=>toast('Copied ${color.hex}')).catch(()=>toast('Copy failed'))"><div style="height:84px;background:${color.hex}"></div><div style="padding:.65rem .75rem"><div style="display:flex;justify-content:space-between;gap:.6rem;align-items:center"><strong>#${index+1}</strong><span style="font-size:.73rem;color:var(--ink3)">${color.qty} samples</span></div><div style="font-family:var(--font-m);font-size:.8rem;margin-top:.25rem">${color.hex}</div><div style="font-size:.72rem;color:var(--ink3);margin-top:.2rem">${color.rgb}</div></div></button>`).join(''):'<div style="color:var(--ink2);font-size:.82rem">No colors found.</div>';
+}
+function peCopyCss(){
+  const palette=window._pePalette||[];
+  if(!palette.length){toast('Extract a palette first');return;}
+  const css=palette.map((color,index)=>`--color-${index+1}: ${color.hex};`).join('\n');
+  navigator.clipboard.writeText(css).then(()=>toast('CSS vars copied')).catch(()=>toast('Copy failed'));
+}
+function peDownload(){
+  const palette=window._pePalette||[];
+  if(!palette.length){toast('Extract a palette first');return;}
+  utilDownloadBlob(new Blob([JSON.stringify(palette,null,2)],{type:'application/json'}),'toolzen-palette.json');
+}
+
+function parseSvgDimensions(svgText){
+  try{
+    const doc=new DOMParser().parseFromString(svgText,'image/svg+xml');
+    const svg=doc.documentElement;
+    const width=parseFloat(svg.getAttribute('width'));
+    const height=parseFloat(svg.getAttribute('height'));
+    if(Number.isFinite(width) && Number.isFinite(height) && width>0 && height>0) return {width,height};
+    const viewBox=(svg.getAttribute('viewBox')||'').trim().split(/[\s,]+/).map(Number);
+    if(viewBox.length===4 && viewBox.every(Number.isFinite) && viewBox[2]>0 && viewBox[3]>0) return {width:viewBox[2],height:viewBox[3]};
+  }catch(e){}
+  return {width:1024,height:1024};
+}
+
+function renderSvgToPng(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="sp-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="spDrop(event)">
+    <input type="file" id="sp-file" accept=".svg" onchange="spLoad(this.files[0])"/>
+    <div class="upload-icon">🖼️</div>
+    <div class="upload-title">Drop an SVG or paste markup below</div>
+    <div class="upload-sub">Exports a crisp PNG locally with a chosen scale</div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Scale</label><input class="url-in" id="sp-scale" type="number" value="1" min="0.1" step="0.1" oninput="spConvert()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Background</label><input class="url-in" id="sp-bg" placeholder="#ffffff or transparent" oninput="spConvert()"/></div>
+  </div>
+  <div class="fl"><label class="flbl">SVG Source</label><textarea class="url-in" id="sp-input" rows="10" style="min-height:220px;resize:vertical;font-family:var(--font-m);font-size:.78rem" placeholder="Paste SVG markup here..."></textarea></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="spConvert()">Convert to PNG</button>
+    <button class="abtn" onclick="spDownload()">⬇ Download PNG</button>
+    <button class="abtn" onclick="document.getElementById('sp-input').value='';spConvert()">Clear</button>
+  </div>
+  <div class="result-box" id="sp-result" style="display:none">
+    <div class="result-title">PNG Preview</div>
+    <img id="sp-preview" alt="PNG preview" style="display:none;max-width:100%;border-radius:12px;border:1px solid var(--border);background:var(--paper)"/>
+  </div>`;
+}
+function spDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  spLoad(e.dataTransfer.files[0]);
+}
+async function spLoad(file){
+  if(!file)return;
+  document.getElementById('sp-input').value=await utilReadText(file);
+  spConvert();
+}
+async function spConvert(){
+  const source=document.getElementById('sp-input').value||'';
+  const result=document.getElementById('sp-result');
+  const preview=document.getElementById('sp-preview');
+  if(!source.trim()){
+    result.style.display='none';
+    preview.removeAttribute('src');
+    window._spPngUrl='';
+    return;
+  }
+  try{
+    const {width,height}=parseSvgDimensions(source);
+    const scale=Math.max(0.1,parseFloat(document.getElementById('sp-scale').value)||1);
+    const outWidth=Math.max(1,Math.round(width*scale));
+    const outHeight=Math.max(1,Math.round(height*scale));
+    const canvas=document.createElement('canvas');
+    canvas.width=outWidth;
+    canvas.height=outHeight;
+    const ctx=canvas.getContext('2d');
+    const bg=(document.getElementById('sp-bg').value||'').trim();
+    if(bg && bg.toLowerCase()!=='transparent'){
+      ctx.fillStyle=bg;
+      ctx.fillRect(0,0,outWidth,outHeight);
+    }
+    const blob=new Blob([source],{type:'image/svg+xml;charset=utf-8'});
+    const url=URL.createObjectURL(blob);
+    const img=await utilLoadImage(url);
+    ctx.drawImage(img,0,0,outWidth,outHeight);
+    URL.revokeObjectURL(url);
+    window._spPngBlob=await utilCanvasBlob(canvas,'image/png');
+    window._spPngUrl=URL.createObjectURL(window._spPngBlob);
+    preview.src=window._spPngUrl;
+    preview.style.display='block';
+    result.style.display='flex';
+    toast('PNG ready');
+  }catch(err){
+    result.style.display='flex';
+    result.innerHTML=`<div class="result-title">Conversion failed</div><div style="color:var(--ink2);font-size:.85rem">${utilEsc(err.message)}</div>`;
+  }
+}
+function spDownload(){
+  if(!window._spPngBlob){toast('Convert an SVG first');return;}
+  utilDownloadBlob(window._spPngBlob,'toolzen-svg.png');
+}
+
+async function utilFileHash(file){
+  const buffer=await file.arrayBuffer();
+  if(window.crypto && crypto.subtle && crypto.subtle.digest){
+    const digest=await crypto.subtle.digest('SHA-256',buffer);
+    return [...new Uint8Array(digest)].map(byte=>byte.toString(16).padStart(2,'0')).join('');
+  }
+  let hash=2166136261;
+  const bytes=new Uint8Array(buffer);
+  for(const byte of bytes){
+    hash^=byte;
+    hash+=(hash<<1)+(hash<<4)+(hash<<7)+(hash<<8)+(hash<<24);
+  }
+  return (hash>>>0).toString(16).padStart(8,'0');
+}
+
+function renderDuplicateFinder(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="df-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dfDrop(event)">
+    <input type="file" id="df-files" multiple webkitdirectory onchange="dfPick(this.files)"/>
+    <div class="upload-icon">🧬</div>
+    <div class="upload-title">Drop files or a folder to find duplicates</div>
+    <div class="upload-sub">Hashes every file locally and groups byte-identical matches</div>
+  </div>
+  <div class="file-info" id="df-info"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="dfScan()">Scan Files</button>
+    <button class="abtn" onclick="dfReset()">Clear</button>
+    <button class="abtn" onclick="dfExport()">⬇ Export Report</button>
+  </div>
+  <div class="result-box" id="df-result" style="display:none"></div>`;
+  window._dfFiles=[];
+  window._dfGroups=[];
+}
+function dfDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  dfPick(e.dataTransfer.files);
+}
+function dfPick(files){
+  window._dfFiles=Array.from(files||[]);
+  const info=document.getElementById('df-info');
+  info.textContent=window._dfFiles.length?`${window._dfFiles.length} file${window._dfFiles.length===1?'':'s'} selected`:'Select files or a folder';
+  info.classList.add('show');
+}
+function dfReset(){
+  window._dfFiles=[];
+  window._dfGroups=[];
+  document.getElementById('df-info').textContent='Select files or a folder';
+  document.getElementById('df-result').style.display='none';
+  document.getElementById('df-result').innerHTML='';
+}
+async function dfScan(){
+  const result=document.getElementById('df-result');
+  if(!window._dfFiles.length){toast('Select files first');return;}
+  result.style.display='flex';
+  result.innerHTML='<div class="result-title">Scanning...</div><div style="color:var(--ink2);font-size:.85rem">Hashing files locally. Large folders may take a moment.</div>';
+  const groups=new Map();
+  for(let index=0;index<window._dfFiles.length;index++){
+    const file=window._dfFiles[index];
+    document.getElementById('df-info').textContent=`Hashing ${index+1}/${window._dfFiles.length}: ${file.name}`;
+    const hash=await utilFileHash(file);
+    const key=`${file.size}:${hash}`;
+    if(!groups.has(key)) groups.set(key,[]);
+    groups.get(key).push(file);
+  }
+  window._dfGroups=[...groups.values()].filter(group=>group.length>1);
+  if(!window._dfGroups.length){
+    result.innerHTML='<div class="result-title">No duplicates found</div><div style="color:var(--ink2);font-size:.85rem">Every file appears unique.</div>';
+    return;
+  }
+  const totalMatches=window._dfGroups.reduce((sum,group)=>sum+group.length,0);
+  result.innerHTML=`
+    <div class="result-title">Duplicate Groups</div>
+    <div class="result-stats" style="gap:.7rem">
+      <div class="stat-item"><div class="stat-n2">${window._dfGroups.length}</div><div class="stat-l2">Groups</div></div>
+      <div class="stat-item"><div class="stat-n2">${totalMatches}</div><div class="stat-l2">Files in Groups</div></div>
+      <div class="stat-item"><div class="stat-n2">${window._dfFiles.length}</div><div class="stat-l2">Total Files</div></div>
+    </div>
+    <div class="cg">${window._dfGroups.map((group,index)=>`<div class="tool-card" style="padding:.85rem"><div style="display:flex;justify-content:space-between;gap:.8rem;align-items:center"><strong>Group ${index+1}</strong><span style="font-size:.72rem;color:var(--ink3)">${group.length} matches</span></div><div style="margin-top:.6rem;display:grid;gap:.45rem">${group.map(file=>`<div style="padding:.55rem .7rem;border:1px solid var(--border);border-radius:10px;background:var(--paper2)"><div style="font-weight:600;font-size:.82rem;word-break:break-word">${utilEsc(file.webkitRelativePath||file.name)}</div><div style="font-size:.72rem;color:var(--ink3);margin-top:.15rem">${formatBytes(file.size)}</div></div>`).join('')}</div></div>`).join('')}</div>`;
+}
+function dfExport(){
+  if(!window._dfGroups.length){toast('Run a scan first');return;}
+  const report=window._dfGroups.map(group=>group.map(file=>({name:file.name,path:file.webkitRelativePath||'',size:file.size}))); 
+  utilDownloadBlob(new Blob([JSON.stringify(report,null,2)],{type:'application/json'}),'toolzen-duplicates.json');
+}
+
+function renderImageWatermark(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="iw-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="iwDrop(event)">
+    <input type="file" id="iw-file" accept="image/*" onchange="iwLoad(this.files[0])"/>
+    <div class="upload-icon">💧</div>
+    <div class="upload-title">Drop an image to add a watermark</div>
+    <div class="upload-sub">Text watermark only, rendered locally on a canvas</div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:2"><label class="flbl">Watermark Text</label><input class="url-in" id="iw-text" value="TOOLZEN" oninput="iwApply()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Opacity</label><input class="url-in" id="iw-opacity" type="number" value="0.35" min="0.05" max="1" step="0.05" oninput="iwApply()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Font Size</label><input class="url-in" id="iw-size" type="number" value="44" min="12" max="200" oninput="iwApply()"/></div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Color</label><input class="url-in" id="iw-color" value="#ffffff" oninput="iwApply()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Position</label><select class="url-in" id="iw-pos" onchange="iwApply()"><option value="center">Center</option><option value="top-left">Top Left</option><option value="top-right">Top Right</option><option value="bottom-left">Bottom Left</option><option value="bottom-right">Bottom Right</option><option value="diagonal">Diagonal</option></select></div>
+  </div>
+  <div class="file-info" id="iw-info"></div>
+  <div class="result-box" id="iw-result" style="display:none">
+    <div class="result-title">Watermarked Preview</div>
+    <img id="iw-preview" alt="Watermarked image preview" style="display:none;max-width:100%;border-radius:12px;border:1px solid var(--border);background:var(--paper)"/>
+    <div class="out-acts" id="iw-actions" style="justify-content:flex-start"></div>
+  </div>`;
+}
+function iwDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  iwLoad(e.dataTransfer.files[0]);
+}
+async function iwLoad(file){
+  if(!file)return;
+  window._iwFile=file;
+  document.getElementById('iw-info').textContent=`🖼️ ${file.name} (${formatBytes(file.size)})`;
+  document.getElementById('iw-info').classList.add('show');
+  await iwApply();
+}
+async function iwApply(){
+  if(!window._iwFile)return;
+  const text=(document.getElementById('iw-text').value||'').trim();
+  const opacity=Math.max(0.05,Math.min(1,parseFloat(document.getElementById('iw-opacity').value)||0.35));
+  const size=Math.max(12,Math.min(200,parseInt(document.getElementById('iw-size').value,10)||44));
+  const color=document.getElementById('iw-color').value||'#ffffff';
+  const pos=document.getElementById('iw-pos').value||'center';
+  const bitmap=await decodeImageFile(window._iwFile);
+  const canvas=document.createElement('canvas');
+  canvas.width=bitmap.width;
+  canvas.height=bitmap.height;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(bitmap,0,0);
+  ctx.save();
+  ctx.globalAlpha=opacity;
+  ctx.fillStyle=color;
+  ctx.strokeStyle='rgba(0,0,0,0.45)';
+  ctx.lineWidth=Math.max(2,Math.round(size/10));
+  ctx.font=`700 ${size}px var(--font-m)`;
+  ctx.textAlign='center';
+  ctx.textBaseline='middle';
+  const pad=Math.round(size*0.9);
+  const drawText=(x,y,angle=0)=>{
+    ctx.save();
+    ctx.translate(x,y);
+    if(angle) ctx.rotate(angle);
+    ctx.strokeText(text,0,0);
+    ctx.fillText(text,0,0);
+    ctx.restore();
+  };
+  switch(pos){
+    case 'top-left': drawText(pad,pad+size/2,0); break;
+    case 'top-right': drawText(canvas.width-pad,pad+size/2,0); break;
+    case 'bottom-left': drawText(pad,canvas.height-pad-size/2,0); break;
+    case 'bottom-right': drawText(canvas.width-pad,canvas.height-pad-size/2,0); break;
+    case 'diagonal': drawText(canvas.width/2,canvas.height/2,-Math.PI/6); break;
+    default: drawText(canvas.width/2,canvas.height/2,0); break;
+  }
+  ctx.restore();
+  window._iwBlob=await utilCanvasBlob(canvas,'image/png');
+  window._iwUrl=URL.createObjectURL(window._iwBlob);
+  const preview=document.getElementById('iw-preview');
+  preview.src=window._iwUrl;
+  preview.style.display='block';
+  document.getElementById('iw-result').style.display='flex';
+  document.getElementById('iw-actions').innerHTML='<button class="dl-btn" onclick="iwDownload()">⬇ Download Watermarked PNG</button>';
+}
+function iwDownload(){
+  if(!window._iwBlob){toast('Add an image first');return;}
+  utilDownloadBlob(window._iwBlob,`watermarked-${utilBaseName(window._iwFile.name)}.png`);
+}
+
+function splitTextIntoChunks(text, chunkSize){
+  const paragraphs=String(text||'').replace(/\r\n/g,'\n').split(/\n{2,}/).map(paragraph=>paragraph.trim()).filter(Boolean);
+  if(!paragraphs.length) return String(text||'').trim() ? [String(text).trim()] : [];
+  const size=Math.max(1,chunkSize||3);
+  const chunks=[];
+  for(let index=0;index<paragraphs.length;index+=size){
+    chunks.push(paragraphs.slice(index,index+size).join('\n\n'));
+  }
+  return chunks;
+}
+
+function renderDocumentSplitter(body){
+  body.innerHTML=`
+  <div class="upload-zone" id="ds-zone" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="dsDrop(event)">
+    <input type="file" id="ds-file" accept=".pdf,.txt,.md,.docx,.html,.htm" onchange="dsLoad(this.files[0])"/>
+    <div class="upload-icon">✂️</div>
+    <div class="upload-title">Drop a document to split it into parts</div>
+    <div class="upload-sub">PDF pages become separate PDFs, text docs become chunked text files</div>
+  </div>
+  <div class="options-row">
+    <div class="fl" style="flex:1"><label class="flbl">Text Chunk Size</label><input class="url-in" id="ds-chunk" type="number" value="3" min="1" max="20" oninput="dsSplit()"/></div>
+    <div class="fl" style="flex:1"><label class="flbl">Output Prefix</label><input class="url-in" id="ds-prefix" placeholder="auto" oninput="dsSplit()"/></div>
+  </div>
+  <div class="file-info" id="ds-info"></div>
+  <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+    <button class="process-btn" onclick="dsSplit()">Split Document</button>
+    <button class="abtn" onclick="dsDownload()">⬇ Download ZIP</button>
+  </div>
+  <div class="result-box" id="ds-result" style="display:none"></div>`;
+}
+function dsDrop(e){
+  e.preventDefault();
+  e.currentTarget.classList.remove('over');
+  dsLoad(e.dataTransfer.files[0]);
+}
+async function dsLoad(file){
+  if(!file)return;
+  window._dsFile=file;
+  document.getElementById('ds-info').textContent=`📄 ${file.name} (${formatBytes(file.size)})`;
+  document.getElementById('ds-info').classList.add('show');
+  await dsSplit();
+}
+async function dsSplit(){
+  if(!window._dsFile)return;
+  const file=window._dsFile;
+  const prefix=(document.getElementById('ds-prefix').value||utilBaseName(file.name)).trim()||utilBaseName(file.name);
+  const result=document.getElementById('ds-result');
+  result.style.display='flex';
+  result.innerHTML='<div class="result-title">Preparing split...</div><div style="color:var(--ink2);font-size:.85rem">Building a ZIP archive locally.</div>';
+  const ext=(file.name.split('.').pop()||'').toLowerCase();
+  const zip=new JSZip();
+  const outputs=[];
+  if(ext==='pdf'){
+    if(typeof PDFLib==='undefined') throw new Error('PDF library not loaded');
+    const pdf=await PDFLib.PDFDocument.load(await file.arrayBuffer());
+    const total=pdf.getPageCount();
+    for(let pageIndex=0;pageIndex<total;pageIndex++){
+      const doc=await PDFLib.PDFDocument.create();
+      const [copied]=await doc.copyPages(pdf,[pageIndex]);
+      doc.addPage(copied);
+      const bytes=await doc.save();
+      const name=`${prefix}-page-${String(pageIndex+1).padStart(3,'0')}.pdf`;
+      zip.file(name,bytes);
+      outputs.push(name);
+    }
+  }else{
+    const text=await readDocumentTextFull(file);
+    const chunks=splitTextIntoChunks(text,Math.max(1,parseInt(document.getElementById('ds-chunk').value,10)||3));
+    chunks.forEach((chunk,index)=>{
+      const name=`${prefix}-part-${String(index+1).padStart(3,'0')}.txt`;
+      zip.file(name,chunk);
+      outputs.push(name);
+    });
+  }
+  if(!outputs.length){
+    result.innerHTML='<div class="result-title">No output generated</div><div style="color:var(--ink2);font-size:.85rem">The document did not contain enough content to split.</div>';
+    return;
+  }
+  const blob=await zip.generateAsync({type:'blob'});
+  window._dsBlob=blob;
+  window._dsOutputs=outputs;
+  result.innerHTML=`
+    <div class="result-title">Split Ready</div>
+    <div class="result-stats" style="gap:.7rem">
+      <div class="stat-item"><div class="stat-n2">${outputs.length}</div><div class="stat-l2">Files</div></div>
+      <div class="stat-item"><div class="stat-n2">ZIP</div><div class="stat-l2">Output</div></div>
+      <div class="stat-item"><div class="stat-n2">${formatBytes(blob.size)}</div><div class="stat-l2">Archive Size</div></div>
+    </div>
+    <div class="cg">${outputs.map(name=>`<button class="chip on" style="cursor:default">${utilEsc(name)}</button>`).join('')}</div>`;
+  toast('Document split complete');
+}
+function dsDownload(){
+  if(!window._dsBlob){toast('Split a document first');return;}
+  utilDownloadBlob(window._dsBlob,`${utilBaseName(window._dsFile.name)}-split.zip`);
+}
+
+/* ── Service Worker Registration ── */
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(reg => {
+        console.log('TOOLZEN Service Worker registered');
+        // Check for updates
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              toast('✨ New version available! Refresh to update.');
+            }
+          });
+        });
+      })
+      .catch(err => console.error('SW Registration failed:', err));
+  });
+}
+
+/* ── Global Offline Detection ── */
+function updateOnlineStatus() {
+  const isOnline = navigator.onLine;
+  const nav = document.querySelector('nav');
+  const badge = document.getElementById('offline-badge');
+  
+  if (!isOnline) {
+    if (!badge) {
+      const b = document.createElement('div');
+      b.id = 'offline-badge';
+      b.style.cssText = 'background:var(--accent);color:#fff;font-size:.65rem;padding:.2rem .6rem;border-radius:20px;font-weight:800;margin-left:10px;animation:fi .3s ease';
+      b.innerHTML = '● OFFLINE MODE';
+      document.querySelector('.nav-logo').appendChild(b);
+    }
+    toast('📡 You are now offline. All tools still work locally!');
+  } else {
+    if (badge) badge.remove();
+  }
+}
+window.addEventListener('online', updateOnlineStatus);
+window.addEventListener('offline', updateOnlineStatus);
+updateOnlineStatus();
+
 /* ════ END UTILITIES ════ */
 </script>
 </body>
